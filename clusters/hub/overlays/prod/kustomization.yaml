@@ -11,4 +11,5 @@ resources:
   - ./managed-cluster.yaml
   - ./patches-rbac.yaml
   - ./prod-creds-secret.yaml
-  - ./pull-secret.yaml  
+  - ./pull-secret.yaml
+  - ./patches.yaml
