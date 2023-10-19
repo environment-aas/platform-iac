@@ -1,0 +1,32 @@
+apiVersion: hive.openshift.io/v1
+kind: ClusterDeployment
+metadata:
+  name: 'prod'
+  namespace: 'prod'
+  labels:
+    cloud: 'AWS'
+    region: 'us-east-2'
+    vendor: OpenShift
+    cluster.open-cluster-management.io/clusterset: 'default'
+spec:
+  baseDomain: m4a1.p1.openshiftapps.com
+  clusterName: 'prod'
+  controlPlaneConfig:
+    servingCertificates: {}
+  installAttemptsLimit: 1
+  installed: false
+  platform:
+    aws:
+      credentialsSecretRef:
+        name: prod-aws-creds
+      region: us-east-2
+  provisioning:
+    installConfigSecretRef:
+      name: prod-install-config
+    sshPrivateKeySecretRef:
+      name: prod-ssh-private-key
+    imageSetRef:
+       #quay.io/openshift-release-dev/ocp-release:4.13.17-multi
+      name: img4.13.17-multi-appsub
+  pullSecretRef:
+    name: prod-pull-secret

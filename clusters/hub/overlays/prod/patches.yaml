@@ -1,0 +1,39 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: Patch
+metadata:
+  name: agent-patches
+spec:
+  serviceAccountRef:
+    name: default
+  patches:
+    aws-credentials:
+      targetObjectRef:
+        apiVersion: v1
+        kind: Secret
+        namespace: prod
+        name: prod-aws-creds
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Secret
+        namespace: open-cluster-management
+        name: aws-credentials               
+      patchTemplate: |
+        data:
+          aws_access_key_id: {{ (index (index . 1).data "aws_access_key_id") }}
+          aws_secret_access_key: {{ (index (index . 1).data "aws_secret_access_key") }}
+      patchType: application/merge-patch+json   
+    pull-secret-patch:
+      targetObjectRef:
+        apiVersion: v1
+        kind: Secret
+        namespace: pool4
+        name: pullsecret-pool4
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Secret
+        namespace: openshift-config
+        name: pull-secret                
+      patchTemplate: |
+        data:
+          .dockerconfigjson: {{ (index (index . 1).data ".dockerconfigjson") }}
+      patchType: application/merge-patch+json      
