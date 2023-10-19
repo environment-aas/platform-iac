@@ -14,6 +14,8 @@ default:
       repoURL: https://github.com/environment-aas/platform-iac.git
       targetRevision: HEAD
 
+      
+
 applications:
 
   acm-operator:
@@ -77,4 +79,11 @@ applications:
     destination:
       namespace: prod
     source:
-      path: clusters/hub/overlays/prod                           
+      path: clusters/hub/overlays/prod     
+    extraFields: |
+      ignoreDifferences:
+        - group: ''
+          jsonPointers:
+            - /data
+          kind: Secret       
+                          
