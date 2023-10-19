@@ -50,4 +50,13 @@ applications:
     destination:
       namespace: sso
     source:
-      path: clusters/hub/overlays/rhsso-configuration                     
+      path: clusters/hub/overlays/rhsso-configuration
+
+  kube-ops-view:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '15'
+    destination:
+      namespace: kube-ops-view
+    source:
+      path: clusters/hub/overlays/kube-ops-view                         
