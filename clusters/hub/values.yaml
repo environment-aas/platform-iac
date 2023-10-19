@@ -1,0 +1,53 @@
+default:
+  app:
+    enabled: true
+    enableAutoSync: true
+    autoSyncPrune: false
+    project: cluster-config
+    labels:
+      app-source: cluster-hub
+      repo: cluster-config
+    destination:
+      namespace: openshift-gitops
+      server: https://kubernetes.default.svc
+    source:
+      repoURL: https://github.com/raffaelespazzoli/gitops-std-repo.git
+      targetRevision: HEAD
+
+applications:
+
+  acm-operator:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '5'
+    destination:
+      namespace: open-cluster-management
+    source:
+      path: clusters/hub/overlays/acm-operator
+
+  acm-configuration:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '15'
+    destination:
+      namespace: open-cluster-management
+    source:
+      path: clusters/hub/overlays/acm-configuration
+
+  rhsso-operator:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '5'
+    destination:
+      namespace: sso
+    source:
+      path: clusters/hub/overlays/rhsso-operator
+
+  rhsso-configuration:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '15'
+    destination:
+      namespace: sso
+    source:
+      path: clusters/hub/overlays/rhsso-configuration                     
