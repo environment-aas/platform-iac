@@ -31,3 +31,14 @@ projects:
       clusterResourceWhitelist:
       - group: '*'
         kind: '*'
+
+applications:
+
+  acm-operator:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '15'
+    destination:
+      namespace: kube-ops-view
+    source:
+      path: groups/all/overlays/kube-ops-view

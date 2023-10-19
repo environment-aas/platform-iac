@@ -11,3 +11,14 @@ helmCharts:
 - name: argocd-app-of-app
   valuesFile: values.yaml
   namespace: openshift-gitops
+
+
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/href
+        value: "https://kube-ops-view-kube-ops-view.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com"
+    target:
+      kind: ConsoleLink
+      name: kube-ops-view-link
+      namespace: kube-ops-view
