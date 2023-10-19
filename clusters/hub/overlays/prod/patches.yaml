@@ -26,7 +26,7 @@ spec:
       targetObjectRef:
         apiVersion: v1
         kind: Secret
-        namespace: pool4
+        namespace: prod
         name: prod-pull-secret
       sourceObjectRefs:
       - apiVersion: v1
