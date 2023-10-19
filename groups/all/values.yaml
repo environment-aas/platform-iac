@@ -23,7 +23,7 @@ projects:
     description: Project for overall cluster configuration
     namespace: openshift-gitops
     sourceRepos:
-    - https://github.com/raffaelespazzoli/gitops-std-repo
+    - https://github.com/environment-aas/gitops-std-repo
     destinations: |
       - namespace: '*'
         server: https://kubernetes.default.svc

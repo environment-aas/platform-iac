@@ -11,8 +11,8 @@ default:
       namespace: openshift-gitops
       server: https://kubernetes.default.svc
     source:
-      repoURL: https://github.com/raffaelespazzoli/gitops-std-repo.git
-      #targetRevision: HEAD
+      repoURL: https://github.com/environment-aas/gitops-std-repo.git
+      targetRevision: HEAD
 
 applications:
 
