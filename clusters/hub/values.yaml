@@ -12,7 +12,7 @@ default:
       server: https://kubernetes.default.svc
     source:
       repoURL: https://github.com/raffaelespazzoli/gitops-std-repo.git
-      targetRevision: HEAD
+      #targetRevision: HEAD
 
 applications:
 
