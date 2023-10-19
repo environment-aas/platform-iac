@@ -27,7 +27,7 @@ spec:
         apiVersion: v1
         kind: Secret
         namespace: pool4
-        name: pullsecret-pool4
+        name: prod-pull-secret
       sourceObjectRefs:
       - apiVersion: v1
         kind: Secret
