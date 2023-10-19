@@ -68,4 +68,13 @@ applications:
     destination:
       namespace: patch-operator
     source:
-      path: clusters/hub/overlays/patch-operator                           
+      path: clusters/hub/overlays/patch-operator       
+
+  prod:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '25'
+    destination:
+      namespace: prod
+    source:
+      path: clusters/hub/overlays/prod                           
