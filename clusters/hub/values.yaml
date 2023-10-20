@@ -77,7 +77,7 @@ applications:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
       argocd.argoproj.io/sync-wave: '5'
     destination:
-      namespace: crossplane-operator
+      namespace: crossplane-system
     source:
       path: clusters/hub/overlays/crossplane-operator      
 
@@ -86,7 +86,7 @@ applications:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
       argocd.argoproj.io/sync-wave: '5'
     destination:
-      namespace: crossplane-providers
+      namespace: crossplane-system
     source:
       path: clusters/hub/overlays/crossplane-providers
 
@@ -95,7 +95,7 @@ applications:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
       argocd.argoproj.io/sync-wave: '5'
     destination:
-      namespace: crossplane-provider-config
+      namespace: crossplane-system
     source:
       path: clusters/hub/overlays/crossplane-provider-config                 
 
