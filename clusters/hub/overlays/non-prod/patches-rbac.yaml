@@ -1,7 +1,7 @@
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: lab4-cluster-patches-rbac
+  name: non-prod-patches-rbac
 subjects:
   - kind: ServiceAccount
     name: default
