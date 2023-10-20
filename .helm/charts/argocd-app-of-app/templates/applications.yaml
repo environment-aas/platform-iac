@@ -43,10 +43,11 @@ spec:
     {{- if hasKey $val "syncPolicyRetry" }}
     retry: {{- toYaml $val.syncPolicyRetry | nindent 6 }}
     {{- end }}
-    {{- if hasKey $val "syncOptions" }}
+    {{- if or (hasKey $val "syncOptions") (hasKey $.Values.default.app "syncOptions") }}
+    {{- $syncOptions := (concat (ternary $val.syncOptions (list) (hasKey $val "syncOptions") ) (ternary $.Values.default.app.syncOptions (list) (hasKey $.Values.default.app "syncOptions") ) ) | uniq }}
     syncOptions:
-      {{- with $val.syncOptions }}
-      {{ toYaml . }}
+      {{- with $syncOptions }}
+{{ toYaml . | indent 6 }}
       {{- end }}
     {{- end}}
 {{- end }}
