@@ -1,0 +1,3 @@
+args:
+  - "-d"
+  - --enable-external-secret-stores  

@@ -70,7 +70,34 @@ applications:
     destination:
       namespace: patch-operator
     source:
-      path: clusters/hub/overlays/patch-operator       
+      path: clusters/hub/overlays/patch-operator   
+
+  crossplane-operator:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '5'
+    destination:
+      namespace: crossplane-operator
+    source:
+      path: clusters/hub/overlays/crossplane-operator      
+
+  crossplane-providers:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '5'
+    destination:
+      namespace: crossplane-providers
+    source:
+      path: clusters/hub/overlays/crossplane-providers
+
+  crossplane-provider-config:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '5'
+    destination:
+      namespace: crossplane-provider-config
+    source:
+      path: clusters/hub/overlays/crossplane-provider-config                 
 
   prod:
     annotations:
