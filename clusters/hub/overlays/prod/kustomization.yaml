@@ -10,6 +10,7 @@ resources:
   - ./machine-pool.yaml
   - ./managed-cluster.yaml
   - ./patches-rbac.yaml
-  - ./prod-creds-secret.yaml
+  - ./aws-creds-secret.yaml
   - ./pull-secret.yaml
   - ./patches.yaml
+  - ./private-key-secret.yaml

@@ -6,6 +6,21 @@ spec:
   serviceAccountRef:
     name: default
   patches:
+    private-key:
+      targetObjectRef:
+        apiVersion: v1
+        kind: Secret
+        namespace: prod
+        name: prod-ssh-private-key
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Secret
+        namespace: open-cluster-management
+        name: aws-credentials               
+      patchTemplate: |
+        data:
+          ssh-privatekey: {{ (index (index . 1).data "ssh-privatekey") }}
+      patchType: application/merge-patch+json   
     aws-credentials:
       targetObjectRef:
         apiVersion: v1
@@ -36,4 +51,4 @@ spec:
       patchTemplate: |
         data:
           .dockerconfigjson: {{ (index (index . 1).data ".dockerconfigjson") }}
-      patchType: application/merge-patch+json      
+      patchType: application/merge-patch+json
