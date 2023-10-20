@@ -6,100 +6,58 @@ metadata:
 spec:
   workload:
     manifests:
-    - apiVersion: argoproj.io/v1alpha1
-      kind: ApplicationSet
-      metadata:
-        name: {{ .Release.Name }}
-        namespace: openshift-gitops
-      spec:
-        generators:
-          - git:
-              directories:
-                - path: kustomize/cluster-overlays/{{ .Release.Name }}/*
-              repoURL: {{ .Values.repoURL }}
-              revision: main
-          - git:
-              directories:
-                - path: helm/cluster-overlays/{{ .Release.Name }}/*
-              repoURL: {{ .Values.repoURL }}
-              revision: main
-              template:
-                metadata: {}
-                spec:
-                  destination:
-                    server: 'https://kubernetes.default.svc'
-                  project: default
-                  source:
-                    helm:
-                      valueFiles:
-                        - '../../cluster-overlays/{{ .Release.Name }}/{{ "{{" }}.path.basename{{ "}}" }}/values.yaml'
-                    path: 'helm/charts/{{ "{{" }}.path.basename{{ "}}" }}'
-                    repoURL: {{ .Values.repoURL }}
-        goTemplate: true
-        strategy:
-          rollingSync:
-            steps:
-              - matchExpressions:
-                  - key: type
-                    operator: In
-                    values:
-                      - operator
-                      - chart
-              - matchExpressions:
-                  - key: type
-                    operator: In
-                    values:
-                      - config
-              - matchExpressions:
-                  - key: type
-                    operator: In
-                    values:
-                      - placement
-              - matchExpressions:
-                  - key: type
-                    operator: In
-                    values:
-                      - application
-                      - policy
-              - matchExpressions:
-                  - key: type
-                    operator: In
-                    values:
-                      - cluster
-          type: RollingSync
-        template:
-          metadata:
-            labels:
-              type: '{{ "{{" }} .path.basename | splitList "-" | last {{ "}}" }}'
-            name: '{{ "{{" }}.path.basename{{ "}}" }}'
-          spec:
-            destination:
-              server: 'https://kubernetes.default.svc'
-            ignoreDifferences:
-              - group: ''
-                jsonPointers:
-                  - /data
-                kind: Secret
-              - group: metal3.io
-                jsonPointers:
-                  - /spec/automatedCleaningMode
-                  - /spec/online
-                kind: BareMetalHost
-            project: default
-            source:
-              path: '{{ "{{" }}.path.path{{ "}}" }}'
-              repoURL: {{ .Values.repoURL }}
-              targetRevision: main
-            syncPolicy:
-              retry:
-                backoff:
-                  duration: 120s
-                  factor: 3
-                  maxDuration: 10m0s
-                limit: 10
-              syncOptions:
-                - SkipDryRunOnMissingResource=true
-                - Validate=false
-                - ApplyOutOfSyncOnly=true
-                - RespectIgnoreDifferences=true
-                - Prune=true
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-applications
+  # You'll usually want to add your resources to the argocd namespace.
+  namespace: openshift-gitops
+  # Add this finalizer ONLY if you want these to cascade delete.
+  finalizers:
+    # The default behaviour is foreground cascading deletion
+    - resources-finalizer.argocd.argoproj.io
+    # Alternatively, you can use background cascading deletion
+    # - resources-finalizer.argocd.argoproj.io/background
+  # Add labels to your application object.
+  labels:
+    app-source: root
+    repo: cluster-config
+spec:
+  # The project the application belongs to.
+  project: default
+
+  # Source of the application manifests
+  source:
+    repoURL: {{ .Values.repoURL }}  # Can point to either a Helm chart repo or a git repo.
+    targetRevision: HEAD  # For Helm, this refers to the chart version.
+    path: clusters/{{ .Release.Name }}  # This has no meaning for Helm charts pulled directly from a Helm repo instead of git.
+
+  # Destination cluster and namespace to deploy the application
+  destination:
+    # cluster API URL
+    server: https://kubernetes.default.svc
+    # or cluster name
+    # name: in-cluster
+    # The namespace will only be set for namespace-scoped resources that have not set a value for .metadata.namespace
+    namespace: openshift-gitops
+
+  # Sync policy
+  syncPolicy:
+    automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
+      prune: true # Specifies if resources should be pruned during auto-syncing ( false by default ).
+      selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
+      allowEmpty: false # Allows deleting all application resources during automatic syncing ( false by default ).
+    syncOptions:     # Sync options which modifies sync behavior
+    - Validate=false # disables resource validation (equivalent to 'kubectl apply --validate=false') ( true by default ).
+    - CreateNamespace=true # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.
+    - PrunePropagationPolicy=foreground # Supported policies are background, foreground and orphan.
+    - PruneLast=true # Allow the ability for resource pruning to happen as a final, implicit wave of a sync operation
+    - RespectIgnoreDifferences=true # When syncing changes, respect fields ignored by the ignoreDifferences configuration
+
+    # The retry feature is available since v1.7
+    retry:
+      limit: 5 # number of failed sync attempt retries; unlimited number of attempts if less than 0
+      backoff:
+        duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
+        factor: 2 # a factor to multiply the base duration after each failed retry
+        maxDuration: 3m # the maximum amount of time allowed for the backoff strategy
