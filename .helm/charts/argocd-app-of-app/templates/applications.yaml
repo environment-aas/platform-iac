@@ -40,8 +40,9 @@ spec:
       {{- if (hasKey $val "autoSyncPrune" | ternary $val.autoSyncPrune $.Values.default.app.autoSyncPrune) }}
       prune: true
       {{- end }}
-    {{- if hasKey $val "syncPolicyRetry" }}
-    retry: {{- toYaml $val.syncPolicyRetry | nindent 6 }}
+    {{- if or (hasKey $val "syncPolicyRetry") (hasKey $.Values.default.app "syncPolicyRetry") }}
+    {{- $syncPolicyRetry := merge (ternary $val.syncPolicyRetry (dict) (hasKey $val "syncPolicyRetry") ) (ternary $.Values.default.app.syncPolicyRetry (dict) (hasKey $.Values.default.app "syncPolicyRetry") )  }}
+    retry: {{- toYaml $syncPolicyRetry | nindent 6 }}
     {{- end }}
     {{- if or (hasKey $val "syncOptions") (hasKey $.Values.default.app "syncOptions") }}
     {{- $syncOptions := (concat (ternary $val.syncOptions (list) (hasKey $val "syncOptions") ) (ternary $.Values.default.app.syncOptions (list) (hasKey $.Values.default.app "syncOptions") ) ) | uniq }}
