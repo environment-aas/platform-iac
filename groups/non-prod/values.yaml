@@ -14,13 +14,4 @@ default:
       repoURL: https://github.com/environment-aas/platform-iac.git
       targetRevision: HEAD
 
-applications:
-
-  vault-config-operator:
-    annotations:
-      argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '5'
-    destination:
-      namespace: cert-manager
-    source:
-      path: groups/non-prod/overlays/vault-config-operator
+applications: {}
