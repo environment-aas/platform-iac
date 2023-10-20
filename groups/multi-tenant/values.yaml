@@ -1,0 +1,34 @@
+default:
+  app:
+    enabled: true
+    enableAutoSync: true
+    autoSyncPrune: false
+    project: cluster-config
+    labels:
+      app-source: group-multi-tenant
+      repo: cluster-config
+    destination:
+      namespace: openshift-gitops
+      server: https://kubernetes.default.svc
+    source:
+      repoURL: https://github.com/environment-aas/platform-iac.git
+      targetRevision: HEAD
+
+applications:
+  namespace-configuration-operator:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '5'
+    destination:
+      namespace: namespace-configuration-operator
+    source:
+      path: groups/multi-tenant/overlays/namespace-configuration-operator
+
+  group-sync-operator:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '5'
+    destination:
+      namespace: group-sync-operator
+    source:
+      path: groups/multi-tenant/overlays/group-sync-operator      

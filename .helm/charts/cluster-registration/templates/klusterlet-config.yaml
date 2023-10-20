@@ -1,13 +1,15 @@
 apiVersion: agent.open-cluster-management.io/v1
 kind: KlusterletAddonConfig
 metadata:
-  name: 'prod'
-  namespace: 'prod'
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Name }}
+  labels:
+    {{- include "cluster-registration.labels" . | nindent 4 }}  
 spec:
-  clusterName: 'prod'
-  clusterNamespace: 'prod'
+  clusterName: {{ .Release.Name }}
+  clusterNamespace: {{ .Release.Name }}
   clusterLabels:
-    cloud: Amazon
+    cloud: BareMetal
     vendor: OpenShift
   applicationManager:
     enabled: true

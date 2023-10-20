@@ -66,7 +66,7 @@ applications:
   patch-operator:
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '15'
+      argocd.argoproj.io/sync-wave: '5'
     destination:
       namespace: patch-operator
     source:

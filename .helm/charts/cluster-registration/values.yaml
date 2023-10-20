@@ -1,0 +1,6 @@
+clusterSet: default
+repoURL: https://github.com/raffaelespazzoli/openshift-iac-multicluster.git
+
+labels:
+  cloud: BareMetal
+  vendor: OpenShift

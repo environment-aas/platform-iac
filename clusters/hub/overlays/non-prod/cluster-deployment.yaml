@@ -5,7 +5,7 @@ metadata:
   namespace: 'non-prod'
   labels:
     cloud: 'AWS'
-    region: 'us-east-2'
+    region: 'us-west-2'
     vendor: OpenShift
     cluster.open-cluster-management.io/clusterset: 'default'
 spec:
@@ -19,7 +19,7 @@ spec:
     aws:
       credentialsSecretRef:
         name: non-prod-aws-creds
-      region: us-east-2
+      region: us-west-2
   provisioning:
     installConfigSecretRef:
       name: non-prod-install-config

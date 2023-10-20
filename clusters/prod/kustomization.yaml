@@ -3,7 +3,9 @@ kind: Kustomization
 
 components:
   - ../../groups/all
+  - ../../groups/multi-tenant  
   - ../../groups/prod
+
 
 helmGlobals:
   chartHome: ../../.helm/charts

@@ -6,11 +6,24 @@ resources:
   - ./namespace.yaml
   - ./cluster-deployment.yaml
   - ./install-config-secret.yaml
-  - ./klusterletaddonconfig.yaml
   - ./machine-pool.yaml
-  - ./managed-cluster.yaml
   - ./patches-rbac.yaml
   - ./aws-creds-secret.yaml
   - ./pull-secret.yaml
   - ./patches.yaml
   - ./private-key-secret.yaml
+
+helmGlobals:
+  chartHome: ../../../../helm/charts
+
+helmCharts:
+  - name: cluster-registration
+    releaseName: prod
+    namespace: prod
+    valuesInline: 
+      clusterSet: default
+      repoURL: https://github.com/environment-aas/platform-iac.git
+      labels:
+        cloud: AWS
+        vendor: OpenShift
+        region: us-east-2
