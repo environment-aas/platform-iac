@@ -6,3 +6,4 @@ resources:
   - client.yaml
   - keycloak-realm.yaml
   - oauth-secret.yaml
+  - link.yaml
