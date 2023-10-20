@@ -14,7 +14,7 @@ resources:
   - ./private-key-secret.yaml
 
 helmGlobals:
-  chartHome: ../../../../helm/charts
+  chartHome: ../../../../.helm/charts
 
 helmCharts:
   - name: cluster-registration
