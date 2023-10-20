@@ -86,6 +86,10 @@ applications:
           jsonPointers:
             - /data
           kind: Secret
+        - group: 'hive.openshift.io'
+          jsonPointers:
+            - /spec/installed
+          kind: ClusterDeployment          
 
   non-prod:
     annotations:
@@ -100,5 +104,9 @@ applications:
         - group: ''
           jsonPointers:
             - /data
-          kind: Secret               
+          kind: Secret
+        - group: 'hive.openshift.io'
+          jsonPointers:
+            - /spec/installed
+          kind: ClusterDeployment                         
                           
