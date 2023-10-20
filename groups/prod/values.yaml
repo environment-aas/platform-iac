@@ -13,5 +13,14 @@ default:
     source:
       repoURL: https://github.com/environment-aas/platform-iac.git
       targetRevision: HEAD
+    syncOptions:
+    - ApplyOutOfSyncOnly=true
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
+    - ServerSideApply=true  
+    - FailOnSharedResource=true
+    - RespectIgnoreDifferences=true
+    - CreateNamespace=false      
+      
 
 applications: {}
