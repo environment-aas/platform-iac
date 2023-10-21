@@ -1,0 +1,25 @@
+apiVersion: config.openshift.io/v1
+kind: OAuth
+metadata:
+  name: cluster
+  annotations:
+    argocd.argoproj.io/sync-options: ServerSideApply=true
+spec:
+  identityProviders:
+  - name: oidckeycloak
+    mappingMethod: claim
+    type: OpenID
+    openID:
+    clientID: <client-ID>
+    clientSecret: oidc-secret
+    extraScopes: []
+    issuerURL: https://console-openshift-console.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/auth/realms/myorg
+    claims:
+      id:
+      - sub
+      preferredUsername:
+      - preferred_username
+      name:
+      - name
+      email:
+      - email

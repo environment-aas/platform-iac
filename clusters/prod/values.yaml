@@ -40,3 +40,12 @@ applications:
       namespace: kube-ops-view
     source:
       path: clusters/prod/overlays/kube-ops-view        
+
+  oauth-config:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '15'
+    destination:
+      namespace: oauth-config
+    source:
+      path: clusters/prod/overlays/oauth-config              
