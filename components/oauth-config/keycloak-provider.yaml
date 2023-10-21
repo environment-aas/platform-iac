@@ -10,16 +10,17 @@ spec:
     mappingMethod: claim
     type: OpenID
     openID:
-    clientID: <client-ID>
-    clientSecret: oidc-secret
-    extraScopes: []
-    issuerURL: https://console-openshift-console.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/auth/realms/myorg
-    claims:
-      id:
-      - sub
-      preferredUsername:
-      - preferred_username
-      name:
-      - name
-      email:
-      - email
+      clientID: <client-ID>
+      clientSecret: 
+        name: oidc-secret
+      extraScopes: []
+      issuer: https://console-openshift-console.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/auth/realms/myorg
+      claims:
+        id:
+        - sub
+        preferredUsername:
+        - preferred_username
+        name:
+        - name
+        email:
+        - email

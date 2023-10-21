@@ -8,7 +8,7 @@ patches:
 
   - patch: |-
       - op: replace
-        path: /spec/identityProviders/0/clientID
+        path: /spec/identityProviders/0/openID/clientID
         value: "ocp-non-prod-client"
     target:
       kind: OAuth
