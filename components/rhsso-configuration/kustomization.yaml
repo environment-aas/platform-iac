@@ -7,3 +7,5 @@ resources:
   - keycloak-realm.yaml
   - oauth-secret.yaml
   - link.yaml
+  - users.yaml
+  - groups.yaml
