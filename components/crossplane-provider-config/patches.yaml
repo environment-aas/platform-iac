@@ -18,7 +18,7 @@ spec:
         namespace: sso
         name: credential-rhsso     
       patchTemplate: |
-        {{ $value:= printf "{ \"username\": \"%s\", \"password\": \"%s\"}" ((index (index . 1).data "ADMIN_USERNAME") | b64dec) ((index (index . 1).data "ADMIN_PASSWORD") | b64dec) }}
+        {{ $value:= printf "{ \"username\": \"%s\", \"password\": \"%s\" , \"url\": \"https://keycloak.sso.svc.cluster.local:8443\", \"client_id\": \"admin-cli\"}" ((index (index . 1).data "ADMIN_USERNAME") | b64dec) ((index (index . 1).data "ADMIN_PASSWORD") | b64dec) }}
         data:
           credentials: {{ $value | b64enc }}
       patchType: application/merge-patch+json   
