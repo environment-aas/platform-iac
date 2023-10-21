@@ -1,0 +1,19 @@
+apiVersion: group.keycloak.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  name: team-a
+spec:
+  deletionPolicy: Delete
+  forProvider:
+    name: team-a
+    realmId: myorg
+---    
+apiVersion: group.keycloak.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  name: team-b
+spec:
+  deletionPolicy: Delete
+  forProvider:
+    name: team-b
+    realmId: myorg
