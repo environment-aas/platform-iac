@@ -16,13 +16,9 @@ spec:
       - apiVersion: v1
         kind: Secret
         namespace: sso
-        name: credential-rhsso
-      - apiVersion: v1
-        kind: ConfigMap
-        namespace: sso
-        name: openshift-service-ca.crt         
+        name: credential-rhsso         
       patchTemplate: |
-        {{ $value:= dict "username" (index (index . 1).data "ADMIN_USERNAME") "password" (index (index . 1).data "ADMIN_PASSWORD") "url" "https://keycloak.sso.svc.cluster.local:8443" "client_id" "admin-cli" "root_ca_certificate" (index (index . 2).data "service-ca.crt") "tls_insecure_skip_verify" "true" }}
+        {{ $value:= dict "username" (index (index . 1).data "ADMIN_USERNAME") "password" (index (index . 1).data "ADMIN_PASSWORD") "url" "https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com" "client_id" "admin-cli" }}
         data:
           credentials: {{ $value | toJson | b64enc }}
       patchType: application/merge-patch+json   
