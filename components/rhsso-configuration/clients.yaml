@@ -1,0 +1,37 @@
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakClient
+metadata:
+  name: ocp-prod
+  namespace: sso
+  labels:
+    app: sso
+spec:
+  realmSelector:
+    matchLabels:
+      app: sso
+  client:
+    id: ocp-prod-client
+    clientId: ocp-prod-client
+    secret: ocp-secret
+    rootUrl: https://oauth-openshift.apps.prod.m4a1.p1.openshiftapps.com/oauth2callback
+    redirectUris:
+      - /oidckeycloak
+---
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakClient
+metadata:
+  name: ocp-non-prod
+  namespace: sso
+  labels:
+    app: sso
+spec:
+  realmSelector:
+    matchLabels:
+      app: sso
+  client:
+    id: ocp-non-prod-client
+    clientId: ocp-non-prod-client
+    secret: ocp-secret
+    rootUrl: https://oauth-openshift.apps.non-prod.m4a1.p1.openshiftapps.com/oauth2callback
+    redirectUris:
+      - /oidckeycloak      

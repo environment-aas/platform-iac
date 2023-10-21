@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
   - keycloak.yaml
-  - client.yaml
+  - clients.yaml
   - keycloak-realm.yaml
   - oauth-secret.yaml
   - link.yaml
