@@ -1,0 +1,25 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: Patch
+metadata:
+  name: keycloak-provider-patches
+spec:
+  serviceAccountRef:
+    name: default
+  patches: 
+    keycloak-credentials:
+      targetObjectRef:
+        apiVersion: v1
+        kind: Secret
+        namespace: crossplane-system
+        name: keycloak-credentials
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Secret
+        namespace: sso
+        name: credential-rhsso     
+      patchTemplate: |
+        {{ $value:= printf "{ "username": "%s", "password": "%s"}" ((index (index . 1).data "ADMIN_USERNAME") | b64dec) ((index (index . 1).data "ADMIN_PASSWORD") | b64dec) }}
+        data:
+          credentials: {{ $value | b64enc }}
+      patchType: application/merge-patch+json   
+
