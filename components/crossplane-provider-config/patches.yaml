@@ -18,7 +18,7 @@ spec:
         namespace: sso
         name: credential-rhsso         
       patchTemplate: |
-        {{ $value:= dict "username" (index (index . 1).data "ADMIN_USERNAME") "password" (index (index . 1).data "ADMIN_PASSWORD") "url" "https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/auth" "client_id" "admin-cli" }}
+        {{ $value:= dict "username" ((index (index . 1).data "ADMIN_USERNAME")|b64dec) "password" ((index (index . 1).data "ADMIN_PASSWORD")|b64dec) "url" "https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/auth" "client_id" "admin-cli" }}
         data:
           credentials: {{ $value | toJson | b64enc }}
       patchType: application/merge-patch+json   
