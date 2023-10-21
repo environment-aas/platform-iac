@@ -22,8 +22,8 @@ spec:
         namespace: sso
         name: openshift-service-ca.crt         
       patchTemplate: |
-        {{ $value:= printf "{ \"username\": \"%s\", \"password\": \"%s\" , \"url\": \"https://keycloak.sso.svc.cluster.local:8443\", \"client_id\": \"admin-cli\", \"tls_insecure_skip_verify\": \"true\", \"root_ca_certificate\": \"%s\" }" ((index (index . 1).data "ADMIN_USERNAME") | b64dec) ((index (index . 1).data "ADMIN_PASSWORD") | b64dec) (index (index . 2).data "service-ca.crt") }}
+        {{ $value:= dict "username" ((index (index . 1).data "ADMIN_USERNAME") "password" ((index (index . 1).data "ADMIN_PASSWORD") "url" "https://keycloak.sso.svc.cluster.local:8443" "client_id" "admin-cli" "root_ca_certificate" (index (index . 2).data "service-ca.crt") "tls_insecure_skip_verify" "true" }}
         data:
-          credentials: {{ $value | b64enc }}
+          credentials: {{ $value | toJson | b64enc }}
       patchType: application/merge-patch+json   
 
