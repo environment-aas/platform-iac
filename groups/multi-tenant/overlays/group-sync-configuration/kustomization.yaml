@@ -9,7 +9,7 @@ patches:
 - patch: |-
     - op: replace
       path: /spec/providers/0/keycloak/url
-      value: "https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com"
+      value: "https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/auth"
   target:
     kind: GroupSync
     name: keycloak
