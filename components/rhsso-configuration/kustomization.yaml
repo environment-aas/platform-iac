@@ -9,3 +9,4 @@ resources:
   - link.yaml
   - users.yaml
   - groups.yaml
+  - oauth-secret-policy.yaml

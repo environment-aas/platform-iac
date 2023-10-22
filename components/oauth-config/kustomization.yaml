@@ -4,4 +4,3 @@ kind: Kustomization
 
 resources:
   - ./keycloak-provider.yaml
-  - ./oidc-secret.yaml
