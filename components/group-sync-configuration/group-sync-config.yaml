@@ -1,0 +1,15 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: GroupSync
+metadata:
+  name: keycloak
+spec:
+  providers:
+    - name: keycloak
+      syncPeriodMinutes: "0 5 * * *"
+      keycloak:
+        insecure: true
+        realm: myorg
+        url: <replace>
+        credentialsSecret:
+          name: keycloak-creds
+          namespace: group-sync-operator
