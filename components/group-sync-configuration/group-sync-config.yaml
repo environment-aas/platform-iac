@@ -9,6 +9,10 @@ spec:
         insecure: true
         realm: myorg
         url: <replace>
+        loginRealm: master	
+        prune: false
+        scope: sub        
         credentialsSecret:
+          kind: Secret         
           name: keycloak-creds
           namespace: group-sync-operator
