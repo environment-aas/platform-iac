@@ -16,6 +16,14 @@ spec:
     rootUrl: https://oauth-openshift.apps.prod.m4a1.p1.openshiftapps.com/oauth2callback
     redirectUris:
       - /oidckeycloak
+    clientAuthenticatorType: client-secret
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: true
+    implicitFlowEnabled: false
+    defaultClientScopes:
+      - profile
+      - email
+    consentRequired: false      
 ---
 apiVersion: keycloak.org/v1alpha1
 kind: KeycloakClient
@@ -34,4 +42,12 @@ spec:
     secret: ocp-secret
     rootUrl: https://oauth-openshift.apps.non-prod.m4a1.p1.openshiftapps.com/oauth2callback
     redirectUris:
-      - /oidckeycloak      
+      - /oidckeycloak
+    clientAuthenticatorType: client-secret
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: true
+    implicitFlowEnabled: false
+    defaultClientScopes:
+      - profile
+      - email
+    consentRequired: false            
