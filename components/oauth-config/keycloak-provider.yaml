@@ -14,7 +14,7 @@ spec:
       clientSecret: 
         name: oidc-secret
       extraScopes: []
-      issuer: https://console-openshift-console.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/auth/realms/myorg
+      issuer: https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/auth/realms/myorg
       claims:
         preferredUsername:
         - preferred_username
