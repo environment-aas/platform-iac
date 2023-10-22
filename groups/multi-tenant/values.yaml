@@ -38,6 +38,15 @@ applications:
     source:
       path: groups/multi-tenant/overlays/namespace-configuration-operator
 
+  namespace-configurations:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '15'
+    destination:
+      namespace: namespace-configuration-operator
+    source:
+      path: groups/multi-tenant/overlays/namespace-configurations
+
   group-sync-operator:
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
