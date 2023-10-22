@@ -5,7 +5,6 @@ metadata:
 spec:
   providers:
     - name: keycloak
-      syncPeriodMinutes: "0 5 * * *"
       keycloak:
         insecure: true
         realm: myorg
