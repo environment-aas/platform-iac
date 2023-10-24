@@ -4,7 +4,7 @@ namespace:  redhat-developer-hub
 
 
 helmCharts:
-  - name: redhat-developer-hub
+  - name: developer-hub
     releaseName: redhat-developer-hub
     namespace: redhat-developer-hub
     repo: https://charts.openshift.io

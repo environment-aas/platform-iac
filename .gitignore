@@ -1,3 +1,4 @@
 .vscode/settings.json
 access.md
 .rosa
+clusters/hub/overlays/redhat-developer-hub/charts
