@@ -1,0 +1,2 @@
+global:
+  clusterRouterBase: apps.rosa-vnm9f.m4a1.p1.openshiftapps.com
