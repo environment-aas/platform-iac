@@ -120,7 +120,17 @@ applications:
     destination:
       namespace: redhat-developer-hub
     source:
-      path: clusters/hub/overlays/redhat-developer-hub                  
+      path: clusters/hub/overlays/redhat-developer-hub
+    extraFields: |
+      ignoreDifferences:
+        - group: 'apps'
+          jsonPointers:
+            - /spec/volumeClaimTemplates
+          kind: StatefulSet
+        - group: 'route.openshift.io'
+          jsonPointers:
+            - /spec/host
+          kind: Route                        
 
   prod:
     annotations:

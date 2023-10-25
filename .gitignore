@@ -2,3 +2,5 @@
 access.md
 .rosa
 clusters/hub/overlays/redhat-developer-hub/charts
+clusters/hub/overlays/redhat-developer-hub/rhdh-pull-secret.yml
+clusters/hub/overlays/redhat-developer-hub/rhdh-pull-secret.yaml
