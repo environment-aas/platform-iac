@@ -50,4 +50,31 @@ spec:
     defaultClientScopes:
       - profile
       - email
-    consentRequired: false            
+    consentRequired: false
+---
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakClient
+metadata:
+  name: backstage
+  namespace: sso
+  labels:
+    app: sso
+spec:
+  realmSelector:
+    matchLabels:
+      app: sso
+  client:
+    id: backstage
+    clientId: backstage
+    secret: ocp-secret
+    rootUrl: https://redhat-developer-hub-redhat-developer-hub.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com
+    redirectUris:
+      - /oauth2/callback
+    clientAuthenticatorType: client-secret
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: true
+    implicitFlowEnabled: false
+    defaultClientScopes:
+      - profile
+      - email
+    consentRequired: false              
