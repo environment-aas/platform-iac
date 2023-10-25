@@ -1,2 +1,66 @@
 global:
   clusterRouterBase: apps.rosa-vnm9f.m4a1.p1.openshiftapps.com
+
+upstream:
+
+  service:
+    ports:
+      backend: 4180
+      targetPort: oauth-proxy
+
+  extraEnvVars: 
+  - name: KEYCLOAK_CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: keycloak-client-secret-backstage
+        key: CLIENT_SECRET     
+
+  extraContainers:
+    - name: oauth2-proxy
+      env:
+        - name: OAUTH2_PROXY_CLIENT_ID
+          value: '{{ required "Keycloak Client Id is Required" .Values.keycloak.clientId }}'
+        - name: OAUTH2_PROXY_CLIENT_SECRET
+          value: '{{ required "Keycloak Client Secret is Required" .Values.keycloak.clientSecret }}'
+        - name: OAUTH2_PROXY_COOKIE_SECRET
+          value: '{{ default (randAlpha 32 | lower | b64enc) .Values.keycloak.cookieSecret }}'
+        - name: OAUTH2_PROXY_OIDC_ISSUER_URL
+          value: '{{ required "Keycloak base URL is Required" .Values.keycloak.baseUrl }}/realms/{{ required "Keycloak Realm is Required" .Values.keycloak.realm }}'
+        - name: OAUTH2_PROXY_SSL_INSECURE_SKIP_VERIFY
+          value: 'true'
+      ports:
+        - name: oauth-proxy
+          containerPort: 4180
+          protocol: TCP
+      imagePullPolicy: IfNotPresent
+      image: 'quay.io/oauth2-proxy/oauth2-proxy:latest'
+      args:
+        - '--provider=oidc'
+        - '--email-domain=*'
+        - '--upstream=http://localhost:7007'
+        - '--http-address=0.0.0.0:4180'
+        - '--skip-provider-button'  
+
+  appConfig:
+    auth:
+      environment: production
+      providers:
+        oauth2Proxy: {}
+    enabled:
+      keycloak: true
+    catalog:
+      providers:
+        keycloakOrg:
+          default:
+            baseUrl: {{ required "Keycloak base URL is Required" .Values.keycloak.baseUrl }}
+            loginRealm: {{ required "Keycloak Realm is Required" .Values.keycloak.realm }}
+            realm: {{ required "Keycloak Realm is Required" .Values.keycloak.realm }}
+            clientId: '{{ required "Keycloak Client Id is Required" .Values.keycloak.clientId }}'
+            clientSecret: '{{ required "Keycloak Client Secret is Required" .Values.keycloak.clientSecret }}'
+
+
+keycloak:
+  issuerUrl: '{{ required "Keycloak Realm is Required" .Values.keycloak.realm }}'
+  clientId: 'backstage'
+  clientSecret: '${KEYCLOAK_CLIENT_SECRET}'
+  realm: myOrg                   
