@@ -1,0 +1,105 @@
+global:
+  # -- Shorthand for users who do not want to specify a custom HOSTNAME. Used ONLY with the DEFAULT upstream.backstage.appConfig value and with OCP Route enabled.
+  clusterRouterBase: apps.example.com
+  # -- Custom hostname shorthand, overrides `global.clusterRouterBase`, `upstream.ingress.host`, `route.host`, and url values in `upstream.backstage.appConfig`
+  host: ""
+# -- Upstream Backstage [chart configuration](https://github.com/backstage/charts/blob/main/charts/backstage/values.yaml)
+# @default -- Use Openshift compatible settings
+upstream:
+  nameOverride: developer-hub
+  backstage:
+    image:
+      registry: quay.io
+      repository: rhdh/rhdh-hub-rhel9
+      tag: 1.0-88
+      # Tag is set via prepare.sh script
+      # tag: "${RHDH_RELEASE}-${TARGET_RHDH_TAG}"
+      pullSecrets:
+        - rhdh-pull-secret
+    command: []
+    # FIXME (tumido): USE POSTGRES_PASSWORD and POSTGRES_USER instead of POSTGRES_ADMIN_PASSWORD
+    # This is a hack. In {fedora,rhel}/postgresql images, regular user is forbidden
+    # from creating DBs in runtime. A single DB can be created ahead of time via
+    # POSTGRESQL_DATABASE env variable (in this case via
+    # upstream.postgresql.primary.extraEnvVars value), but this doesn't allow us to
+    # create multiple DBs. Since Backstage requires by default 5 different DBs, we
+    # can't accommodate that properly.
+    appConfig:
+      app:
+        # Please update to match host in case you don't want to configure hostname via `global.clusterRouterBase` or `global.host`.
+        baseUrl: 'https://{{- include "janus-idp.hostname" . }}'
+      backend:
+        baseUrl: 'https://{{- include "janus-idp.hostname" . }}'
+        cors:
+          origin: 'https://{{- include "janus-idp.hostname" . }}'
+        database:
+          connection:
+            password: ${POSTGRESQL_ADMIN_PASSWORD}
+            user: postgres
+    extraEnvVars:
+      - name: POSTGRESQL_ADMIN_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            key: postgres-password
+            name: "{{ .Release.Name }}-postgresql"
+  postgresql:
+    enabled: true
+    postgresqlDataDir: /var/lib/pgsql/data/userdata
+    image:
+      registry: registry.redhat.io
+      repository: rhel9/postgresql-15
+      tag: latest
+    auth:
+      secretKeys:
+        adminPasswordKey: postgres-password
+        userPasswordKey: password
+    primary:
+      securityContext:
+        enabled: false
+      podSecurityContext:
+        enabled: false
+      containerSecurityContext:
+        enabled: false
+      persistence:
+        enabled: true
+        size: 1Gi
+        mountPath: /var/lib/pgsql/data
+      extraEnvVars:
+        - name: POSTGRESQL_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: postgres-password
+              name: "{{ .Release.Name }}-postgresql"
+  ingress:
+    host: "{{ .Values.global.host }}"
+# -- OpenShift Route parameters
+route:
+  # -- Route specific annotations
+  annotations: {}
+  # -- Enable the creation of the route resource
+  enabled: true
+  # -- Set the host attribute to a custom value. If not set, OpenShift will generate it, please make sure to match your baseUrl
+  host: "{{ .Values.global.host }}"
+  # -- Path that the router watches for, to route traffic for to the service.
+  path: "/"
+  # -- Wildcard policy if any for the route. Currently only 'Subdomain' or 'None' is allowed.
+  wildcardPolicy: None
+  # -- Route TLS parameters
+  # <br /> Ref: https://docs.openshift.com/container-platform/4.9/networking/routes/secured-routes.html
+  tls:
+    # -- Enable TLS configuration for the host defined at `route.host` parameter
+    enabled: true
+    # -- Specify TLS termination.
+    termination: "edge"
+    # -- Certificate contents
+    certificate: ""
+    # -- Key file contents
+    key: ""
+    # -- Cert authority certificate contents. Optional
+    caCertificate: ""
+    # -- Contents of the ca certificate of the final destination.
+    # <br /> When using reencrypt termination this file should be provided in order to have routers use it for health checks on the secure connection. If this field is not specified, the router may provide its own destination CA and perform hostname validation using the short service name (service.namespace.svc), which allows infrastructure generated certificates to automatically verify.
+    destinationCACertificate: ""
+    # --  Indicates the desired behavior for insecure connections to a route.
+    # <br /> While each router may make its own decisions on which ports to expose, this is normally port 80. The only valid values are None, Redirect, or empty for disabled.
+    insecureEdgeTerminationPolicy: "Redirect"
