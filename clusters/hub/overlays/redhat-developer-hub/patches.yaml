@@ -1,0 +1,23 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: Patch
+metadata:
+  name: prod-patches
+spec:
+  serviceAccountRef:
+    name: default
+  patches:
+    private-key:
+      targetObjectRef:
+        apiVersion: v1
+        kind: Secret
+        namespace: redhat-developer-hub
+        name: keycloak-client-secret-backstage
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Secret
+        namespace: sso
+        name: keycloak-client-secret-backstage        
+      patchTemplate: |
+        data:
+          CLIENT_SECRET: {{ (index (index . 1).data "CLIENT_SECRET") }}
+      patchType: application/merge-patch+json

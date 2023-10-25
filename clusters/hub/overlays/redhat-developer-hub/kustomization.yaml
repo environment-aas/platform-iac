@@ -3,7 +3,10 @@ kind: Kustomization
 namespace:  redhat-developer-hub
 
 resources:
-- namespace.yaml
+- ./namespace.yaml
+- ./keycloak-client-secret-backstage.yaml
+- ./patches-rbac.yaml
+- ./patches.yaml
 
 helmGlobals:
   chartHome: ../../../../.helm/charts
