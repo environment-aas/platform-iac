@@ -19,13 +19,16 @@ upstream:
     - name: oauth2-proxy
       env:
         - name: OAUTH2_PROXY_CLIENT_ID
-          value: '{{ required "Keycloak Client Id is Required" .Values.keycloak.clientId }}'
+          value: 'backstage'
         - name: OAUTH2_PROXY_CLIENT_SECRET
-          value: '{{ required "Keycloak Client Secret is Required" .Values.keycloak.clientSecret }}'
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-client-secret-backstage
+              key: CLIENT_SECRET
         - name: OAUTH2_PROXY_COOKIE_SECRET
-          value: '{{ default (randAlpha 32 | lower | b64enc) .Values.keycloak.cookieSecret }}'
+          value: 'ciao'
         - name: OAUTH2_PROXY_OIDC_ISSUER_URL
-          value: '{{ required "Keycloak base URL is Required" .Values.keycloak.baseUrl }}/realms/{{ required "Keycloak Realm is Required" .Values.keycloak.realm }}'
+          value: 'https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/realms/myorg'
         - name: OAUTH2_PROXY_SSL_INSECURE_SKIP_VERIFY
           value: 'true'
       ports:
@@ -52,15 +55,8 @@ upstream:
       providers:
         keycloakOrg:
           default:
-            baseUrl: {{ required "Keycloak base URL is Required" .Values.keycloak.baseUrl }}
-            loginRealm: {{ required "Keycloak Realm is Required" .Values.keycloak.realm }}
-            realm: {{ required "Keycloak Realm is Required" .Values.keycloak.realm }}
-            clientId: '{{ required "Keycloak Client Id is Required" .Values.keycloak.clientId }}'
-            clientSecret: '{{ required "Keycloak Client Secret is Required" .Values.keycloak.clientSecret }}'
-
-
-keycloak:
-  issuerUrl: '{{ required "Keycloak Realm is Required" .Values.keycloak.realm }}'
-  clientId: 'backstage'
-  clientSecret: '${KEYCLOAK_CLIENT_SECRET}'
-  realm: myOrg                   
+            baseUrl: https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com
+            loginRealm: master
+            realm: myorg
+            clientId: 'backstage'
+            clientSecret: '${KEYCLOAK_CLIENT_SECRET}'                  
