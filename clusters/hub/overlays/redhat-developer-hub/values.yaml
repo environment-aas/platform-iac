@@ -66,7 +66,7 @@ upstream:
         providers:
           keycloakOrg:
             default:
-              baseUrl: https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com
+              baseUrl: https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/auth
               loginRealm: master
               realm: myorg
               clientId: 'backstage'
