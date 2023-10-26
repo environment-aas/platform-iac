@@ -10,7 +10,7 @@ upstream:
 
   postgresql:
     auth:
-      existingSecret: postgres-creds      
+      existingSecret: postgresql-creds      
 
   backstage:
 
