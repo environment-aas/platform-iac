@@ -19,7 +19,12 @@ upstream:
       valueFrom:
         secretKeyRef:
           name: keycloak-client-secret-backstage
-          key: CLIENT_SECRET             
+          key: CLIENT_SECRET
+    - name: POSTGRESQL_ADMIN_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: postgres-password
+          name: redhat-developer-hub-postgresql                     
 
     extraContainers:
       - name: oauth2-proxy
