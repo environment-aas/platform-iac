@@ -8,11 +8,11 @@ upstream:
       backend: 4180
       targetPort: oauth-proxy
 
-  backstage:
+  postgresql:
+    auth:
+      existingSecret: postgres-creds      
 
-    postgresql:
-      auth:
-        existingSecret: postgres-creds
+  backstage:
 
     extraEnvVars: 
     - name: KEYCLOAK_CLIENT_SECRET
