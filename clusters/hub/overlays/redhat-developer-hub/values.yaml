@@ -3,60 +3,61 @@ global:
 
 upstream:
 
-  service:
-    ports:
-      backend: 4180
-      targetPort: oauth-proxy
-
-  extraEnvVars: 
-  - name: KEYCLOAK_CLIENT_SECRET
-    valueFrom:
-      secretKeyRef:
-        name: keycloak-client-secret-backstage
-        key: CLIENT_SECRET     
-
-  extraContainers:
-    - name: oauth2-proxy
-      env:
-        - name: OAUTH2_PROXY_CLIENT_ID
-          value: 'backstage'
-        - name: OAUTH2_PROXY_CLIENT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: keycloak-client-secret-backstage
-              key: CLIENT_SECRET
-        - name: OAUTH2_PROXY_COOKIE_SECRET
-          value: 'ciao'
-        - name: OAUTH2_PROXY_OIDC_ISSUER_URL
-          value: 'https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/realms/myorg'
-        - name: OAUTH2_PROXY_SSL_INSECURE_SKIP_VERIFY
-          value: 'true'
+  backstage:
+    service:
       ports:
-        - name: oauth-proxy
-          containerPort: 4180
-          protocol: TCP
-      imagePullPolicy: IfNotPresent
-      image: 'quay.io/oauth2-proxy/oauth2-proxy:latest'
-      args:
-        - '--provider=oidc'
-        - '--email-domain=*'
-        - '--upstream=http://localhost:7007'
-        - '--http-address=0.0.0.0:4180'
-        - '--skip-provider-button'  
+        backend: 4180
+        targetPort: oauth-proxy
 
-  appConfig:
-    auth:
-      environment: production
-      providers:
-        oauth2Proxy: {}
-    enabled:
-      keycloak: true
-    catalog:
-      providers:
-        keycloakOrg:
-          default:
-            baseUrl: https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com
-            loginRealm: master
-            realm: myorg
-            clientId: 'backstage'
-            clientSecret: '${KEYCLOAK_CLIENT_SECRET}'                  
+    extraEnvVars: 
+    - name: KEYCLOAK_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: keycloak-client-secret-backstage
+          key: CLIENT_SECRET     
+
+    extraContainers:
+      - name: oauth2-proxy
+        env:
+          - name: OAUTH2_PROXY_CLIENT_ID
+            value: 'backstage'
+          - name: OAUTH2_PROXY_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: keycloak-client-secret-backstage
+                key: CLIENT_SECRET
+          - name: OAUTH2_PROXY_COOKIE_SECRET
+            value: 'ciao'
+          - name: OAUTH2_PROXY_OIDC_ISSUER_URL
+            value: 'https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/realms/myorg'
+          - name: OAUTH2_PROXY_SSL_INSECURE_SKIP_VERIFY
+            value: 'true'
+        ports:
+          - name: oauth-proxy
+            containerPort: 4180
+            protocol: TCP
+        imagePullPolicy: IfNotPresent
+        image: 'quay.io/oauth2-proxy/oauth2-proxy:latest'
+        args:
+          - '--provider=oidc'
+          - '--email-domain=*'
+          - '--upstream=http://localhost:7007'
+          - '--http-address=0.0.0.0:4180'
+          - '--skip-provider-button'  
+
+    appConfig:
+      auth:
+        environment: production
+        providers:
+          oauth2Proxy: {}
+      enabled:
+        keycloak: true
+      catalog:
+        providers:
+          keycloakOrg:
+            default:
+              baseUrl: https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com
+              loginRealm: master
+              realm: myorg
+              clientId: 'backstage'
+              clientSecret: '${KEYCLOAK_CLIENT_SECRET}'                  
