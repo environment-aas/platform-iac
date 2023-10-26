@@ -8,6 +8,7 @@ resources:
 - ./patches-rbac.yaml
 - ./patches.yaml
 - ./postgresql-creds-secret.yaml
+- ./link.yaml
 
 helmGlobals:
   chartHome: ../../../../.helm/charts
