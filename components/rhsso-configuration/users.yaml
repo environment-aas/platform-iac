@@ -15,7 +15,7 @@ spec:
     lastName: Adam
     email: adam@example.com
     enabled: true
-    emailVerified: false
+    emailVerified: true
     groups:
       - team-a
     credentials:
@@ -40,7 +40,7 @@ spec:
     lastName: Amelie
     email: amelie@example.com
     enabled: true
-    emailVerified: false
+    emailVerified: true
     groups:
       - team-a
     credentials:
@@ -65,7 +65,7 @@ spec:
     lastName: Brad
     email: brad@example.com
     enabled: true
-    emailVerified: false
+    emailVerified: true
     groups:
       - team-b
     credentials:
@@ -90,7 +90,7 @@ spec:
     lastName: Brumilde
     email: brumilde@example.com
     enabled: true
-    emailVerified: false
+    emailVerified: true
     groups:
       - team-b
     credentials:
