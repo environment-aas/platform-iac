@@ -37,7 +37,7 @@ upstream:
                 name: keycloak-client-secret-backstage
                 key: CLIENT_SECRET
           - name: OAUTH2_PROXY_COOKIE_SECRET
-            value: 'ciao'
+            value: 'ciaociaociaociao'
           - name: OAUTH2_PROXY_OIDC_ISSUER_URL
             value: 'https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/realms/myorg'
           - name: OAUTH2_PROXY_SSL_INSECURE_SKIP_VERIFY
