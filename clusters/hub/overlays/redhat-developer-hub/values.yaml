@@ -3,11 +3,12 @@ global:
 
 upstream:
 
+  service:
+    ports:
+      backend: 4180
+      targetPort: oauth-proxy
+
   backstage:
-    service:
-      ports:
-        backend: 4180
-        targetPort: oauth-proxy
 
     extraEnvVars: 
     - name: KEYCLOAK_CLIENT_SECRET
