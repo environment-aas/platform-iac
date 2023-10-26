@@ -10,6 +10,10 @@ upstream:
 
   backstage:
 
+    postgresql:
+      auth:
+        existingSecret: postgres-creds
+
     extraEnvVars: 
     - name: KEYCLOAK_CLIENT_SECRET
       valueFrom:
