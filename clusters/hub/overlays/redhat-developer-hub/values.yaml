@@ -10,7 +10,7 @@ upstream:
 
   postgresql:
     auth:
-      existingSecret: postgresql-creds      
+      existingSecret: redhat-developer-hub-postgresql     
 
   backstage:
 
@@ -19,12 +19,7 @@ upstream:
       valueFrom:
         secretKeyRef:
           name: keycloak-client-secret-backstage
-          key: CLIENT_SECRET
-    - name: POSTGRESQL_ADMIN_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          key: postgres-password
-          name: postgresql-creds             
+          key: CLIENT_SECRET             
 
     extraContainers:
       - name: oauth2-proxy
