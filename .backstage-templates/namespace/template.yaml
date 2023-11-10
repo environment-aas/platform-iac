@@ -1,0 +1,68 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: environment-template
+  title: Envrionment Request Template
+  description: Request the Creation of an environment 
+  tags:
+    - recommended
+    - environment
+    - provisioning
+spec:
+  owner: service@example.com
+  type: service
+
+  parameters:
+    - title: Environment Request
+      required:
+        - application
+        - owner
+        - purpose
+        - cluster
+        - description
+      properties:
+        application:
+          title: Application
+          type: string
+          description: Application which will use this environment      
+        purpose:
+          title: Purpose
+          type: string
+          enum: ["dev", "qa", "prod"]
+          description: Purpose for this environment
+        description:
+          title: Description
+          type: string
+          description: Short description for this environment
+        cluster:
+          title: Clutser
+          type: string
+          description: Cluster in which the namespace for this environment will be created
+          enum: ["non-prod", "prod"]
+        size:
+          title: Size
+          type: string
+          description: Size of the namespace in terms of resources available
+          enum: ["small", "medium", "large"]                     
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds: 
+              - Group
+
+  steps:
+    - id: template
+      name: Code Fetch Skeleton + Template
+      action: fetch:template
+      input:
+        url: ./skeleton
+        copyWithoutRender: []
+        values:
+          description: ${{ parameters.description }}
+          cluster: ${{ parameters.cluster }}
+          purpose: ${{ parameters.purpose }}
+          owner: ${{ parameters.owner }}
+          application: ${{ parameters.application }}              

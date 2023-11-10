@@ -8,7 +8,7 @@ patches:
 
 - patch: |-
     - op: replace
-      path: /spec/source/oath
+      path: /spec/source/path
       value: "non-prod"
   target:
     kind: Application

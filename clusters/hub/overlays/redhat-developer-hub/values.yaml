@@ -63,6 +63,9 @@ upstream:
       enabled:
         keycloak: true
       catalog:
+        locations:
+        - target: https://github.com/environment-aas/platform-iac/tree/main/.backstage-templates/namespace/template.yaml
+          type: url      
         providers:
           keycloakOrg:
             default:

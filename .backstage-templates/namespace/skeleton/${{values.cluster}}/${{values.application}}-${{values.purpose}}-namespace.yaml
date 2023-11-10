@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    openshift.io/description: ${{values.description}}
+  labels:
+    application: ${{values.application}}
+    size: ${{values.size}}
+    team: ${{values.owner}}
+  name: ${{values.application}}-${{values.purpose}}
