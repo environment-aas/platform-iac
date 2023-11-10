@@ -36,6 +36,11 @@ upstream:
               secretKeyRef:
                 name: keycloak-client-secret-backstage
                 key: CLIENT_SECRET
+          - name: GITHUB_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: github-pat
+                key: github-pat              
           - name: OAUTH2_PROXY_COOKIE_SECRET
             value: 'ciaociaociaociao'
           - name: OAUTH2_PROXY_OIDC_ISSUER_URL
@@ -62,6 +67,10 @@ upstream:
           oauth2Proxy: {}
       enabled:
         keycloak: true
+      integrations:
+        github:
+          - host: github.com
+            token: ${GITHUB_TOKEN}        
       catalog:
         locations:
         - target: https://github.com/environment-aas/platform-iac/tree/main/.backstage-templates/namespace/template.yaml
