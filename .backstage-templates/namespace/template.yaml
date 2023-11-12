@@ -35,7 +35,7 @@ spec:
           type: string
           description: Short description for this environment
         cluster:
-          title: Clutser
+          title: Cluster
           type: string
           description: Cluster in which the namespace for this environment will be created
           enum: ["non-prod", "prod"]
@@ -65,4 +65,14 @@ spec:
           cluster: ${{ parameters.cluster }}
           purpose: ${{ parameters.purpose }}
           owner: ${{ parameters.owner }}
-          application: ${{ parameters.application }}              
+          application: ${{ parameters.application }}  
+
+    - id: pull-request
+      name: make a pr with the new namespace
+      action: publish:github:pull-request
+      input:
+        repoUrl: github.com?repo=namespaces&owner=environment-aas
+        branchName: ${{ parameters.application }}-${{ parameters.purpose }}
+        title: ${{ parameters.cluster }}/${{ parameters.application }}-${{ parameters.purpose }} namespace
+        description: This is a request for the creation of the ${{ parameters.application }}-${{ parameters.purpose }} namespace in the ${{ parameters.cluster }} from the ${{ parameters.owner }} team
+        #sourcePath: ./tenant-gitops                               
