@@ -24,7 +24,12 @@ upstream:
       valueFrom:
         secretKeyRef:
           key: postgres-password
-          name: redhat-developer-hub-postgresql                     
+          name: redhat-developer-hub-postgresql
+    - name: GITHUB_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: github-pat
+          key: github-pat                                
 
     extraContainers:
       - name: oauth2-proxy
@@ -35,12 +40,7 @@ upstream:
             valueFrom:
               secretKeyRef:
                 name: keycloak-client-secret-backstage
-                key: CLIENT_SECRET
-          - name: GITHUB_TOKEN
-            valueFrom:
-              secretKeyRef:
-                name: github-pat
-                key: github-pat              
+                key: CLIENT_SECRET 
           - name: OAUTH2_PROXY_COOKIE_SECRET
             value: 'ciaociaociaociao'
           - name: OAUTH2_PROXY_OIDC_ISSUER_URL
