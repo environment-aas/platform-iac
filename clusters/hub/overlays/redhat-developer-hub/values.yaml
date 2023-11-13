@@ -79,7 +79,7 @@ upstream:
           keycloakOrg:
             default:
               baseUrl: https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/auth
-              loginRealm: master
+              loginRealm: myorg
               realm: myorg
               clientId: 'backstage'
               clientSecret: '${KEYCLOAK_CLIENT_SECRET}'
