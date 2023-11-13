@@ -82,4 +82,8 @@ upstream:
               loginRealm: master
               realm: myorg
               clientId: 'backstage'
-              clientSecret: '${KEYCLOAK_CLIENT_SECRET}'                  
+              clientSecret: '${KEYCLOAK_CLIENT_SECRET}'
+              schedule:
+                frequency: { minutes: 1 }
+                timeout: { minutes: 1 }
+                initialDelay: { seconds: 15 }                                
