@@ -5,6 +5,7 @@ metadata:
   name: openshift-gitops
   namespace: openshift-gitops
 spec:
+  resourceTrackingMethod: annotation
   kustomizeBuildOptions: --enable-alpha-plugins --load-restrictor LoadRestrictionsNone --helm-command /usr/local/bin/helm
   extraConfig:
     resource.compareoptions: |
