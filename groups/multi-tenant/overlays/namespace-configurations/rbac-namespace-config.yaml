@@ -21,4 +21,8 @@ spec:
         subjects:
         - kind: Group
           apiGroup: rbac.authorization.k8s.io
-          name: "{{ .Labels.team }}"          
+          name: "{{ .Labels.team }}"
+      excludedPaths:	
+        - .metadata	
+        - .status	
+        - .spec.replicas                    

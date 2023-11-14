@@ -18,6 +18,10 @@ spec:
             requests.cpu: "10" 
             requests.memory: 10Gi 
             requests.ephemeral-storage: 10Gi
+      excludedPaths:	
+        - .metadata	
+        - .status	
+        - .spec.replicas           
 ---              
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: NamespaceConfig
@@ -39,6 +43,10 @@ spec:
             requests.cpu: "30" 
             requests.memory: 30Gi 
             requests.ephemeral-storage: 30Gi
+      excludedPaths:	
+        - .metadata	
+        - .status	
+        - .spec.replicas            
 ---           
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: NamespaceConfig
@@ -59,4 +67,8 @@ spec:
           hard: 
             requests.cpu: "50" 
             requests.memory: 50Gi 
-            requests.ephemeral-storage: 50Gi  
+            requests.ephemeral-storage: 50Gi
+      excludedPaths:	
+        - .metadata	
+        - .status	
+        - .spec.replicas              
