@@ -11,7 +11,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "0"    
 spec:
-  project: default
+  project: cluster-config
   source:
     repoURL: https://github.com/environment-aas/namespaces.git
     targetRevision: HEAD

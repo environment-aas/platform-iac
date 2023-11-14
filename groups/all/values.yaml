@@ -38,6 +38,7 @@ projects:
     namespace: openshift-gitops
     sourceRepos:
     - https://github.com/environment-aas/platform-iac
+    - https://github.com/environment-aas/namespaces
     destinations: |
       - namespace: '*'
         server: https://kubernetes.default.svc
