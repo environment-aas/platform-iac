@@ -14,7 +14,9 @@ upstream:
 
   backstage:
 
-    extraEnvVars: 
+    extraEnvVars:
+    - name: LOG_LEVEL
+      value: debug 
     - name: KEYCLOAK_CLIENT_SECRET
       valueFrom:
         secretKeyRef:
