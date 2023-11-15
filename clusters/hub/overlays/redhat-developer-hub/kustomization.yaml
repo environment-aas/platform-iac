@@ -14,7 +14,7 @@ resources:
 #   chartHome: ../../../../.helm/charts
 
 helmCharts:
-  - name: developer-hub
+  - name: backstage
     repo: https://janus-idp.github.io/helm-backstage
     releaseName: redhat-developer-hub
     namespace: redhat-developer-hub
