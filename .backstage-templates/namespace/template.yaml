@@ -19,6 +19,7 @@ spec:
         - owner
         - purpose
         - cluster
+        - size
         - description
       properties:
         application:
@@ -65,7 +66,8 @@ spec:
           cluster: ${{ parameters.cluster }}
           purpose: ${{ parameters.purpose }}
           owner: ${{ parameters.owner }}
-          application: ${{ parameters.application }}  
+          application: ${{ parameters.application }}
+          size: ${{parameters.size}}  
 
     - id: pull-request
       name: make a pr with the new namespace
@@ -75,4 +77,4 @@ spec:
         branchName: ${{ parameters.application }}-${{ parameters.purpose }}
         title: ${{ parameters.cluster }}/${{ parameters.application }}-${{ parameters.purpose }} namespace
         description: This is a request for the creation of the ${{ parameters.application }}-${{ parameters.purpose }} namespace in the ${{ parameters.cluster }} from the ${{ parameters.owner }} team
-        #sourcePath: ./tenant-gitops                               
+                               
