@@ -65,7 +65,7 @@ spec:
           description: ${{ parameters.description }}
           cluster: ${{ parameters.cluster }}
           purpose: ${{ parameters.purpose }}
-          owner: ${{ parameters.owner }}
+          owner: ${{ parameters.owner.split("/")[1] }}
           application: ${{ parameters.application }}
           size: ${{parameters.size}}  
 
