@@ -77,4 +77,10 @@ spec:
     defaultClientScopes:
       - profile
       - email
-    consentRequired: false              
+    consentRequired: false
+    serviceAccountsEnabled: true
+  serviceAccountClientRoles:
+    realm-management:
+      - query-groups
+      - query-users
+      - view-users    
