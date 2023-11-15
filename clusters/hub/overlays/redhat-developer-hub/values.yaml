@@ -13,8 +13,8 @@ upstream:
       existingSecret: redhat-developer-hub-postgresql     
 
   backstage:
-    image:
-      tag: "1.0"
+    # image:
+    #   tag: "1.0"
 
     extraEnvVars:
     - name: LOG_LEVEL
