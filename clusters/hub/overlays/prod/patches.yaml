@@ -1,7 +1,8 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: Patch
 metadata:
-  name: non-prod-patches
+  name: prod-patches
+  namespace: prod
 spec:
   serviceAccountRef:
     name: default

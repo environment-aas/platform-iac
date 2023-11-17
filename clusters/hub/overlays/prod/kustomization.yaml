@@ -1,6 +1,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: prod
 
 resources:
   - ./namespace.yaml
@@ -30,4 +29,4 @@ helmCharts:
 
   - name: vault-cluster-registration
     releaseName: prod
-    namespace: prod     
+    namespace: vault-admin     
