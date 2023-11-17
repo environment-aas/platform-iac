@@ -5,7 +5,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: vault-config # namespace:operator
+    namespace: vault-admin # namespace:operator
 roleRef:
   kind: ClusterRole
   name: edit
