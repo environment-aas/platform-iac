@@ -10,7 +10,7 @@ spec:
       targetObjectRef:
         apiVersion: v1
         kind: Secret
-        namespace: vault-config
+        namespace: vault-admin
         name: keycloak-client-secret-vault
       sourceObjectRefs:
       - apiVersion: v1
