@@ -83,4 +83,32 @@ spec:
     realm-management:
       - query-groups
       - query-users
-      - view-users    
+      - view-users
+---
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakClient
+metadata:
+  name: vault
+  namespace: sso
+  labels:
+    app: sso
+spec:
+  realmSelector:
+    matchLabels:
+      app: sso
+  client:
+    id: vault
+    clientId: vault
+    secret: vault-secret
+    rootUrl: https://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com
+    redirectUris:
+      - /ui/vault/auth/oidc/oidc/callback
+      - /keycloak/callback
+    clientAuthenticatorType: client-secret
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: true
+    implicitFlowEnabled: false
+    defaultClientScopes:
+      - profile
+      - email
+    consentRequired: false          

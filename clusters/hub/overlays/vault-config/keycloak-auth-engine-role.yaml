@@ -1,0 +1,22 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: JWTOIDCAuthEngineRole
+metadata:
+  name: developer
+spec:
+  authentication: 
+    path: kubernetes
+    role: vault-admin
+  path: hub
+  boundAudiences: 
+  - "0oaau92rizgjZ2l935d7"
+  name: vault-developer
+  userClaim: "sub"
+  allowedRedirectURIs: 
+    - "http://localhost:8250/oidc/callback"
+    - "http://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/ui/vault/auth/oidc/oidc/callback"
+  groupsClaim: "groups" 
+  tokenPolicies: 
+    - "default"
+  roleType: "oidc"
+  OIDCScopes: 
+    - "groups"

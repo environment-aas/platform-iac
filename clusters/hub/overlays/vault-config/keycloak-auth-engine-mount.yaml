@@ -1,0 +1,9 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: AuthEngineMount
+metadata:
+  name: keycloak
+spec:
+  authentication: 
+    path: hub
+    role: vault-admin
+  type: oidc
