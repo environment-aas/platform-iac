@@ -4,7 +4,7 @@ metadata:
   name: developer
 spec:
   authentication: 
-    path: kubernetes
+    path: hub
     role: vault-admin
   path: hub
   boundAudiences: 
