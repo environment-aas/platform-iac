@@ -33,10 +33,10 @@ spec:
       type: ""
   resourceIgnoreDifferences:
     resourceIdentifiers:
-    - group: ''
-      kind: Secret       
-      jsonPointers:
-        - /data      
+      - customization:
+          jsonPointers:
+            - /data
+        kind: Secret      
   resourceCustomizations: |
     argoproj.io/Application:
       health.lua: |
