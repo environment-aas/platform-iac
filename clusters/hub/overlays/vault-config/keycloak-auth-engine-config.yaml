@@ -7,10 +7,10 @@ spec:
     path: hub
     role: vault-admin
   path: keycloak
-  OIDCClientID: "0oaau92rizgjZ2l935d7"
+  OIDCClientID: "vault"
   OIDCCredentials:
     secret: 
-      name: oktacredentials
-    usernameKey: okta_client_id
-    passwordKey: okta_client_secret
-  OIDCDiscoveryURL: "<okta-server>"
+      name: keycloak-client-secret-vault
+    usernameKey: CLIENT_ID
+    passwordKey: CLIENT_SECRET
+  OIDCDiscoveryURL: https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/auth/realms/myorg

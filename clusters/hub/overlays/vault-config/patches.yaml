@@ -1,0 +1,24 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: Patch
+metadata:
+  name: prod-patches
+spec:
+  serviceAccountRef:
+    name: default
+  patches:
+    private-key:
+      targetObjectRef:
+        apiVersion: v1
+        kind: Secret
+        namespace: vault-config
+        name: keycloak-client-secret-vault
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Secret
+        namespace: sso
+        name: keycloak-client-secret-vault        
+      patchTemplate: |
+        data:
+          CLIENT_SECRET: {{ (index (index . 1).data "CLIENT_SECRET") }}
+          CLIENT_ID: {{ (index (index . 1).data "ID") }}
+      patchType: application/merge-patch+json

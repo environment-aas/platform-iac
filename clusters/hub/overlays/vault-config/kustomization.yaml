@@ -6,4 +6,7 @@ resources:
   - ./namespace.yaml
   - ./keycloak-auth-engine-mount.yaml
   - ./keycloak-auth-engine-config.yaml
-  - ./keycloak-auth-engine-role.yaml  
+  - ./keycloak-auth-engine-role.yaml
+  - ./keycloak-client-secret-vault.yaml
+  - ./patches-rbac.yaml
+  - ./patches.yaml  
