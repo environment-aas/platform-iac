@@ -52,3 +52,17 @@ spec:
         data:
           .dockerconfigjson: {{ (index (index . 1).data ".dockerconfigjson") }}
       patchType: application/merge-patch+json
+    vault-registration-url-patch:
+      targetObjectRef:
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: KubernetesAuthEngineConfig
+        namespace: vault-admin
+        name: prod
+      sourceObjectRefs:
+      - apiVersion: cluster.open-cluster-management.io/v1
+        kind: ManagedCluster
+        name: prod
+        patchTemplate: |
+          spec:
+            kubernetesHost: {{ (index (index . 1).spec.managedClusterClientConfigs "0").url }}        
+

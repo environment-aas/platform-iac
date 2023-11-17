@@ -1,0 +1,24 @@
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: KubernetesAuthEngineRole
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.vaultAdminRole }}
+  namespace: {{ .Values.vaultAdminNamespace }}
+  labels:
+    {{- include "vault-cluster-registration.labels" . | nindent 4 }}  
+spec:
+  authentication:
+    namespace: {{ .Values.vault.authentication.namespace }}
+    path: {{ .Values.vault.authentication.path }}
+    role: {{ .Values.vault.authentication.role }}
+    serviceAccount:
+      name: default
+  name: {{ .Values.vaultAdminRole }}        
+  path: {{ .Release.Name }}
+  policies:
+    - {{ .Values.vaultAdminPolicy }}
+  targetServiceAccounts:
+    - default
+  targetNamespaces:
+    targetNamespaces:
+    - {{ .Values.vaultAdminNamespace }}

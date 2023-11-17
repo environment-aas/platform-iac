@@ -1,0 +1,11 @@
+cluster:
+  apiUrl: http://no.url:6443
+
+vault:
+  authentication:
+    namespace: ""
+    path: hub
+    role: vault-admin
+  vaultAdminNamespace: vault-admin
+  vaultAdminPolicy: vault-admin
+  vaultAdminRole: vault-admin  

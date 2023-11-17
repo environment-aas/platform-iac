@@ -27,3 +27,7 @@ helmCharts:
         cloud: AWS
         vendor: OpenShift
         region: us-east-2
+
+  - name: vault-cluster-registration
+    releaseName: prod
+    namespace: prod     
