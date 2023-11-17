@@ -36,11 +36,4 @@ applications:
       path: groups/multi-tenant/overlays/group-sync-configuration   
 
 
-  vault-config-operator:
-    annotations:
-      argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '5'
-    destination:
-      namespace: vault-config-operator
-    source:
-      path: groups/multi-tenant/overlays/vault-config-operator      
+     

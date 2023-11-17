@@ -16,3 +16,13 @@ projects:
       clusterResourceWhitelist:
       - group: '*'
         kind: '*'
+
+applications:
+  vault-config-operator:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '5'
+    destination:
+      namespace: vault-config-operator
+    source:
+      path: groups/all/overlays/vault-config-operator         
