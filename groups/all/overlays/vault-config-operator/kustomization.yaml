@@ -13,6 +13,6 @@ patches:
   - patch: |-
       - op: replace
         path: /spec/config/env/0/value
-        value: https://vault.non-prod.example.com:8200
+        value: https://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com
     target:
       kind: Subscription 
