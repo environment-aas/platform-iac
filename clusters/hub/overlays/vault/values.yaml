@@ -192,8 +192,7 @@ server:
                   }
         EOF
               else 
-                echo vault admin already configured, just updating kubernetes config
-                vault write auth/hub/config kubernetes_host=https://kubernetes.default.svc:443 kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt 
+                echo vault admin already configured
                 echo creating accessor configmap
                 accessor=$(vault auth list -detailed | grep hub | awk '{print $3}')
                 if /usr/local/libexec/vault/kubectl get configmap kubeauth-accessor -n vault; then
