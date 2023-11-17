@@ -62,7 +62,8 @@ spec:
       - apiVersion: cluster.open-cluster-management.io/v1
         kind: ManagedCluster
         name: prod
-        patchTemplate: |
-          spec:
-            kubernetesHost: {{ (index (index . 1).spec.managedClusterClientConfigs "0").url }}        
+      patchTemplate: |
+        spec:
+          kubernetesHost: {{ (index (index . 1).spec.managedClusterClientConfigs "0").url }}
+      patchType: application/merge-patch+json         
 
