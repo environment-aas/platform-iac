@@ -19,14 +19,13 @@ patches:
       - op: replace
         path: /spec/host
         value: "vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com"    
-  - patch: |-
+  - target:
+      kind: ConsoleLink
+    patch: |
       - op: replace
         path: /spec/href
         value: "https://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com"
-    target:
-      kind: ConsoleLink
-      name: vault
-      namespace: vault           
+           
 
 helmCharts:
   - name: vault
