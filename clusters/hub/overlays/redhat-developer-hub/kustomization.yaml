@@ -14,8 +14,12 @@ helmGlobals:
   chartHome: ../../../../.helm/charts
 
 helmCharts:
-  - name: backstage
-    #repo: https://janus-idp.github.io/helm-backstage
+  # - name: backstage
+  #   repo: https://janus-idp.github.io/helm-backstage
+  #   releaseName: redhat-developer-hub
+  #   namespace: redhat-developer-hub
+  #   valuesFile: values.yaml
+  - name: developer-hub
     releaseName: redhat-developer-hub
     namespace: redhat-developer-hub
-    valuesFile: values.yaml
+    valuesFile: values.yaml  
