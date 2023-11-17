@@ -43,7 +43,13 @@ applications:
     destination:
       namespace: vault
     source:
-      path: clusters/hub/overlays/vault      
+      path: clusters/hub/overlays/vault
+    extraFields: |
+      ignoreDifferences:
+        - group: 'apps'
+          jsonPointers:
+            - /spec/volumeClaimTemplates
+          kind: StatefulSet            
 
   kube-ops-view:
     annotations:
