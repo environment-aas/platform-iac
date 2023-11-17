@@ -20,5 +20,5 @@ spec:
       patchTemplate: |
         data:
           CLIENT_SECRET: {{ (index (index . 1).data "CLIENT_SECRET") }}
-          CLIENT_ID: {{ (index (index . 1).data "ID") }}
+          CLIENT_ID: {{ (index (index . 1).data "CLIENT_ID") }}
       patchType: application/merge-patch+json
