@@ -49,7 +49,16 @@ applications:
         - group: 'apps'
           jsonPointers:
             - /spec/volumeClaimTemplates
-          kind: StatefulSet            
+          kind: StatefulSet
+
+  vault-config:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '15'
+    destination:
+      namespace: vault-config
+    source:
+      path: clusters/hub/overlays/vault-config                      
 
   kube-ops-view:
     annotations:
