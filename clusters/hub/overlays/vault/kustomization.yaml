@@ -20,7 +20,9 @@ patches:
         path: /spec/host
         value: "https://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com"    
   - patch: |-
-
+      - op: replace
+        path: /spec/href
+        value: "https://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com"
     target:
       kind: ConsoleLink
       name: vault
