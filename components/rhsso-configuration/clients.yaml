@@ -123,14 +123,13 @@ spec:
       protocolMapper: oidc-hardcoded-claim-mapper
     - name: groups
       protocol: openid-connect
-      protocolMapper: oidc-usermodel-attribute-mapper
+      protocolMapper: "oidc-group-membership-mapper"
       config:
-        aggregate.attrs: "true"
-        userinfo.token.claim: "true"
-        multivalued: "true"
-        user.attribute: "groups"
-        id.token.claim: "true"
-        access.token.claim: "true"
-        claim.name: "groups"      
+        "access.token.claim": "true"
+        "claim.name": "groups"
+        "full.path": "false"
+        "id.token.claim": "true"
+        "userinfo.token.claim": "true"
+      
 
               
