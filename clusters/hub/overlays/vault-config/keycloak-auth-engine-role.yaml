@@ -8,8 +8,8 @@ spec:
     role: vault-admin
   path: hub
   boundAudiences: 
-  - "0oaau92rizgjZ2l935d7"
-  name: vault-developer
+  - "vault"
+  name: developer
   userClaim: "sub"
   allowedRedirectURIs: 
     - "http://localhost:8250/oidc/callback"
