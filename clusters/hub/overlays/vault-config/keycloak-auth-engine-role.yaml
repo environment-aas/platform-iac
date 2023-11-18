@@ -18,5 +18,5 @@ spec:
   tokenPolicies: 
     - "default"
   roleType: "oidc"
-  OIDCScopes: 
-    - "groups"
+  # OIDCScopes: 
+  #   - "groups"
