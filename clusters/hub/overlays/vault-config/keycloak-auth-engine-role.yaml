@@ -6,7 +6,7 @@ spec:
   authentication: 
     path: hub
     role: vault-admin
-  path: hub
+  path: keycloak
   boundAudiences: 
   - "vault"
   name: developer
