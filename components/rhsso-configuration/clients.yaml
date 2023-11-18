@@ -111,4 +111,16 @@ spec:
     defaultClientScopes:
       - profile
       - email
-    consentRequired: false          
+    consentRequired: false
+    protocolMappers:
+    - config:
+        claim.name: aud
+        claim.value: vault
+        id.token.claim: "true"
+        access.token.claim: "true"
+        userinfo.token.claim: "true"
+      name: vault
+      protocol: openid-connect
+      protocolMapper: oidc-hardcoded-claim-mapper
+
+              
