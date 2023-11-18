@@ -7,3 +7,4 @@ spec:
     path: hub
     role: vault-admin
   type: oidc
+  name: oidc

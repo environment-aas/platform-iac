@@ -101,9 +101,9 @@ spec:
     clientId: vault
     secret: vault-secret
     redirectUris:
-      - https://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/ui/vault/auth/keycloak/oidc/callback
-      - https://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/keycloak/oidc/callback
-      - http://localhost/oidc/callback
+      - https://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/ui/vault/auth/oidc/oidc/callback
+      - https://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/v1/auth/oidc/oidc/callback
+      - http://localhost:8250/oidc/callback
     clientAuthenticatorType: client-secret
     standardFlowEnabled: true
     directAccessGrantsEnabled: true
