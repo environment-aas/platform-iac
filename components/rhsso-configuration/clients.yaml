@@ -121,5 +121,16 @@ spec:
       name: vault
       protocol: openid-connect
       protocolMapper: oidc-hardcoded-claim-mapper
+    - name: groups
+      protocol: openid-connect
+      protocolMapper: oidc-usermodel-attribute-mapper
+      config:
+        aggregate.attrs: "true"
+        userinfo.token.claim: "true"
+        multivalued: "true"
+        user.attribute: "groups"
+        id.token.claim: "true"
+        access.token.claim: "true"
+        claim.name: "groups"      
 
               
