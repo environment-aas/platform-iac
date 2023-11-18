@@ -12,8 +12,8 @@ spec:
   name: developer
   userClaim: "sub"
   allowedRedirectURIs: 
-    - "http://localhost:8250/oidc/callback"
-    - "http://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/ui/vault/auth/oidc/oidc/callback"
+    - "http://localhost:8250/keycloak/callback"
+    - "http://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/ui/vault/auth/keycloak/oidc/callback"
   groupsClaim: "groups" 
   tokenPolicies: 
     - "default"
