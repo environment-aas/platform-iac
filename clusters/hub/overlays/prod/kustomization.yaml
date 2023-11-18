@@ -20,6 +20,8 @@ helmCharts:
     releaseName: prod
     namespace: prod
     valuesInline: 
+      clusterName: prod
+      clusterDomain: prod.m4a1.p1.openshiftapps.com    
       clusterSet: default
       repoURL: https://github.com/environment-aas/platform-iac.git
       labels:
@@ -29,4 +31,5 @@ helmCharts:
 
   - name: vault-cluster-registration
     releaseName: prod
-    namespace: vault-admin     
+    namespace: vault-admin
+    

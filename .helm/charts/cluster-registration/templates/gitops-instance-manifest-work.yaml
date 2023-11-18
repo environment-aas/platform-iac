@@ -6,6 +6,29 @@ metadata:
 spec:
   workload:
     manifests:
+    - apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: setenv-cmp-plugin
+        namespace: openshift-gitops
+      data:
+        plugin.yaml: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: ConfigManagementPlugin
+          metadata:
+            name: setenv-cmp-plugin
+          spec:
+            version: v1.0
+            init:
+              command: [sh, -c, 'echo "Initializing setenv-plugin-cmp..."']
+            generate:
+              command:
+                - sh
+                - "-c"
+                - "set -o pipefail && kustomize build --enable-helm --enable-alpha-plugins . | perl -pe 's{\\$(\\{)?(\\w+)(?(1)\\})}{$ENV{$2} // $&}ge'"
+            discover:
+              find:
+                command: [sh, -c, 'find . -maxdepth 1 -name kustomization.yaml']    
     - apiVersion: argoproj.io/v1alpha1
       kind: ArgoCD
       metadata:
@@ -247,9 +270,36 @@ spec:
             g, openshift-admins, role:admin
           scopes: "[groups]"
         repo:
+          sidecarContainers:
+            - name: setenv-plugin
+              command: [/var/run/argocd/argocd-cmp-server]
+              env:
+                - name: KUSTOMIZE_PLUGIN_HOME
+                  value: /etc/kustomize/plugin
+                - name: CLUSTER_NAME
+                  value: '{{ .Values.clusterName }}'
+                - name: SUB_DOMAIN
+                  value: '{{ .Values.clusterDomain }}'
+              image: quay.io/gnunn/tools:latest
+              imagePullPolicy: Always
+              securityContext:
+                runAsNonRoot: true
+              volumeMounts:
+                - mountPath: /var/run/argocd
+                  name: var-files
+                - mountPath: /home/argocd/cmp-server/plugins
+                  name: plugins
+                - mountPath: /tmp
+                  name: tmp
+                - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+                  subPath: plugin.yaml
+                  name: setenv-cmp-plugin        
           volumes:
             - emptyDir: {}
               name: policy-generator
+            - configMap:
+                name: setenv-cmp-plugin
+              name: setenv-cmp-plugin              
           initContainers:
             - args:
               - -c

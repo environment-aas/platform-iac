@@ -1,0 +1,61 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: NamespaceConfig
+metadata:
+  name: kube-vault-configs
+spec:
+  labelSelector:
+    matchExpressions:
+      - key: team
+        operator: Exists
+      - key: app
+        operator: Exists        
+      - key: environment
+        operator: In
+        values:
+        - dev     
+  templates:     
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: Policy
+        metadata:
+          name: secret-reader-{{ .Labels.team }}
+          namespace: vault-admin
+        spec:
+          # Add fields here
+          authentication: 
+            path: <cluster>
+            role: vault-admin
+            serviceAccount:
+              name: default            
+          policy: |
+            # Read permission on the secrets
+            path "/applications/{{ .Labels.team }}/{{ "{{" }} identity.entity.aliases.${auth/<cluster>/kubernetes/@accessor}.metadata.service_account_namespace {{ "}}" }}/*" {
+                capabilities = ["read", "list"]
+            }
+      excludedPaths:
+        - .metadata
+        - .status
+        - .spec.replicas
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: KubernetesAuthEngineRole
+        metadata:
+          name: secret-reader-{{ .Labels.team }}
+          namespace: vault-admin
+        spec:
+          authentication: 
+            path: <cluster>
+            role: vault-admin
+          path: <cluster>
+          policies:
+            - secret-reader-{{ .Labels.team }}
+          targetNamespaces:
+            targetNamespaceSelector:
+              matchLabels:
+                team: {{ .Labels.team }}
+          targetServiceAccounts:
+          - "*"                
+      excludedPaths:
+        - .metadata
+        - .status
+        - .spec.replicas        

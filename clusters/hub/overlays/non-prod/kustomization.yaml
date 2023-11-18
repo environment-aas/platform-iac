@@ -21,9 +21,15 @@ helmCharts:
     releaseName: non-prod
     namespace: non-prod
     valuesInline: 
+      clusterName: non-prod
+      clusterDomain: non-prod.m4a1.p1.openshiftapps.com    
       clusterSet: default
       repoURL: https://github.com/environment-aas/platform-iac.git
       labels:
         cloud: AWS
         vendor: OpenShift
-        region: us-west-2  
+        region: us-west-2
+
+  - name: vault-cluster-registration
+    releaseName: non-prod
+    namespace: vault-admin          

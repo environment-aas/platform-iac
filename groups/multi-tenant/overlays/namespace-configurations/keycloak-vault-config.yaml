@@ -1,0 +1,78 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: NamespaceConfig
+metadata:
+  name: okta-vault-configs
+spec:
+  labelSelector:
+    matchExpressions:
+      - key: team
+        operator: Exists
+      - key: app
+        operator: Exists        
+      - key: environment
+        operator: In
+        values:
+        - dev     
+  templates:     
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: Policy
+        metadata:
+          name: developer-{{ .Labels.team }}
+          namespace: vault-admin
+        spec:
+          # Add fields here
+          authentication: 
+            path: <cluster>
+            role: vault-admin
+            serviceAccount:
+              name: default            
+          policy: |
+            # Write permission on the secrets
+            path "/applications/{{ .Labels.team }}/*" {
+                capabilities = ["list", "create", "update", "delete"]
+            }
+      excludedPaths:
+        - .metadata
+        - .status
+        - .spec.replicas
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: Group
+        metadata:
+          name: {{ .Labels.team }}
+          namespace: vault-admin
+        spec:
+          authentication: 
+            path: <cluster>
+            role: vault-admin
+            serviceAccount:
+              name: default            
+          type: external
+          metadata: 
+            team: {{ .Labels.team }}
+            app: {{ .Labels.app }}
+          policies: 
+          - developer-{{ .Labels.team }}
+      excludedPaths:
+        - .metadata
+        - .status
+        - .spec.replicas
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: GroupAlias
+        metadata:
+          name: {{ .Labels.team }}
+          namespace: vault-admin
+        spec:
+          authentication: 
+            path: <cluster>
+            role: vault-admin
+            serviceAccount:
+              name: default            
+          authEngineMountPath: keycloak
+          groupName: {{ .Labels.team }}
+      excludedPaths:
+        - .metadata
+        - .status
+        - .spec.replicas                  
