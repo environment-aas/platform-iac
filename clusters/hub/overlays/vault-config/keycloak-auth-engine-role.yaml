@@ -6,15 +6,15 @@ spec:
   authentication: 
     path: hub
     role: vault-admin
-  path: oidc
+  path: keycloak
   boundAudiences: 
   - "vault"
   name: developer
   userClaim: "sub"
   allowedRedirectURIs: 
     - "http://localhost:8250/oidc/callback"
-    - "http://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/ui/vault/auth/oidc/oidc/callback"
-    - https://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/v1/auth/oidc/oidc/callback
+    - "http://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/ui/vault/auth/keycloak/oidc/callback"
+    - https://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/v1/auth/keycloak/oidc/callback
   groupsClaim: "groups" 
   tokenPolicies: 
     - "default"

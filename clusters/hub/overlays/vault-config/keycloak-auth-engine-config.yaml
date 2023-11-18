@@ -6,7 +6,7 @@ spec:
   authentication: 
     path: hub
     role: vault-admin
-  path: oidc
+  path: keycloak
   OIDCClientID: "vault"
   OIDCCredentials:
     secret: 
