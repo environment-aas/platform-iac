@@ -5,5 +5,5 @@ resources:
   - quota-namespace-config.yaml
   - rbac-namespace-config.yaml
   - keycloak-vault-config.yaml
-  - tenant-secret-mounts.yaml
+  - tenant-secret-mounts-config.yaml
   - kube-vault-config.yaml
