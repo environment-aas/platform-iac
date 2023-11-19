@@ -7,7 +7,7 @@ spec:
     matchExpressions:
       - key: team
         operator: Exists
-      - key: app
+      - key: application
         operator: Exists        
       - key: environment
         operator: In

@@ -17,7 +17,7 @@ spec:
       required:
         - application
         - owner
-        - purpose
+        - environment
         - cluster
         - size
         - description
@@ -26,8 +26,8 @@ spec:
           title: Application
           type: string
           description: Application which will use this environment      
-        purpose:
-          title: Purpose
+        environment:
+          title: Environment
           type: string
           enum: ["dev", "qa", "prod"]
           description: Purpose for this environment
@@ -64,7 +64,7 @@ spec:
         values:
           description: ${{ parameters.description }}
           cluster: ${{ parameters.cluster }}
-          purpose: ${{ parameters.purpose }}
+          environment: ${{ parameters.environment }}
           owner: ${{ parameters.owner.split("/")[1] }}
           application: ${{ parameters.application }}
           size: ${{parameters.size}}  
@@ -74,7 +74,7 @@ spec:
       action: publish:github:pull-request
       input:
         repoUrl: github.com?repo=namespaces&owner=environment-aas
-        branchName: ${{ parameters.application }}-${{ parameters.purpose }}
-        title: ${{ parameters.cluster }}/${{ parameters.application }}-${{ parameters.purpose }} namespace
-        description: This is a request for the creation of the ${{ parameters.application }}-${{ parameters.purpose }} namespace in the ${{ parameters.cluster }} from the ${{ parameters.owner }} team
+        branchName: ${{ parameters.application }}-${{ parameters.environment }}
+        title: ${{ parameters.cluster }}/${{ parameters.application }}-${{ parameters.environment }} namespace
+        description: This is a request for the creation of the ${{ parameters.application }}-${{ parameters.environment }} namespace in the ${{ parameters.cluster }} from the ${{ parameters.owner }} team
                                

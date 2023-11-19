@@ -7,7 +7,7 @@ spec:
     matchExpressions:
       - key: team
         operator: Exists
-      - key: app
+      - key: application
         operator: Exists        
       - key: environment
         operator: In
@@ -51,7 +51,6 @@ spec:
           type: external
           metadata: 
             team: {{ .Labels.team }}
-            app: {{ .Labels.app }}
           policies: 
           - developer-{{ .Labels.team }}
       excludedPaths:

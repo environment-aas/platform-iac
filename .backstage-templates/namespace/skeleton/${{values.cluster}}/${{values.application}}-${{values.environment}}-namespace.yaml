@@ -7,4 +7,5 @@ metadata:
     application: ${{values.application}}
     size: ${{values.size}}
     team: ${{values.owner}}
+    environment: ${{values.environment}}
   name: ${{values.application}}-${{values.purpose}}
