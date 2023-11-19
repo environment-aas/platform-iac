@@ -1,6 +1,20 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: openshift-config
 
+
+commonAnnotations:
+  argocd.argoproj.io/compare-options: IgnoreExtraneous
+  argocd.argoproj.io/sync-options: Delete=false
+
+secretGenerator:
+- name: htpass-secret
+  files:
+  - htpasswd
 
 resources:
-  - ./keycloak-provider.yaml
+  - ./oauth.yaml
+  - ./admin-role-binding.yaml
+
+generatorOptions:
+ disableNameSuffixHash: true

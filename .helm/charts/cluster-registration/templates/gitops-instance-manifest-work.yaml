@@ -278,7 +278,7 @@ spec:
                   value: /etc/kustomize/plugin
                 - name: CLUSTER_NAME
                   value: '{{ .Values.clusterName }}'
-                - name: SUB_DOMAIN
+                - name: CLUSTER_BASE_DOMAIN
                   value: '{{ .Values.clusterDomain }}'
               image: quay.io/gnunn/tools:latest
               imagePullPolicy: Always

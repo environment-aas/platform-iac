@@ -15,7 +15,7 @@ spec:
   source:
     repoURL: https://github.com/environment-aas/namespaces.git
     targetRevision: HEAD
-    path: "${cluster-name}"
+    path: "${CLUSTER_NAME}"
     directory:
       recurse: true
       include: "*.yaml"

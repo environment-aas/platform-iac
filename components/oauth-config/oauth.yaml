@@ -6,11 +6,17 @@ metadata:
     argocd.argoproj.io/sync-options: ServerSideApply=true
 spec:
   identityProviders:
+  - name: htpasswd 
+    mappingMethod: claim 
+    type: HTPasswd
+    htpasswd:
+      fileData:
+        name: htpass-secret  
   - name: oidckeycloak
     mappingMethod: claim
     type: OpenID
     openID:
-      clientID: <client-ID>
+      clientID: ocp-${CLUSTER_NAME}-client
       clientSecret: 
         name: oidc-secret
       extraScopes: []
