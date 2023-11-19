@@ -4,3 +4,6 @@ kind: Kustomization
 resources:
   - quota-namespace-config.yaml
   - rbac-namespace-config.yaml
+  - keycloak-vault-config.yaml
+  - tenant-secret-mounts.yaml
+  - kube-vault-config.yaml
