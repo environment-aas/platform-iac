@@ -1,0 +1,12 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: redhat-developer-hub-patches-rbac
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: redhat-developer-hub # namespace:operator
+roleRef:
+  kind: ClusterRole
+  name: edit
+  apiGroup: rbac.authorization.k8s.io
