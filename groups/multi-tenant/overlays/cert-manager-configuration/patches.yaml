@@ -2,6 +2,7 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: Patch
 metadata:
   name: prod-patches
+  namespace: cert-manager
 spec:
   serviceAccountRef:
     name: default
