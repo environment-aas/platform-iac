@@ -1,0 +1,8 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: vault-admin
+  annotations:
+    argocd.argoproj.io/sync-options: Delete=false
+  labels:
+    argocd.argoproj.io/managed-by: openshift-gitops  
