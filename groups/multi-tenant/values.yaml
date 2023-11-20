@@ -24,7 +24,7 @@ applications:
     destination:
       namespace: cert-manager
     source:
-      path: components/cert-manager-operator     
+      path: components/group-sync-operator    
 
   cert-manager-operator:
     annotations:
@@ -33,7 +33,7 @@ applications:
     destination:
       namespace: group-sync-operator
     source:
-      path: components/group-sync-operator
+      path: components/cert-manager-operator 
 
   cert-manager-configuration:
     annotations:

@@ -6,3 +6,4 @@ resources:
   - ./letsencrypt-issuer.yaml
   - ./patches-rbac.yaml
   - ./patches.yaml
+  - ./cert-manager-patch.yaml
