@@ -42,7 +42,7 @@ applications:
     destination:
       namespace: cert-manager
     source:
-      path: groups/multi-tenant/overlays/cert-manager-configurations   
+      path: groups/multi-tenant/overlays/cert-manager-configuration  
 
   group-sync-configuration:
     annotations:
