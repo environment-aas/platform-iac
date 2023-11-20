@@ -8,5 +8,5 @@ subjects:
     namespace: cert-manager # namespace:operator
 roleRef:
   kind: ClusterRole
-  name: edit
+  name: cluster-admin
   apiGroup: rbac.authorization.k8s.io
