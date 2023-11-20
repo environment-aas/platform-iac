@@ -65,6 +65,6 @@ spec:
         name: prod
       patchTemplate: |
         spec:
-          kubernetesHost: {{ (index (index . 1).spec.managedClusterClientConfigs "0").url }}
+          kubernetesHost: {{ (index (index . 1).spec.managedClusterClientConfigs 0).url }}
       patchType: application/merge-patch+json         
 
