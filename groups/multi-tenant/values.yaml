@@ -35,7 +35,6 @@ applications:
     source:
       path: groups/multi-tenant/overlays/group-sync-configuration
 
-
   oauth-config:
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
@@ -45,6 +44,15 @@ applications:
     source:
       path: components/oauth-config
 
+  vault-admin:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '5'
+    destination:
+      namespace: vault-admin  
+    source:
+      path: groups/multi-tenant/overlays/vault-admin      
+
   approved-namespaces-app:
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
@@ -53,7 +61,6 @@ applications:
       namespace: default
     source:
       path: components/approved-namespaces-app
-
 
   kube-ops-view:
     annotations:
