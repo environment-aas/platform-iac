@@ -4,4 +4,4 @@ kind: Kustomization
 namespace: cert-manager
 resources:
   - ./namespace.yaml
-  - ./operator.yaml
+  #- ./operator.yaml
