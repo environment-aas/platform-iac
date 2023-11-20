@@ -67,16 +67,7 @@ applications:
     destination:
       namespace: kube-ops-view
     source:
-      path: clusters/hub/overlays/kube-ops-view
-
-  patch-operator:
-    annotations:
-      argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '5'
-    destination:
-      namespace: patch-operator
-    source:
-      path: clusters/hub/overlays/patch-operator   
+      path: clusters/hub/overlays/kube-ops-view  
 
   reflector-operator:
     annotations:

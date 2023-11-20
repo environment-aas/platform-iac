@@ -18,6 +18,7 @@ projects:
         kind: '*'
 
 applications:
+
   vault-config-operator:
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
@@ -25,4 +26,13 @@ applications:
     destination:
       namespace: vault-config-operator
     source:
-      path: groups/all/overlays/vault-config-operator         
+      path: groups/all/overlays/vault-config-operator
+
+  patch-operator:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '5'
+    destination:
+      namespace: patch-operator
+    source:
+      path: groups/all/overlays/patch-operator              
