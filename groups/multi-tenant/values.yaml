@@ -42,7 +42,13 @@ applications:
     destination:
       namespace: cert-manager
     source:
-      path: groups/multi-tenant/overlays/cert-manager-configuration  
+      path: groups/multi-tenant/overlays/cert-manager-configuration
+    extraFields: |
+      ignoreDifferences:
+        - group: 'cert-manager.io/v1'
+          jsonPointers:
+            - /spec/acme/solvers
+          kind: ClusterIssuer        
 
   group-sync-configuration:
     annotations:
