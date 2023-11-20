@@ -45,7 +45,7 @@ applications:
       path: groups/multi-tenant/overlays/cert-manager-configuration
     extraFields: |
       ignoreDifferences:
-        - group: 'cert-manager.io/v1'
+        - group: 'cert-manager.io'
           jsonPointers:
             - /spec/acme/solvers
           kind: ClusterIssuer        
