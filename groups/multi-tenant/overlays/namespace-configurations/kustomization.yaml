@@ -7,3 +7,4 @@ resources:
   - keycloak-vault-config.yaml
   - tenant-secret-mounts-config.yaml
   - kube-vault-config.yaml
+  - vault-admin-namespace.yaml
