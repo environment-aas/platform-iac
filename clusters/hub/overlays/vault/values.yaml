@@ -28,7 +28,7 @@ server:
     repository: registry.connect.redhat.com/hashicorp/vault
 
   extraEnvironmentVars:
-    VAULT_CACERT: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+    #VAULT_CACERT: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
     VAULT_LOG_LEVEL: debug
 
 
