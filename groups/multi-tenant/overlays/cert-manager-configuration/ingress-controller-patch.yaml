@@ -7,5 +7,5 @@ metadata:
     argocd.argoproj.io/sync-options: ServerSideApply=true  
 spec:
   defaultCertificate:
-    name: lets-encrypt-certs-tls
+    name: cluster-ingress-certs-tls
 

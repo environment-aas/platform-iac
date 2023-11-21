@@ -7,11 +7,11 @@ spec:
   serviceAccountRef:
     name: default
   patches:
-    letsencrypt-certs:
+    cluster-ingress-certs:
       targetObjectRef:
         apiVersion: v1
         kind: Secret
-        name: lets-encrypt-certs-tls
+        name: cluster-ingress-certs-tls
         namespace: openshift-ingress
       patchTemplate: |
         data:

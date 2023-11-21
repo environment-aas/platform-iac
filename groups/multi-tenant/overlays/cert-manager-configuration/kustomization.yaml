@@ -7,3 +7,5 @@ resources:
   - ./patches-rbac.yaml
   - ./patches.yaml
   - ./cert-manager-patch.yaml
+  - ./cluster-api-certificate.yaml
+  - ./api-cert-patch.yaml
