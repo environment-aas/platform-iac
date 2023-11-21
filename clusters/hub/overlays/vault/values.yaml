@@ -29,6 +29,7 @@ server:
 
   extraEnvironmentVars:
     VAULT_CACERT: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+    VAULT_LOG_LEVEL: debug
 
 
   route:
