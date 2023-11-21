@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: cluster-api-certs
-  namespace: openshift-ingress  
+  namespace: openshift-config 
 spec:
   secretName: cluster-api-certs-tls
   duration: 168h0m0s
