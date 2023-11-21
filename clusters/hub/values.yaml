@@ -141,7 +141,11 @@ applications:
         - group: 'hive.openshift.io'
           jsonPointers:
             - /spec/installed
-          kind: ClusterDeployment          
+          kind: ClusterDeployment
+        - group: 'redhatcop.redhat.io'
+          jsonPointers:
+            - /spec/kubernetesHost
+          kind: KubernetesAuthEngineConfig                    
 
   non-prod:
     annotations:
@@ -160,5 +164,9 @@ applications:
         - group: 'hive.openshift.io'
           jsonPointers:
             - /spec/installed
-          kind: ClusterDeployment                         
+          kind: ClusterDeployment
+        - group: 'redhatcop.redhat.io'
+          jsonPointers:
+            - /spec/kubernetesHost
+          kind: KubernetesAuthEngineConfig                                   
                           
