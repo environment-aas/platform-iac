@@ -1,7 +1,7 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: NamespaceConfig
 metadata:
-  name: okta-vault-configs
+  name: keycloak-vault-configs
 spec:
   labelSelector:
     matchExpressions:
