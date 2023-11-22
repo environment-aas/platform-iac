@@ -15,3 +15,5 @@ spec:
     serviceAccount:
       name: default
   kubernetesHost: {{ .Values.cluster.apiUrl }}
+  disableISSValidation: true
+  disableLocalCAJWT: true
