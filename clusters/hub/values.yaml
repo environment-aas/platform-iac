@@ -1,13 +1,13 @@
 applications:
 
-  # acm-operator:
-  #   annotations:
-  #     argocd.argoproj.io/compare-options: IgnoreExtraneous
-  #     argocd.argoproj.io/sync-wave: '5'
-  #   destination:
-  #     namespace: open-cluster-management
-  #   source:
-  #     path: clusters/hub/overlays/acm-operator
+  acm-operator:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '5'
+    destination:
+      namespace: open-cluster-management
+    source:
+      path: clusters/hub/overlays/acm-operator
 
   acm-configuration:
     annotations:
