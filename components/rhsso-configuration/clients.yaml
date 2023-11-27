@@ -1,6 +1,33 @@
 apiVersion: keycloak.org/v1alpha1
 kind: KeycloakClient
 metadata:
+  name: ocp-hub
+  namespace: sso
+  labels:
+    app: sso
+spec:
+  realmSelector:
+    matchLabels:
+      app: sso
+  client:
+    id: ocp-hub-client
+    clientId: ocp-hub-client
+    secret: ocp-secret
+    rootUrl: https://oauth-openshift.apps.prod.m4a1.p1.openshiftapps.com/oauth2callback
+    redirectUris:
+      - /oidckeycloak
+    clientAuthenticatorType: client-secret
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: true
+    implicitFlowEnabled: false
+    defaultClientScopes:
+      - profile
+      - email
+    consentRequired: false
+---
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakClient
+metadata:
   name: ocp-prod
   namespace: sso
   labels:
@@ -67,7 +94,7 @@ spec:
     id: backstage
     clientId: backstage
     secret: ocp-secret
-    rootUrl: https://redhat-developer-hub-redhat-developer-hub.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com
+    rootUrl: https://redhat-developer-hub-redhat-developer-hub.apps.${CLUSTER_BASE_DOMAIN}
     redirectUris:
       - /oauth2/callback
     clientAuthenticatorType: client-secret
@@ -101,8 +128,8 @@ spec:
     clientId: vault
     secret: vault-secret
     redirectUris:
-      - https://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/ui/vault/auth/keycloak/oidc/callback
-      - https://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/v1/auth/keycloak/oidc/callback
+      - https://vault.apps.${CLUSTER_BASE_DOMAIN}/ui/vault/auth/keycloak/oidc/callback
+      - https://vault.apps.${CLUSTER_BASE_DOMAIN}/v1/auth/keycloak/oidc/callback
       - http://localhost:8250/oidc/callback
     clientAuthenticatorType: client-secret
     standardFlowEnabled: true

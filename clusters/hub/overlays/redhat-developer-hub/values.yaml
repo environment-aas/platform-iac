@@ -1,5 +1,5 @@
 global:
-  clusterRouterBase: apps.rosa-vnm9f.m4a1.p1.openshiftapps.com
+  clusterRouterBase: apps.${CLUSTER_BASE_DOMAIN}
 
 upstream:
 
@@ -48,7 +48,7 @@ upstream:
           - name: OAUTH2_PROXY_COOKIE_SECRET
             value: 'ciaociaociaociao'
           - name: OAUTH2_PROXY_OIDC_ISSUER_URL
-            value: 'https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/auth/realms/myorg'
+            value: 'https://keycloak-sso.apps.${CLUSTER_BASE_DOMAIN}/auth/realms/myorg'
           - name: OAUTH2_PROXY_SSL_INSECURE_SKIP_VERIFY
             value: 'true'
         ports:
@@ -82,7 +82,7 @@ upstream:
         providers:
           keycloakOrg:
             default:
-              baseUrl: https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/auth
+              baseUrl: https://keycloak-sso.apps.${CLUSTER_BASE_DOMAIN}/auth
               loginRealm: master
               realm: myorg
               clientId: 'backstage'

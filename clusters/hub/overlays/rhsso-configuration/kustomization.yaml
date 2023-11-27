@@ -10,7 +10,7 @@ patches:
   - patch: |-
       - op: replace
         path: /spec/href
-        value: "https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com"
+        value: "https://keycloak-sso.apps.${CLUSTER_BASE_DOMAIN}"
     target:
       kind: ConsoleLink
       name: rhsso

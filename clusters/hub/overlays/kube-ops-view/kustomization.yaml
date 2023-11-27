@@ -9,7 +9,7 @@ patches:
   - patch: |-
       - op: replace
         path: /spec/href
-        value: "https://kube-ops-view-kube-ops-view.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com"
+        value: "https://kube-ops-view-kube-ops-view.apps.${CLUSTER_BASE_DOMAIN}"
     target:
       kind: ConsoleLink
       name: kube-ops-view-link

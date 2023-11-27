@@ -15,16 +15,7 @@ applications:
     destination:
       namespace: namespace-configuration-operator
     source:
-      path: groups/multi-tenant/overlays/namespace-configurations
-
-  group-sync-operator:
-    annotations:
-      argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '5'
-    destination:
-      namespace: group-sync-operator
-    source:
-      path: components/group-sync-operator    
+      path: groups/multi-tenant/overlays/namespace-configurations   
 
   cert-manager-operator:
     annotations:

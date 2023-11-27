@@ -1,0 +1,18 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: GroupSync
+metadata:
+  name: keycloak
+spec:
+  providers:
+    - name: keycloak
+      keycloak:
+        insecure: true
+        realm: myorg
+        url: https://keycloak-sso.apps.${CLUSTER_BASE_DOMAIN}/auth
+        loginRealm: master	
+        prune: false
+        scope: sub        
+        credentialsSecret:
+          kind: Secret         
+          name: keycloak-creds
+          namespace: group-sync-operator

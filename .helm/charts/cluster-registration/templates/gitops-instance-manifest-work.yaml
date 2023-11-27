@@ -29,7 +29,7 @@ spec:
             discover:
               find:
                 command: [sh, -c, 'find . -maxdepth 1 -name kustomization.yaml']    
-    - apiVersion: argoproj.io/v1alpha1
+    - apiVersion: argoproj.io/v1beta1
       kind: ArgoCD
       metadata:
         name: openshift-gitops
@@ -295,33 +295,9 @@ spec:
                   subPath: plugin.yaml
                   name: setenv-cmp-plugin        
           volumes:
-            - emptyDir: {}
-              name: policy-generator
             - configMap:
                 name: setenv-cmp-plugin
               name: setenv-cmp-plugin              
-          initContainers:
-            - args:
-              - -c
-              - cp /etc/kustomize/plugin/policy.open-cluster-management.io/v1/policygenerator/PolicyGenerator
-                /policy-generator/PolicyGenerator
-              command:
-                - /bin/bash
-              image: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel8:v2.7
-              name: policy-generator-install
-              volumeMounts:
-                - mountPath: /policy-generator
-                  name: policy-generator
-          volumeMounts:
-            - mountPath: /.config/kustomize/plugin/policy.open-cluster-management.io/v1/policygenerator
-              name: policy-generator
-          resources:
-            limits:
-              cpu: "1"
-              memory: 1Gi
-            requests:
-              cpu: 250m
-              memory: 256Mi
         resourceExclusions: |
           - apiGroups:
             - internal.open-cluster-management.io

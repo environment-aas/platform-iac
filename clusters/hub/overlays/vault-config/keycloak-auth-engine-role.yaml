@@ -13,8 +13,8 @@ spec:
   userClaim: "sub"
   allowedRedirectURIs: 
     - "http://localhost:8250/oidc/callback"
-    - "https://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/ui/vault/auth/keycloak/oidc/callback"
-    - "https://vault.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/v1/auth/keycloak/oidc/callback"
+    - "https://vault.apps.${CLUSTER_BASE_DOMAIN}/ui/vault/auth/keycloak/oidc/callback"
+    - "https://vault.apps.${CLUSTER_BASE_DOMAIN}/v1/auth/keycloak/oidc/callback"
   groupsClaim: "groups" 
   tokenPolicies: 
     - "default"

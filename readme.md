@@ -1,99 +1,35 @@
-# GitOps standard folder layout for OpenShift multi-cluster day-two configurations
+# Environment as a Service
 
-As the title suggest this standard layout is laser focused on addressing the infrastructure configurations (a.k.a. day-two) for a multi-cluster deployment of OpenShift.
+This repo contains a set of gitops configuration to setup a developer platform based on OpenShift.
 
-TL;DR: jump to the [getting started](#getting-started-with-this-repo) section.
+This repo mainly focuses on the Environment as a Service use case.
 
-## Repo Structure
+This repo tries to showcase a realistic scenario featuring:
 
-These are the main folders:
+1. a multi cluster setup: we have three cluster at play, hub, non-prod prod. Other clusters can be easily added.
+2. a multi tenant setup: we have two teams configured: team-a, team-b. More teams can be easily added.
+3. a multi environment setup: each application can have multiple environments. In this example we have: dev, qa (running in the non-prod cluster) and prod (running in the prod cluster)
 
-![Folders](.docs/media/folders.png "Folders")
+This is a gitops repo build from the red hat CoP [starter template](https://github.com/redhat-cop/gitops-standards-repo-template) and populated ion large part with elements from the red hat CoP [gitops catalog](https://github.com/redhat-cop/gitops-catalog)
 
-### Components
+This example was built starting from the [AWS ROSA Open Environment](https://demo.redhat.com/catalog?search=rosa&item=babylon-catalog-prod%2Fsandboxes-gpte.rosa.prod) [Red Hat demo catalog](https://demo.redhat.com/catalog) item, you might have to adjust pieces of the configuration if you start from a different place. Adjustments should be minimal. 
 
-This folder contains all of the root pieces of configurations. Each piece of configuration resides in its own subfolder. These components should never derive from anything (i.e. their resources and components lists in the `kustomization.yaml` file are empty).
-
-![Components](.docs/media/components.png "Components")
-
-### Groups
-
-This folder contains common pieces of configurations that can be applied to a group of clusters. Groups can capture concepts like the purpose of the cluster (lab,non-prod, prod), the geography of the cluster (west, east, dc1, dc2), the security profile of the cluster (pci, non-pci, connected, disconnected) etc...
-
-Groups are designed to be composable. So, based on the example groups from above, one should be able to express that a cluster belongs to the non-prod, east, pci groups.
-
-Composition of groups is possible because groups are defined as kustomize [components](https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/components/):
-
-```yaml
-apiVersion: kustomize.config.k8s.io/v1alpha1
-kind: Component
-```
-
-The `all` group almost always exists and it captures the configuration that goes in every cluster.
-
-Each group has it own folder. Within this folder, we can find two things: 
-
-- A set of folders containing the group-specific overlays over some set of components.
-- A root level kustomization that generates the ArgoCD applications for this group, using the [argocd-app-of-app](.helm/charts/argocd-app-of-app/) helm chart.
-
-![Groups](.docs/media/groups.png "Groups")
-
-In this example, in green you can see the overlays over one component, while in red you can see the resources needed to generate the Argocd Applications for this group.
-
-### Clusters
-
-This folder contains the cluster-specific configurations. As for groups it is made of two parts:
-
-- A set of folders containing the cluster-specific overlays over some set of components.
-- A root level kustomization that generates the ArgoCD applications for this group, using the [argocd-app-of-app](.helm/charts/argocd-app-of-app/) helm chart. This kustomization must import the correct groups for this cluster, here is an example:
-
-```yaml
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-components:
-  - ../../groups/all
-  - ../../groups/non-prod
-  - ../../groups/geo-east
-```
-
-## Design Decisions
-
-In no particular order, here are the design decisions that guides us to this current folder structure.
-
-- ArgoCD Applications for the [App of App pattern](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/#app-of-apps-pattern) are generated via a Helm chart. This was chosen over the ApplicationSet approach. The reason of this choice is that The ApplicationSet controller seems a bit unstable and that helm charts offer mode flexibly.
-- Kustomize is the primary templating mechanism, if one needs to use helm charts, that is still possible via the Kustomize [HelmChartInflaterGenerator](https://kubectl.docs.kubernetes.io/references/kustomize/builtins/#_helmchartinflationgenerator_). The reason of this choice are that Kustomize is easy to pick up in general so starting with kustomize is easier for new users. Also having kustomize at the top level provides homogeneity. This without losing flexibly as one can always use helm charts. 
-- Groups of clusters a modeled via Kustomize components, this way they can be composed as opposed to being inherited giving more flexibility.
-
-
-## Getting started with this repo
-
-Press the `Use This Template` button at the right top corner of this page and follow the github instructions to create a detached copy of this repo.
-
-Once you have a copy of this repo in your organization, you have to seed your Hub cluster to point to this repo.
-
-To do so you can simply run this commands, however you might want to implement these steps in different ways in your environment:
+To get started run the following:
 
 ```sh
 export gitops_repo=<your newly created repo>
 export cluster_name=<your hub cluster name, typically "hub">
+export cluster_base_domain=$(oc get ingress.config.openshift.io cluster --template={{.spec.domain}} | sed -e "s/^apps.//")
 oc apply -f .bootstrap/subscription.yaml
 oc apply -f .bootstrap/cluster-rolebinding.yaml
-oc apply -f .bootstrap/argocd.yaml
+envsubst < .bootstrap/argocd.yaml | oc apply -f -
 envsubst < .bootstrap/root-application.yaml | oc apply -f -
 ```
 
-Note: for pedagogical reason this repo contains some example of components, groups and clusters, you will have to likely remove these examples and start adding the configurations you actually need.
+To get the prod and non-prod cluster created you'll have to prepare a secret in the way ACM expects it, then run:
 
-## Use cases
-
-### component configuration pinning and promotion
-
-### group configuration pinning and promotion
-
-### cluster configuration pinning and promotion
-
-### how to bootstrap a newly create/registered cluster with gitops
-
-### how to pass cluster-level variables to all of the configurations
+```sh
+oc delete secret aws-credentials -n open-cluster-management
+oc apply -f ./.rosa/aws-secret.yaml
+```
 

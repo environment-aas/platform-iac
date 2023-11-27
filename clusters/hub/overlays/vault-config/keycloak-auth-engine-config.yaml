@@ -13,4 +13,4 @@ spec:
       name: keycloak-client-secret-vault
     usernameKey: CLIENT_ID
     passwordKey: CLIENT_SECRET
-  OIDCDiscoveryURL: https://keycloak-sso.apps.rosa-vnm9f.m4a1.p1.openshiftapps.com/auth/realms/myorg
+  OIDCDiscoveryURL: https://keycloak-sso.apps.${CLUSTER_BASE_DOMAIN}/auth/realms/myorg
