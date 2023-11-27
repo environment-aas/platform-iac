@@ -349,7 +349,8 @@ data:
         command:
           - sh
           - "-c"
-          - "set -o pipefail && kustomize build --enable-helm --enable-alpha-plugins . | perl -pe 's{\\$(\\{)?(\\w+)(?(1)\\})}{$ENV{$2} // $&}ge'"
+          # - "set -o pipefail && kustomize build --enable-helm --enable-alpha-plugins . | perl -pe 's{\\$(\\{)?(\\w+)(?(1)\\})}{$ENV{$2} // $&}ge'"
+          - "set -o pipefail && kustomize build --enable-helm --enable-alpha-plugins . | envsubst"
       discover:
         find:
           command: [sh, -c, 'find . -maxdepth 1 -name kustomization.yaml']      
