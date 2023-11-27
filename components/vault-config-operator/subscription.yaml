@@ -5,7 +5,7 @@ metadata:
   name: vault-config-operator 
   namespace: vault-config-operator 
 spec:
-  channel: <REPLACE>
+  channel: alpha
   installPlanApproval: Automatic
   name: vault-config-operator 
   source: community-operators
