@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   name: team-a
-  namespace: team-a
+  namespace: tenant-gitops
   # Finalizer that ensures that project is not deleted until it is not referenced by any application
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -33,7 +33,7 @@ spec:
   roles:
   # A role which provides read-only access to all applications in the project
   - name: read-write
-    description: Read-only privileges to team-a project
+    description: Admin privileges to team-a project
     policies:
     - p, proj:team-a:admin, applications, get, team-a/*, allow
     groups:
@@ -53,7 +53,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   name: team-b
-  namespace: team-b
+  namespace: tenant-gitops
   # Finalizer that ensures that project is not deleted until it is not referenced by any application
   finalizers:
     - resources-finalizer.argocd.argoproj.io
