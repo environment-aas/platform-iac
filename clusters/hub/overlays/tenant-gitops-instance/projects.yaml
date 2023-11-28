@@ -35,7 +35,8 @@ spec:
   - name: read-write
     description: Admin privileges to team-a project
     policies:
-    - p, proj:team-a:admin, applications, get, team-a/*, allow
+      - p, proj:team-a:admin, applications, *, team-a/*, allow
+      - p, proj:team-a:admin, exec, create, team-a/*, allow
     groups:
     - team-a
 
@@ -84,7 +85,8 @@ spec:
   - name: read-write
     description: Read-only privileges to team-b project
     policies:
-    - p, proj:team-b:admin, applications, get, team-b/*, allow
+      - p, proj:team-b:admin, applications, *, team-b/*, allow
+      - p, proj:team-b:admin, exec, create, team-b/*, allow
     groups:
     - team-b
 
