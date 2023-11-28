@@ -238,7 +238,8 @@ spec:
             value: '${cluster_name}'
           - name: CLUSTER_BASE_DOMAIN
             value: '${cluster_base_domain}'
-        image: quay.io/gnunn/tools:latest
+        # image: quay.io/gnunn/tools:latest
+        image: quay.io/raffaelespazzoli/raffa-envsub:latest
         imagePullPolicy: Always
         securityContext:
           runAsNonRoot: true
@@ -337,7 +338,8 @@ data:
         command:
           - sh
           - "-c"
-          - "set -o pipefail && kustomize build --load-restrictor LoadRestrictionsNone --enable-helm --enable-alpha-plugins . | perl -pe 's{\\$(\\{)?(\\w+)(?(1)\\})}{$ENV{$2} // $&}ge'"
+          - "set -o pipefail && kustomize build --load-restrictor LoadRestrictionsNone --enable-helm --enable-alpha-plugins . | envsub"
+          #- "set -o pipefail && kustomize build --load-restrictor LoadRestrictionsNone --enable-helm --enable-alpha-plugins . | perl -pe 's{\\$(\\{)?(\\w+)(?(1)\\})}{$ENV{$2} // $&}ge'"                                                                                                                              
           #- "set -o pipefail && kustomize build --load-restrictor LoadRestrictionsNone --enable-helm --enable-alpha-plugins . | envsubst ${CLUSTER_BASE_DOMAIN},${CLUSTER_NAME}"
       discover:
         find:

@@ -25,7 +25,7 @@ spec:
               command:
                 - sh
                 - "-c"
-                - "set -o pipefail && kustomize build --load-restrictor LoadRestrictionsNone --enable-helm --enable-alpha-plugins . | envsubst"
+                - "set -o pipefail && kustomize build --load-restrictor LoadRestrictionsNone --enable-helm --enable-alpha-plugins . | envsub"
             discover:
               find:
                 command: [sh, -c, 'find . -maxdepth 1 -name kustomization.yaml']    
@@ -268,7 +268,7 @@ spec:
                   value: '{{ .Values.clusterName }}'
                 - name: CLUSTER_BASE_DOMAIN
                   value: '{{ .Values.clusterDomain }}'
-              image: quay.io/gnunn/tools:latest
+              image: quay.io/raffaelespazzoli/raffa-envsub:latest
               imagePullPolicy: Always
               securityContext:
                 runAsNonRoot: true
