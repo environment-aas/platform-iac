@@ -69,7 +69,7 @@ spec:
   # Only permit applications to deploy to the guestbook namespace in the same cluster
   # Destination clusters can be identified by 'server', 'name', or both.
   destinations:
-  - namespace: team-a
+  - namespace: team-b
     name: in-cluster  
   - namespace: myservice-dev
     name: non-prod
