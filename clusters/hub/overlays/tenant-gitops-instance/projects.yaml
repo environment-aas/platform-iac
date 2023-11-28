@@ -69,11 +69,13 @@ spec:
   # Only permit applications to deploy to the guestbook namespace in the same cluster
   # Destination clusters can be identified by 'server', 'name', or both.
   destinations:
-  - namespace: myapp-dev
+  - namespace: team-a
+    name: in-cluster  
+  - namespace: myservice-dev
     name: non-prod
-  - namespace: myapp-qa
+  - namespace: myservice-qa
     name: non-prod
-  - namespace: myapp-prod
+  - namespace: myservice-prod
     name: prod        
 
   # Enables namespace orphaned resource monitoring.
