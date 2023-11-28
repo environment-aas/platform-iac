@@ -7,8 +7,10 @@ metadata:
 spec:
   resourceTrackingMethod: annotation
   kustomizeBuildOptions: --enable-alpha-plugins --load-restrictor LoadRestrictionsNone --helm-command /usr/local/bin/helm
+  sourceNamespaces:
+  - team-a
+  - team-b
   extraConfig:
-    application.namespaces: team-a,team-b
     resource.compareoptions: |
       ignoreAggregatedRoles: true
   server:
