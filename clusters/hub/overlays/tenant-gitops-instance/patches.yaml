@@ -16,7 +16,7 @@ spec:
       sourceObjectRefs:
       - apiVersion: v1
         kind: Secret
-        namespace: vault-admin
+        namespace: sso
         name: keycloak-client-secret-argocd                
       patchTemplate: |
         data:
