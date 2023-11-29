@@ -11,13 +11,13 @@ spec:
       targetObjectRef:
         apiVersion: v1
         kind: Secret
-        namespace: vault-admin
-        name: keycloak-client-secret-argocd
+        namespace: tenant-gitops
+        name: argocd-secret
       sourceObjectRefs:
       - apiVersion: v1
         kind: Secret
-        namespace: tenant-gitops
-        name: argocd-secret        
+        namespace: vault-admin
+        name: keycloak-client-secret-argocd                
       patchTemplate: |
         data:
           oidc.keycloak.clientSecret: {{ (index (index . 1).data "CLIENT_SECRET") }}
