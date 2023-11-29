@@ -15,7 +15,7 @@ spec:
       ignoreAggregatedRoles: true
     oidc.config: |
       name: Keycloak
-      issuer: https://sso.ocplab.com/realms/ocplab
+      issuer: https://keycloak-sso.apps.${CLUSTER_BASE_DOMAIN}/realms/myorg
       clientID: argocd
       clientSecret: $oidc.keycloak.clientSecret
       requestedScopes: ["openid", "profile", "email", "groups"]      
@@ -224,10 +224,10 @@ spec:
         cpu: 250m
         memory: 512Mi
   rbac:
-    defaultPolicy: 'role:admin'
+    #defaultPolicy: 'role:admin'
     policy: |
       g, system:cluster-admins, role:admin
-      g, openshift-admins, role:admin
+      g, cluster-admins, role:admin
     scopes: "[groups]"
   repo:
     resources:
