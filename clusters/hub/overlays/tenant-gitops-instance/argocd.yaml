@@ -18,7 +18,7 @@ spec:
       issuer: https://keycloak-sso.apps.${CLUSTER_BASE_DOMAIN}/auth/realms/myorg
       clientID: argocd-client
       clientSecret: $oidc.keycloak.clientSecret
-      requestedScopes: ["openid", "profile", "email", "groups"]      
+      requestedScopes: ["openid", "profile", "email"]      
   server:
     autoscale:
       enabled: false
