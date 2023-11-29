@@ -13,12 +13,12 @@ spec:
   extraConfig:
     resource.compareoptions: |
       ignoreAggregatedRoles: true
-      oidc.config: |
-        name: Keycloak
-        issuer: https://sso.ocplab.com/realms/ocplab
-        clientID: argocd
-        clientSecret: $oidc.keycloak.clientSecret
-        requestedScopes: ["openid", "profile", "email", "groups"]      
+    oidc.config: |
+      name: Keycloak
+      issuer: https://sso.ocplab.com/realms/ocplab
+      clientID: argocd
+      clientSecret: $oidc.keycloak.clientSecret
+      requestedScopes: ["openid", "profile", "email", "groups"]      
   server:
     autoscale:
       enabled: false
