@@ -15,8 +15,8 @@ spec:
       ignoreAggregatedRoles: true
     oidc.config: |
       name: Keycloak
-      issuer: https://keycloak-sso.apps.${CLUSTER_BASE_DOMAIN}/realms/myorg
-      clientID: argocd
+      issuer: https://keycloak-sso.apps.${CLUSTER_BASE_DOMAIN}/auth/realms/myorg
+      clientID: argocd-client
       clientSecret: $oidc.keycloak.clientSecret
       requestedScopes: ["openid", "profile", "email", "groups"]      
   server:
