@@ -13,7 +13,7 @@ spec:
     id: ocp-hub-client
     clientId: ocp-hub-client
     secret: ocp-secret
-    rootUrl: https://oauth-openshift.apps.prod.m4a1.p1.openshiftapps.com/oauth2callback
+    rootUrl: https://oauth-openshift.apps.${CLUSTER_BASE_DOMAIN}/oauth2callback
     redirectUris:
       - /oidckeycloak
     clientAuthenticatorType: client-secret
@@ -40,7 +40,7 @@ spec:
     id: ocp-prod-client
     clientId: ocp-prod-client
     secret: ocp-secret
-    rootUrl: https://oauth-openshift.apps.prod.m4a1.p1.openshiftapps.com/oauth2callback
+    rootUrl: https://oauth-openshift.apps.prod.${PLATFORM_BASE_DOMAIN}/oauth2callback
     redirectUris:
       - /oidckeycloak
     clientAuthenticatorType: client-secret
@@ -67,7 +67,7 @@ spec:
     id: ocp-non-prod-client
     clientId: ocp-non-prod-client
     secret: ocp-secret
-    rootUrl: https://oauth-openshift.apps.non-prod.m4a1.p1.openshiftapps.com/oauth2callback
+    rootUrl: https://oauth-openshift.apps.non-prod.${PLATFORM_BASE_DOMAIN}/oauth2callback
     redirectUris:
       - /oidckeycloak
     clientAuthenticatorType: client-secret
@@ -158,6 +158,43 @@ spec:
         "full.path": "false"
         "id.token.claim": "true"
         "userinfo.token.claim": "true"
+---
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakClient
+metadata:
+  name: argocd
+  namespace: sso
+  labels:
+    app: sso
+spec:
+  realmSelector:
+    matchLabels:
+      app: sso
+  client:
+    id: argocd-client
+    clientId: argocd-client
+    secret: ocp-secret
+    rootUrl: https://tenant-gitops-server-tenant-gitops.apps.${CLUSTER_BASE_DOMAIN}/
+    redirectUris:
+      - /auth/callback
+    clientAuthenticatorType: client-secret
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: true
+    implicitFlowEnabled: false
+    defaultClientScopes:
+      - profile
+      - email
+    consentRequired: false
+    protocolMappers:
+    - name: groups
+      protocol: openid-connect
+      protocolMapper: "oidc-group-membership-mapper"
+      config:
+        "access.token.claim": "true"
+        "claim.name": "groups"
+        "full.path": "false"
+        "id.token.claim": "true"
+        "userinfo.token.claim": "true"            
       
 
               

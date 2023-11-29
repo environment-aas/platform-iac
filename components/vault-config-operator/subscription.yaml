@@ -13,7 +13,7 @@ spec:
   config:
     env:
     - name: VAULT_ADDR
-      value: <vault-addr>
+      value: https://vault.apps.rosa-s2s7d.${PLATFORM_BASE_DOMAIN}
     - name: VAULT_SKIP_VERIFY
       value: "true"
 

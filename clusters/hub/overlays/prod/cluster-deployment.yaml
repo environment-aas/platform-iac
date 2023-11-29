@@ -9,7 +9,7 @@ metadata:
     vendor: OpenShift
     cluster.open-cluster-management.io/clusterset: 'default'
 spec:
-  baseDomain: m4a1.p1.openshiftapps.com
+  baseDomain: ${PLATFORM_BASE_DOMAIN}
   clusterName: 'prod'
   controlPlaneConfig:
     servingCertificates: {}

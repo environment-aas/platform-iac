@@ -21,7 +21,7 @@ helmCharts:
     namespace: non-prod
     valuesInline: 
       clusterName: non-prod
-      clusterDomain: non-prod.m4a1.p1.openshiftapps.com    
+      platformDomain: ${PLATFORM_BASE_DOMAIN}     
       clusterSet: default
       repoURL: https://github.com/environment-aas/platform-iac.git
       labels:
@@ -31,4 +31,7 @@ helmCharts:
 
   - name: vault-cluster-registration
     releaseName: non-prod
-    namespace: vault-admin          
+    namespace: vault-admin
+    valuesInline:
+      cluster:
+        apiUrl: https://non-prod.api.${PLATFORM_BASE_DOMAIN}:6443

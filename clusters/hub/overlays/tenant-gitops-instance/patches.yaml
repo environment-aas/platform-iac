@@ -1,24 +1,25 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: Patch
 metadata:
-  name: vault-config
+  name: tenant-gitops-patches
+  namespace: prod
 spec:
   serviceAccountRef:
     name: default
-  patches:
+  patches:  
     keycloak-secret:
       targetObjectRef:
         apiVersion: v1
         kind: Secret
         namespace: vault-admin
-        name: keycloak-client-secret-vault
+        name: keycloak-client-secret-argocd
       sourceObjectRefs:
       - apiVersion: v1
         kind: Secret
-        namespace: sso
-        name: keycloak-client-secret-vault        
+        namespace: tenant-gitops
+        name: argocd-secret        
       patchTemplate: |
         data:
-          CLIENT_SECRET: {{ (index (index . 1).data "CLIENT_SECRET") }}
-          CLIENT_ID: {{ (index (index . 1).data "CLIENT_ID") }}
-      patchType: application/merge-patch+json
+          oidc.keycloak.clientSecret: {{ (index (index . 1).data "CLIENT_SECRET") }}
+      patchType: application/merge-patch+json         
+

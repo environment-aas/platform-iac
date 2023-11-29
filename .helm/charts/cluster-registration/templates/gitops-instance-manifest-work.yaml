@@ -267,7 +267,9 @@ spec:
                 - name: CLUSTER_NAME
                   value: '{{ .Values.clusterName }}'
                 - name: CLUSTER_BASE_DOMAIN
-                  value: '{{ .Values.clusterDomain }}'
+                  value: '{{ .Values.clusterName }}.{{ .Values.platformDomain }}'
+                - name: PLATFORM_BASE_DOMAIN
+                  value: '{{ .Values.platformDomain }}'                  
               image: quay.io/raffaelespazzoli/raffa-envsub:latest
               imagePullPolicy: Always
               securityContext:

@@ -7,3 +7,5 @@ resources:
   - ./argocd.yaml
   - ./projects.yaml
   - ./root-applications.yaml
+  - ./patches-rbac.yaml
+  - ./patches.yaml

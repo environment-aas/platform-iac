@@ -238,6 +238,9 @@ spec:
             value: '${cluster_name}'
           - name: CLUSTER_BASE_DOMAIN
             value: '${cluster_base_domain}'
+          # all created clusters base domain should be <cluster-name>.<PLATFORM_BASE_DOMAIN> 
+          - name: PLATFORM_BASE_DOMAIN
+            value: '${platform_base_domain}'            
         # image: quay.io/gnunn/tools:latest
         image: quay.io/raffaelespazzoli/raffa-envsub:latest
         imagePullPolicy: Always
