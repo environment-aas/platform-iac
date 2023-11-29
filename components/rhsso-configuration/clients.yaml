@@ -174,9 +174,8 @@ spec:
     id: argocd-client
     clientId: argocd-client
     secret: ocp-secret
-    rootUrl: https://tenant-gitops-server-tenant-gitops.apps.${CLUSTER_BASE_DOMAIN}/
     redirectUris:
-      - /auth/callback
+      - https://tenant-gitops-server-tenant-gitops.apps.${CLUSTER_BASE_DOMAIN}/auth/callback/*
     clientAuthenticatorType: client-secret
     standardFlowEnabled: true
     directAccessGrantsEnabled: true
