@@ -1,6 +1,31 @@
 apiVersion: keycloak.org/v1alpha1
 kind: KeycloakUser
 metadata:
+  name: raffa
+  labels:
+    app: sso
+  namespace: sso
+spec:
+  realmSelector:
+    matchLabels:
+      app: sso
+  user:
+    username: raffa
+    firstName: Raffa
+    lastName: Raffa
+    email: raffa@example.com
+    enabled: true
+    emailVerified: true
+    groups:
+      - admin
+    credentials:
+      - temporary: true
+        type: password
+        value: raffa
+---
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakUser
+metadata:
   name: adam
   labels:
     app: sso

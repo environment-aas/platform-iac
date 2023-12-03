@@ -21,7 +21,8 @@ helmCharts:
     namespace: non-prod
     valuesInline: 
       clusterName: non-prod
-      platformDomain: ${PLATFORM_BASE_DOMAIN}     
+      platformDomain: ${PLATFORM_BASE_DOMAIN}
+      hubDomain: ${CLUSTER_BASE_DOMAIN}     
       clusterSet: default
       repoURL: https://github.com/environment-aas/platform-iac.git
       labels:

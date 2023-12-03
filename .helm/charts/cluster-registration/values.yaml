@@ -1,6 +1,7 @@
 clusterSet: default
 clusterName: ciao
 platformDomain: ciao.com
+hubDomain: pippo
 repoURL: https://github.com/raffaelespazzoli/openshift-iac-multicluster.git
 
 labels:

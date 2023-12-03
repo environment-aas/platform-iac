@@ -10,3 +10,4 @@ resources:
   - users.yaml
   - groups.yaml
   - oauth-secret-policy.yaml
+  - rbac.yaml

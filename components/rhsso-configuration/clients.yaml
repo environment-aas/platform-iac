@@ -15,7 +15,7 @@ spec:
     secret: ocp-secret
     rootUrl: https://oauth-openshift.apps.${CLUSTER_BASE_DOMAIN}/oauth2callback
     redirectUris:
-      - /oidckeycloak
+      - /keycloak
     clientAuthenticatorType: client-secret
     standardFlowEnabled: true
     directAccessGrantsEnabled: true

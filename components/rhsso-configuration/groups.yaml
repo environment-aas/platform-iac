@@ -17,3 +17,13 @@ spec:
   forProvider:
     name: team-b
     realmId: myorg
+---
+apiVersion: group.keycloak.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  name: admin
+spec:
+  deletionPolicy: Delete
+  forProvider:
+    name: admin
+    realmId: myorg    
