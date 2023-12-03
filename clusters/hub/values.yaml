@@ -90,7 +90,7 @@ applications:
       ignoreDifferences:
         - group: 'apps'
           jsonPointers:
-            - /spec/containers/0/env/0valueFrom/resourceFieldRef/divisor
+            - /spec/containers/0/env/0/valueFrom/resourceFieldRef/divisor
             - /spec/containers/0/env/1/valueFrom/resourceFieldRef/divisor
           kind: Deployment            
 
