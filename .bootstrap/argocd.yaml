@@ -242,7 +242,9 @@ spec:
           - name: PLATFORM_BASE_DOMAIN
             value: '${platform_base_domain}'
           - name: HUB_BASE_DOMAIN
-            value: '${cluster_base_domain}'                        
+            value: '${cluster_base_domain}'
+          - name: INFRA_GITOPS_REPO
+            value: '${gitops_repo}'                                    
         # image: quay.io/gnunn/tools:latest
         image: quay.io/raffaelespazzoli/raffa-envsub:latest
         imagePullPolicy: Always
@@ -344,8 +346,6 @@ data:
           - sh
           - "-c"
           - "set -o pipefail && kustomize build --load-restrictor LoadRestrictionsNone --enable-helm --enable-alpha-plugins . | envsub"
-          #- "set -o pipefail && kustomize build --load-restrictor LoadRestrictionsNone --enable-helm --enable-alpha-plugins . | perl -pe 's{\\$(\\{)?(\\w+)(?(1)\\})}{$ENV{$2} // $&}ge'"                                                                                                                              
-          #- "set -o pipefail && kustomize build --load-restrictor LoadRestrictionsNone --enable-helm --enable-alpha-plugins . | envsubst ${CLUSTER_BASE_DOMAIN},${CLUSTER_NAME}"
       discover:
         find:
           command: [sh, -c, 'find . -maxdepth 1 -name kustomization.yaml']      

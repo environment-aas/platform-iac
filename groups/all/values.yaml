@@ -7,7 +7,7 @@ projects:
     description: Project for overall cluster configuration
     namespace: openshift-gitops
     sourceRepos:
-    - https://github.com/environment-aas/platform-iac
+    - ${INFRA_GITOPS_REPO}
     - https://github.com/environment-aas/namespaces
     destinations: |
       - namespace: '*'
