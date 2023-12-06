@@ -9,3 +9,4 @@ resources:
   - ./root-applications.yaml
   - ./patches-rbac.yaml
   - ./patches.yaml
+  - ./link.yaml
