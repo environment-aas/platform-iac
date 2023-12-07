@@ -35,5 +35,5 @@ helmCharts:
     namespace: vault-admin
     valuesInline:
       cluster:
-        apiUrl: https://non-prod.api.${PLATFORM_BASE_DOMAIN}:6443    
+        apiUrl: https://api.prod.${PLATFORM_BASE_DOMAIN}:6443    
     
