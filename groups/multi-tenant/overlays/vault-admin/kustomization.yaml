@@ -5,3 +5,8 @@ namespace: vault-admin
 resources:
   - namespace.yaml
   - rbac.yaml
+  - default-sa-token-secret.yaml
+  - kubernetes-secret-engine-config.yaml
+  - kubernetes-secret-engine-mount.yaml
+  - vault-secret-engine-role-binding.yaml
+  - vault-secret-engine-role.yaml

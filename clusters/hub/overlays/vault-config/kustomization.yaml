@@ -9,4 +9,9 @@ resources:
   - ./keycloak-auth-engine-role.yaml
   - ./keycloak-client-secret-vault.yaml
   - ./patches-rbac.yaml
-  - ./patches.yaml  
+  - ./patches.yaml
+  - ./default-sa-token-secret.yaml
+  - ./kubernetes-secret-engine-mount.yaml
+  - ./kubernetes-secret-engine-config.yaml
+  - ./vault-secret-engine-role-binding.yaml
+  - ./vault-secret-engine-role.yaml  

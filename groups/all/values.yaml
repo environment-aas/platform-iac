@@ -19,6 +19,15 @@ projects:
 
 applications:
 
+  namespace-configuration-operator:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '5'
+    destination:
+      namespace: namespace-configuration-operator
+    source:
+      path: components/namespace-configuration-operator
+
   vault-config-operator:
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
