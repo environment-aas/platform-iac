@@ -17,8 +17,8 @@ This example was built starting from the [AWS ROSA Open Environment](https://dem
 To get started run the following:
 
 ```sh
-export gitops_repo=<your newly created repo>
-export cluster_name=<your hub cluster name, typically "hub">
+export gitops_repo=https://github.com/environment-aas/platform-iac.git #<your newly created repo>
+export cluster_name=hub #<your hub cluster name, typically "hub">
 export cluster_base_domain=$(oc get ingress.config.openshift.io cluster --template={{.spec.domain}} | sed -e "s/^apps.//")
 export platform_base_domain=${cluster_base_domain#*.}
 oc apply -f .bootstrap/subscription.yaml
@@ -30,7 +30,16 @@ envsubst < .bootstrap/root-application.yaml | oc apply -f -
 To get the prod and non-prod cluster created you'll have to prepare a secret in the way ACM expects it, then run:
 
 ```sh
+oc new-project open-cluster-management
 oc delete secret aws-credentials -n open-cluster-management
 oc apply -f ./.rosa/aws-secret.yaml
+```
+
+To deploy RHDH run the following (you need to have prepared the secret)
+```sh
+oc new-project redhat-developer-hub
+oc delete secret rhdh-pull-secret -n redhat-developer-hub
+oc delete secret github-pat -n redhat-developer-hub
+oc create -f ./clusters/hub/overlays/redhat-developer-hub/rhdh-pull-secret.yaml -n redhat-developer-hub
 ```
 
