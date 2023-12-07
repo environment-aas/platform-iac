@@ -28,7 +28,7 @@ spec:
 
         # Source of the application manifests
         source:
-          repoURL: {{ .Values.repoURL }}  # Can point to either a Helm chart repo or a git repo.
+          repoURL: "{{ .Values.repoURL }}"  # Can point to either a Helm chart repo or a git repo.
           targetRevision: HEAD  # For Helm, this refers to the chart version.
           path: clusters/{{ .Release.Name }}  # This has no meaning for Helm charts pulled directly from a Helm repo instead of git.
 
