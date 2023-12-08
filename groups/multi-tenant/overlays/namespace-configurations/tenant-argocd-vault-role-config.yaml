@@ -22,6 +22,7 @@ spec:
         kind: KubernetesSecretEngineRole
         metadata:
           name: "{{ .Name }}-argocd-role"
+          namespace: vault-admin
         spec:
           authentication: 
             path: ${CLUSTER_NAME}
