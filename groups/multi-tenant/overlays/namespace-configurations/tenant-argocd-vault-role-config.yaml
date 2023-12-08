@@ -28,7 +28,8 @@ spec:
             role: vault-admin
           path: /infra/clusters/${CLUSTER_NAME}/jwt
           serviceAccountName: "{{ .Name }}-tenant-argocd"
-          allowedKubernetesNamespaces: vault-admin
+          allowedKubernetesNamespaces: 
+          - vault-admin
       excludedPaths:	
         - .metadata	
         - .status	
