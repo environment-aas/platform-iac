@@ -32,7 +32,7 @@ spec:
     # cluster API URL
     #server: https://kubernetes.default.svc
     # or cluster name
-    name: hub
+    name: team-a-hub
     # The namespace will only be set for namespace-scoped resources that have not set a value for .metadata.namespace
     namespace: team-a
 
@@ -91,7 +91,7 @@ spec:
     # cluster API URL
     # server: https://kubernetes.default.svc
     # or cluster name
-    name: hub
+    name: team-b-hub
     # The namespace will only be set for namespace-scoped resources that have not set a value for .metadata.namespace
     namespace: team-b
 

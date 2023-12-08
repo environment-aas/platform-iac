@@ -10,3 +10,6 @@ resources:
   - ./patches-rbac.yaml
   - ./patches.yaml
   - ./link.yaml
+  - ./argocd-cluster-secrets.yaml
+  - ./argocd-tenant-rbac.yaml
+  - ./service-accounts.yaml
