@@ -21,7 +21,7 @@ spec:
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: KubernetesSecretEngineRole
         metadata:
-          name: "{{ .Name }}-argocd-role"
+          name: "{{ .Name }}"
           namespace: vault-admin
         spec:
           authentication: 
