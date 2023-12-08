@@ -25,4 +25,22 @@ spec:
       excludedPaths:	
         - .metadata	
         - .status	
-        - .spec.replicas                    
+        - .spec.replicas
+    - objectTemplate: |
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: RoleBinding
+        metadata:
+          name: "{{ .Labels.team }}-tenant-argocd-edit"
+          namespace: "{{ .Name }}"
+        roleRef:
+          apiGroup: rbac.authorization.k8s.io
+          kind: ClusterRole
+          name: edit
+        subjects:
+        - kind: ServiceAccount
+          name: {{ .Labels.team }}-tenant-argocd
+          namespace: vault-admin
+      excludedPaths:	
+        - .metadata	
+        - .status	
+        - .spec.replicas                            

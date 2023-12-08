@@ -1,0 +1,35 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: GroupConfig
+metadata:
+  name: tenant-argocd-vault-role
+spec:
+  labelSelector:
+    matchLabels:
+      group-sync-operator.redhat-cop.io/sync-provider: keycloak_keycloak 
+  templates:
+    - objectTemplate: |
+        kind: ServiceAccount
+        apiVersion: v1
+        metadata:
+          name: "{{ .Name }}-tenant-argocd"
+          namespace: vault-admin
+      excludedPaths:	
+        - .metadata	
+        - .status	
+        - .spec.replicas         
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: KubernetesSecretEngineRole
+        metadata:
+          name: "{{ .Name }}-argocd-role"
+        spec:
+          authentication: 
+            path: ${CLUSTER_NAME}
+            role: vault-admin
+          path: /infra/clusters/${CLUSTER_NAME}/jwt
+          serviceAccountName: "{{ .Name }}-tenant-argocd"
+          allowedKubernetesNamespaces: vault-admin
+      excludedPaths:	
+        - .metadata	
+        - .status	
+        - .spec.replicas           
