@@ -6,4 +6,5 @@ resources:
   - rbac-namespace-config.yaml
   - keycloak-vault-config.yaml
   - tenant-secret-mounts-config.yaml
+  - tenant-argocd-vault-role-config.yaml
   - kube-vault-config.yaml
