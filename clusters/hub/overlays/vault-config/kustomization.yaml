@@ -16,3 +16,4 @@ resources:
   - ./vault-secret-engine-role-binding.yaml
   - ./vault-secret-engine-role.yaml
   - ./infra-secret-reader-policy.yaml  
+  - ./infra-secret-reader-role.yaml
