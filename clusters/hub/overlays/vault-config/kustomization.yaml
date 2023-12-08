@@ -14,4 +14,5 @@ resources:
   - ./kubernetes-secret-engine-mount.yaml
   - ./kubernetes-secret-engine-config.yaml
   - ./vault-secret-engine-role-binding.yaml
-  - ./vault-secret-engine-role.yaml  
+  - ./vault-secret-engine-role.yaml
+  - ./infra-secret-reader-policy.yaml  
