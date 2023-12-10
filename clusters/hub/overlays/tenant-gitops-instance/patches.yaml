@@ -22,34 +22,19 @@ spec:
         data:
           oidc.keycloak.clientSecret: {{ (index (index . 1).data "CLIENT_SECRET") }}
       patchType: application/merge-patch+json
-    team-a-hub:
+    tenant-gitops-hub:
       targetObjectRef:
         apiVersion: v1
         kind: Secret
         namespace: tenant-gitops
-        name: team-a-hub
+        name: tenant-gitops
       sourceObjectRefs:
       - apiVersion: v1
         kind: Secret
         namespace: tenant-gitops
-        name: team-a-tenant-argocd               
+        name: tenant-gitops    
       patchTemplate: |
         data:
           config: {{ (cat "{ \"bearerToken\": " ((index . 1).data.token | b64dec | quote) " }") | b64enc }}
-      patchType: application/merge-patch+json
-    team-b-hub:
-      targetObjectRef:
-        apiVersion: v1
-        kind: Secret
-        namespace: tenant-gitops
-        name: team-b-hub
-      sourceObjectRefs:
-      - apiVersion: v1
-        kind: Secret
-        namespace: tenant-gitops
-        name: team-b-tenant-argocd               
-      patchTemplate: |
-        data:
-          config: {{ (cat "{ \"bearerToken\": " ((index . 1).data.token | b64dec | quote) " }") | b64enc }}
-      patchType: application/merge-patch+json                      
+      patchType: application/merge-patch+json                     
 
