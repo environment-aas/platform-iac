@@ -26,8 +26,8 @@ spec:
       targetObjectRef:
         apiVersion: v1
         kind: Secret
-        namespace: hub
-        name: tenant-gitops
+        namespace: tenant-gitops
+        name: hub
       sourceObjectRefs:
       - apiVersion: v1
         kind: Secret
