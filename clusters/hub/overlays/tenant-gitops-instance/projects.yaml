@@ -60,7 +60,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   # Project description
-  description: Team A
+  description: Team B
 
   # Allow manifests to deploy from any Git repos
   sourceRepos:
