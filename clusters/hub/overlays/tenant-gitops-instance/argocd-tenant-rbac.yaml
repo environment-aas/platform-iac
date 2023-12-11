@@ -7,8 +7,8 @@ rules:
   resources: ["applications"]
   verbs: ["*"]
 - apiGroups: [""] # "" indicates the core API group
-  resources: ["secrets"]
-  verbs: ["*"]    
+  resources: ["*"]
+  verbs: ["list","get"]    
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
