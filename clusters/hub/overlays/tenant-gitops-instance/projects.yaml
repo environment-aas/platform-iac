@@ -13,6 +13,7 @@ spec:
   # Allow manifests to deploy from any Git repos
   sourceRepos:
   - https://github.com/environment-aas/team-a-gitops.git
+  - https://charts.securecodebox.io/
 
   # Only permit applications to deploy to the guestbook namespace in the same cluster
   # Destination clusters can be identified by 'server', 'name', or both.
