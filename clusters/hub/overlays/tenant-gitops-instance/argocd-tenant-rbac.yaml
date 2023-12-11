@@ -6,7 +6,7 @@ rules:
 - apiGroups: ["argoproj.io"] # "" indicates the core API group
   resources: ["applications"]
   verbs: ["*"]
-- apiGroups: [""] # "" indicates the core API group
+- apiGroups: ["*"] # "" indicates the core API group
   resources: ["*"]
   verbs: ["list","get"]    
 ---
