@@ -70,13 +70,13 @@ spec:
   # Destination clusters can be identified by 'server', 'name', or both.
   destinations:
   - namespace: team-b
-    name: team-b-hub  
+    name: hub  
   - namespace: myservice-dev
-    name: team-b-non-prod
+    name: non-prod
   - namespace: myservice-qa
-    name: team-b-non-prod
+    name: non-prod
   - namespace: myservice-prod
-    name: team-b-prod        
+    name: prod        
 
   # Enables namespace orphaned resource monitoring.
   orphanedResources:
