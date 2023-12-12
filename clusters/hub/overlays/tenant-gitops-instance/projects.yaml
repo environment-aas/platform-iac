@@ -33,7 +33,7 @@ spec:
 
   roles:
   # A role which provides read-only access to all applications in the project
-  - name: read-write
+  - name: admin
     description: Admin privileges to team-a project
     policies:
       - p, proj:team-a:admin, applications, *, team-a/*, allow
@@ -86,7 +86,7 @@ spec:
 
   roles:
   # A role which provides read-only access to all applications in the project
-  - name: read-write
+  - name: admin
     description: Read-only privileges to team-b project
     policies:
       - p, proj:team-b:admin, applications, *, team-b/*, allow
