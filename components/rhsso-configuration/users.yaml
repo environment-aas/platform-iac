@@ -19,7 +19,7 @@ spec:
     groups:
       - admin
     credentials:
-      - temporary: true
+      - temporary: false
         type: password
         value: raffa
 ---
