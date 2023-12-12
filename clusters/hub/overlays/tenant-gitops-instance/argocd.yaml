@@ -225,8 +225,9 @@ spec:
         cpu: 250m
         memory: 512Mi
   rbac:
-    defaultPolicy: ''
+    defaultPolicy: 'role:none'
     policy: |
+      p, role:none, *, *, */*, deny
       g, system:cluster-admins, role:admin
       g, cluster-admins, role:admin
       g, admin, role:admin
