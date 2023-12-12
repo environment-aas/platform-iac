@@ -252,10 +252,11 @@ spec:
               cpu: 250m
               memory: 512Mi
         rbac:
-          defaultPolicy: 'role:admin'
+          defaultPolicy: ''
           policy: |
             g, system:cluster-admins, role:admin
             g, openshift-admins, role:admin
+            g, admin, role:admin
           scopes: "[groups]"
         repo:
           sidecarContainers:
