@@ -38,6 +38,7 @@ spec:
     policies:
       - p, proj:team-a:admin, applications, *, team-a/*, allow
       - p, proj:team-a:admin, exec, create, team-a/*, allow
+      - p, team-b:admin, clusters, get, *, allow
     groups:
     - team-a
 
@@ -91,6 +92,7 @@ spec:
     policies:
       - p, proj:team-b:admin, applications, *, team-b/*, allow
       - p, proj:team-b:admin, exec, create, team-b/*, allow
+      - p, team-b:admin, clusters, get, *, allow
     groups:
     - team-b
 
