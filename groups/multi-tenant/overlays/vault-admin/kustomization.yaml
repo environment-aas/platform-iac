@@ -10,5 +10,3 @@ resources:
   - kubernetes-secret-engine-mount.yaml
   - vault-secret-engine-role-binding.yaml
   - vault-secret-engine-role.yaml
-  - tenant-gitops-secret-engine-role.yaml
-  - tenant-gitops-service-account.yaml

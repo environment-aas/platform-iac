@@ -6,6 +6,7 @@ metadata:
     argocd.argoproj.io/sync-options: ServerSideApply=true
   labels:
     argocd.argoproj.io/managed-by: tenant-gitops
+    tenant-gitops: "true"
 ---    
 apiVersion: v1
 kind: Namespace
@@ -14,4 +15,5 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-options: ServerSideApply=true
   labels:
-    argocd.argoproj.io/managed-by: tenant-gitops    
+    argocd.argoproj.io/managed-by: tenant-gitops
+    tenant-gitops: "true"    

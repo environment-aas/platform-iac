@@ -36,5 +36,44 @@ spec:
       patchTemplate: |
         data:
           config: {{ (cat "{ \"bearerToken\": " ((index . 1).data.token | b64dec | quote) " }") | b64enc }}
-      patchType: application/merge-patch+json                     
+      patchType: application/merge-patch+json
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: NamespaceConfig
+metadata:
+  name: tenant-gitops-patches
+spec:
+  labelSelector:
+    matchLabels:
+      tenant-gitops: "true"      
+  templates:     
+  - objectTemplate: |
+      apiVersion: redhatcop.redhat.io/v1alpha1
+      kind: Patch
+      metadata:
+        name: "{{.Name}}-hub-patch"
+        namespace: tenant-gitops
+      spec:
+        serviceAccountRef:
+          name: default
+        patches:
+          tenant-gitops-hub:
+            targetObjectRef:
+              apiVersion: v1
+              kind: Secret
+              namespace: tenant-gitops
+              name: "{{.Name}}-tenant-argocd"
+            sourceObjectRefs:
+            - apiVersion: v1
+              kind: Secret
+              namespace: tenant-gitops
+              name: "{{.Name}}-hub"    
+            patchTemplate: |
+              data:
+                config: {{"{{"}} (cat "{ \"bearerToken\": " ((index . 1).data.token | b64dec | quote) " }") | b64enc {{"}}"}}
+            patchType: application/merge-patch+json
+    excludedPaths:	
+      - .spec.replicas	
+      - .metadata	
+      - .status                           
 

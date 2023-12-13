@@ -7,6 +7,8 @@ spec:
   forProvider:
     name: team-a
     realmId: myorg
+    attributes: 
+      devteam: "true"
 ---    
 apiVersion: group.keycloak.crossplane.io/v1alpha1
 kind: Group
@@ -17,6 +19,8 @@ spec:
   forProvider:
     name: team-b
     realmId: myorg
+    attributes: 
+      devteam: "true"    
 ---
 apiVersion: group.keycloak.crossplane.io/v1alpha1
 kind: Group

@@ -1,107 +1,63 @@
-apiVersion: argoproj.io/v1alpha1
-kind: AppProject
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: NamespaceConfig
 metadata:
-  name: team-a
-  namespace: tenant-gitops
-  # Finalizer that ensures that project is not deleted until it is not referenced by any application
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
+  name: tenant-gitops-projects
 spec:
-  # Project description
-  description: Team A
+  labelSelector:
+    matchLabels:
+      tenant-gitops: "true"      
+  templates:     
+  - objectTemplate: |
+      apiVersion: argoproj.io/v1alpha1
+      kind: AppProject
+      metadata:
+        name: "{{.Name}}"
+        namespace: tenant-gitops
+        # Finalizer that ensures that project is not deleted until it is not referenced by any application
+        finalizers:
+          - resources-finalizer.argocd.argoproj.io
+      spec:
+        # Project description
+        description: Team A
 
-  # Allow manifests to deploy from any Git repos
-  sourceRepos:
-  - https://github.com/environment-aas/team-a-gitops.git
-  - https://charts.securecodebox.io/
+        # Allow manifests to deploy from any Git repos
+        sourceRepos:
+        - https://github.com/environment-aas/{{.Name}}-gitops.git
+        - https://charts.securecodebox.io/
 
-  # Only permit applications to deploy to the guestbook namespace in the same cluster
-  # Destination clusters can be identified by 'server', 'name', or both.
-  destinations:
-  - namespace: team-a
-    name: hub
-  - namespace: myapp-dev
-    name: non-prod
-  - namespace: myapp-qa
-    name: non-prod
-  - namespace: myapp-prod
-    name: prod        
+        # Only permit applications to deploy to the guestbook namespace in the same cluster
+        # Destination clusters can be identified by 'server', 'name', or both.
+        destinations:
+        - namespace: "{{.Name}}"
+          name: "{{.Name}}-hub"
+        - name: "{{.Name}}-non-prod"
+        - name: "{{.Name}}-prod"        
 
-  # Enables namespace orphaned resource monitoring.
-  orphanedResources:
-    warn: false
+        # Enables namespace orphaned resource monitoring.
+        orphanedResources:
+          warn: false
 
-  roles:
-  # A role which provides read-only access to all applications in the project
-  - name: admin
-    description: Admin privileges to team-a project
-    policies:
-      - p, proj:team-a:admin, applications, *, team-a/*, allow
-      - p, proj:team-a:admin, exec, create, team-a/*, allow
-      - p, team-b:admin, clusters, get, *, allow
-    groups:
-    - team-a
+        roles:
+        # A role which provides read-only access to all applications in the project
+        - name: admin
+          description: Admin privileges to {{.Name}} project
+          policies:
+            - p, proj:{{.Name}}:admin, applications, *, {{.Name}}/*, allow
+            - p, proj:{{.Name}}:admin, exec, create, {{.Name}}/*, allow
+            - p, team-b:admin, clusters, get, *, allow
+          groups:
+          - "{{.Name}}"
 
-  # By default, apps may sync to any cluster specified under the `destinations` field, even if they are not
-  # scoped to this project. Set the following field to `true` to restrict apps in this cluster to only clusters
-  # scoped to this project.
-  permitOnlyProjectScopedClusters: false
+        # By default, apps may sync to any cluster specified under the `destinations` field, even if they are not
+        # scoped to this project. Set the following field to `true` to restrict apps in this cluster to only clusters
+        # scoped to this project.
+        permitOnlyProjectScopedClusters: false
 
-  # When using Applications-in-any-namespace, this field determines which namespaces this AppProject permits
-  # Applications to reside in. Details: https://argo-cd.readthedocs.io/en/stable/operator-manual/app-any-namespace/
-  sourceNamespaces:
-  - "team-a"
----
-apiVersion: argoproj.io/v1alpha1
-kind: AppProject
-metadata:
-  name: team-b
-  namespace: tenant-gitops
-  # Finalizer that ensures that project is not deleted until it is not referenced by any application
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  # Project description
-  description: Team B
-
-  # Allow manifests to deploy from any Git repos
-  sourceRepos:
-  - https://github.com/environment-aas/team-b-gitops.git
-  - https://charts.securecodebox.io/
-
-  # Only permit applications to deploy to the guestbook namespace in the same cluster
-  # Destination clusters can be identified by 'server', 'name', or both.
-  destinations:
-  - namespace: team-b
-    name: hub  
-  - namespace: myservice-dev
-    name: non-prod
-  - namespace: myservice-qa
-    name: non-prod
-  - namespace: myservice-prod
-    name: prod        
-
-  # Enables namespace orphaned resource monitoring.
-  orphanedResources:
-    warn: false
-
-  roles:
-  # A role which provides read-only access to all applications in the project
-  - name: admin
-    description: Read-only privileges to team-b project
-    policies:
-      - p, proj:team-b:admin, applications, *, team-b/*, allow
-      - p, proj:team-b:admin, exec, create, team-b/*, allow
-      - p, team-b:admin, clusters, get, *, allow
-    groups:
-    - team-b
-
-  # By default, apps may sync to any cluster specified under the `destinations` field, even if they are not
-  # scoped to this project. Set the following field to `true` to restrict apps in this cluster to only clusters
-  # scoped to this project.
-  permitOnlyProjectScopedClusters: false
-
-  # When using Applications-in-any-namespace, this field determines which namespaces this AppProject permits
-  # Applications to reside in. Details: https://argo-cd.readthedocs.io/en/stable/operator-manual/app-any-namespace/
-  sourceNamespaces:
-  - "team-b"
+        # When using Applications-in-any-namespace, this field determines which namespaces this AppProject permits
+        # Applications to reside in. Details: https://argo-cd.readthedocs.io/en/stable/operator-manual/app-any-namespace/
+        sourceNamespaces:
+        - "{{.Name}}"
+    excludedPaths:	
+      - .spec.replicas	
+      - .metadata	
+      - .status
