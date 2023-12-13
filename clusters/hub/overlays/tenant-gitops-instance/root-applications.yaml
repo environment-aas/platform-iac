@@ -11,7 +11,7 @@ spec:
       apiVersion: argoproj.io/v1alpha1
       kind: Application
       metadata:
-        name: "{{.Name}}-root-applicatio"n
+        name: "{{.Name}}-root-application"
         # You'll usually want to add your resources to the argocd namespace.
         namespace: "{{.Name}}"
         # Add this finalizer ONLY if you want these to cascade delete.
