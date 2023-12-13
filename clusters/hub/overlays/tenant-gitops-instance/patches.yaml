@@ -22,21 +22,6 @@ spec:
         data:
           oidc.keycloak.clientSecret: {{ (index (index . 1).data "CLIENT_SECRET") }}
       patchType: application/merge-patch+json
-    tenant-gitops-hub:
-      targetObjectRef:
-        apiVersion: v1
-        kind: Secret
-        namespace: tenant-gitops
-        name: hub
-      sourceObjectRefs:
-      - apiVersion: v1
-        kind: Secret
-        namespace: tenant-gitops
-        name: tenant-gitops    
-      patchTemplate: |
-        data:
-          config: {{ (cat "{ \"bearerToken\": " ((index . 1).data.token | b64dec | quote) " }") | b64enc }}
-      patchType: application/merge-patch+json
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: NamespaceConfig
