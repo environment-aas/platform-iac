@@ -42,7 +42,7 @@ spec:
           # cluster API URL
           #server: https://kubernetes.default.svc
           # or cluster name
-          name: hub
+          name: {{.Name}}-hub
           # The namespace will only be set for namespace-scoped resources that have not set a value for .metadata.namespace
           namespace: "{{.Name}}"
 
