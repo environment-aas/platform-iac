@@ -62,12 +62,12 @@ spec:
               apiVersion: v1
               kind: Secret
               namespace: tenant-gitops
-              name: "{{.Name}}-tenant-argocd"
+              name: "{{.Name}}-hub"
             sourceObjectRefs:
             - apiVersion: v1
               kind: Secret
               namespace: tenant-gitops
-              name: "{{.Name}}-hub"    
+              name: "{{.Name}}-tenant-argocd"    
             patchTemplate: |
               data:
                 config: {{"{{"}} (cat "{ \"bearerToken\": " ((index . 1).data.token | b64dec | quote) " }") | b64enc {{"}}"}}
