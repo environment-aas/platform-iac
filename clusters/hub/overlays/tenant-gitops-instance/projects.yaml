@@ -31,7 +31,9 @@ spec:
         - namespace: "{{.Name}}"
           name: "{{.Name}}-hub"
         - name: "{{.Name}}-non-prod"
-        - name: "{{.Name}}-prod"        
+          namespace: "*"
+        - name: "{{.Name}}-prod"    
+          namespace: "*"    
 
         # Enables namespace orphaned resource monitoring.
         orphanedResources:
