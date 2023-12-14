@@ -30,7 +30,7 @@ spec:
         enabled: false
     resources:
       limits:
-        memory: 256Mi
+        memory: 512Mi
       requests:
         cpu: 125m
         memory: 128Mi
@@ -220,7 +220,7 @@ spec:
     #  - --enable-progressive-syncs
     resources:
       limits:
-        memory: 1Gi
+        memory: 2Gi
       requests:
         cpu: 250m
         memory: 512Mi
@@ -235,7 +235,7 @@ spec:
   repo:
     resources:
       limits:
-        memory: 1Gi
+        memory: 2Gi
       requests:
         cpu: 250m
         memory: 256Mi
@@ -268,7 +268,7 @@ spec:
     enabled: false
     resources:
       limits:
-        memory: 256Mi
+        memory: 512Mi
       requests:
         cpu: 250m
         memory: 128Mi
@@ -277,7 +277,7 @@ spec:
   redis:
     resources:
       limits:
-        memory: 256Mi
+        memory: 512Mi
       requests:
         cpu: 250m
         memory: 128Mi
@@ -285,7 +285,7 @@ spec:
     processors: {}
     resources:
       limits:
-        memory: 2Gi
+        memory: 4Gi
       requests:
         cpu: 250m
         memory: 1Gi
