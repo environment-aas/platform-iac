@@ -1,25 +1,17 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
-kind: NamespaceConfig
+kind: GroupConfig
 metadata:
   name: kube-vault-configs
 spec:
   labelSelector:
-    matchExpressions:
-      - key: team
-        operator: Exists
-      - key: application
-        operator: Exists        
-      - key: environment
-        operator: In
-        values:
-        - dev
-        - prod   
+    matchLabels:
+      devteam: "true"   
   templates:     
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: Policy
         metadata:
-          name: secret-reader-{{ .Labels.team }}-${CLUSTER_NAME}
+          name: secret-reader-{{ .Name }}-${CLUSTER_NAME}
           namespace: vault-admin
         spec:
           # Add fields here
@@ -30,7 +22,7 @@ spec:
               name: default            
           policy: |
             # Read permission on the secrets
-            path "/applications/{{ .Labels.team }}/{{ "{{" }} identity.entity.aliases.${auth/${CLUSTER_NAME}/@accessor}.metadata.service_account_namespace {{ "}}" }}/*" {
+            path "/applications/{{ .Name }}/{{ "{{" }} identity.entity.aliases.${auth/${CLUSTER_NAME}/@accessor}.metadata.service_account_namespace {{ "}}" }}/*" {
                 capabilities = ["read", "list"]
             }
       excludedPaths:
@@ -41,7 +33,7 @@ spec:
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: KubernetesAuthEngineRole
         metadata:
-          name: secret-reader-{{ .Labels.team }}-${CLUSTER_NAME}
+          name: secret-reader-{{ .Name }}-${CLUSTER_NAME}
           namespace: vault-admin
         spec:
           authentication: 
@@ -49,11 +41,11 @@ spec:
             role: vault-admin
           path: ${CLUSTER_NAME}
           policies:
-            - secret-reader-{{ .Labels.team }}-${CLUSTER_NAME}
+            - secret-reader-{{ .Name }}-${CLUSTER_NAME}
           targetNamespaces:
             targetNamespaceSelector:
               matchLabels:
-                team: {{ .Labels.team }}
+                team: {{ .Name }}
           targetServiceAccounts:
           - "*"                
       excludedPaths:
