@@ -3,7 +3,7 @@ kind: GroupConfig
 metadata:
   name: kube-vault-configs
 spec:
-  labelSelector:
+  annotationSelector:
     matchLabels:
       devteam: "true"   
   templates:     

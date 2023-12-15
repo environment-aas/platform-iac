@@ -3,7 +3,7 @@ kind: GroupConfig
 metadata:
   name: tenant-gitops-namespaces
 spec:
-  labelSelector:
+  annotationSelector:
     matchLabels:
       devteam: "true"    
   templates:
