@@ -1,0 +1,61 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xpostgresqlinstances.aws.database.starter.org
+spec:
+  writeConnectionSecretsToNamespace: upbound-system
+  compositeTypeRef:
+    apiVersion: database.starter.org/v1alpha1
+    kind: XPostgreSQLInstance
+  resources:
+    - name: rdsinstance
+      base:
+        apiVersion: rds.aws.upbound.io/v1beta1
+        kind: Instance
+        spec:
+          forProvider:
+            region: us-east-1
+            instanceClass: db.t2.small
+            username: adminuser
+            engine: postgres
+            engineVersion: "12"
+            skipFinalSnapshot: true
+            publiclyAccessible: false
+            autoGeneratePassword: true
+            passwordSecretRef:
+              namespace: upbound-system
+              key: password
+          writeConnectionSecretToRef:
+            namespace: upbound-system
+      patches:
+        - fromFieldPath: "metadata.uid"
+          toFieldPath: "spec.writeConnectionSecretToRef.name"
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-postgresql"
+        - fromFieldPath: "metadata.uid"
+          toFieldPath: "spec.forProvider.passwordSecretRef.name"
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-input"
+        - fromFieldPath: "spec.parameters.size"
+          toFieldPath: "spec.forProvider.instanceClass"
+          transforms:
+          - type: map
+            map:
+              small: db.t2.small
+              medium: db.t2.medium
+              large: db.t2.large
+        - fromFieldPath: "spec.parameters.storage"
+          toFieldPath: "spec.forProvider.allocatedStorage"
+      connectionDetails:
+        - fromFieldPath: "status.atProvider.endpoint"
+          name: endpoint
+        - fromFieldPath: "status.atProvider.address"
+          name: host
+        - fromFieldPath: "spec.forProvider.username"
+          name: username
+        - fromConnectionSecretKey: "attribute.password"
+          name: password
