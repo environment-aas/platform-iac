@@ -16,9 +16,9 @@ helmCharts:
     namespace: crossplane-system
     valuesFile: values.yaml
 
-  # - name: ess-plugin-vault
-  #   releaseName: ess-plugin-vault
-  #   #repo: oci://xpkg.upbound.io/crossplane-contrib/ess-plugin-vault
-  #   namespace: crossplane-system
-  #   valuesFile: ess-values.yaml
-  #   includeCRDs: true    
+  - name: ess-plugin-vault
+    releaseName: ess-plugin-vault
+    #repo: oci://xpkg.upbound.io/crossplane-contrib/ess-plugin-vault
+    namespace: crossplane-system
+    valuesFile: ess-values.yaml
+    includeCRDs: true    
