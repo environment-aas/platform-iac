@@ -6,3 +6,4 @@ metadata:
     argocd.argoproj.io/sync-options: Delete=false,ServerSideApply=true
   labels:
     argocd.argoproj.io/managed-by: openshift-gitops
+    crossplane-secrets: ""
