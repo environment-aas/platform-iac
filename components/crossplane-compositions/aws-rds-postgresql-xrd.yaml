@@ -24,10 +24,9 @@ spec:
             publiclyAccessible: false
             autoGeneratePassword: true
             passwordSecretRef:
-              namespace: upbound-system
+              namespace: crossplane-system
               key: password
           publishConnectionDetailsTo:
-            name: pg-instance
             configRef:
               name: vault
       readinessChecks:	
@@ -37,7 +36,7 @@ spec:
           type: MatchCondition            
       patches:
         - fromFieldPath: "metadata.uid"
-          toFieldPath: "spec.writeConnectionSecretToRef.name"
+          toFieldPath: "spec.publishConnectionDetailsTo.name"
           transforms:
             - type: string
               string:
