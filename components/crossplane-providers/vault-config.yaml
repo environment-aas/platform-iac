@@ -4,7 +4,7 @@ metadata:
   name: vault
 spec:
   server: https://vault.apps.${HUB_BASE_DOMAIN} 
-  mountPath: crossplane-secrets/
+  mountPath: infra/clusters/${CLUSTER_NAME}/crossplane-secrets/
   version: v2
   auth:
     method: Token
