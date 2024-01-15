@@ -128,7 +128,7 @@ applications:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
       argocd.argoproj.io/sync-wave: '6'
     destination:
-      namespace: crossplane-system
+      namespace: vault-admin
     source:
       path: clusters/hub/overlays/crossplane-vault            
 
