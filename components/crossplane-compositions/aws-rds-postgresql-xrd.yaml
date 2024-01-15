@@ -1,11 +1,12 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: xpostgresqlinstances.aws.database.starter.org
+  name: xpostgresqlinstances.aws.redhat-cop.redhat.com
 spec:
-  writeConnectionSecretsToNamespace: upbound-system
+  publishConnectionDetailsWithStoreConfigRef: 
+    name: vault
   compositeTypeRef:
-    apiVersion: database.starter.org/v1alpha1
+    apiVersion: redhat-cop.redhat.com/v1alpha1
     kind: XPostgreSQLInstance
   resources:
     - name: rdsinstance
@@ -25,8 +26,10 @@ spec:
             passwordSecretRef:
               namespace: upbound-system
               key: password
-          writeConnectionSecretToRef:
-            namespace: upbound-system
+          publishConnectionDetailsTo:
+            name: pg-instance
+            configRef:
+              name: vault
       readinessChecks:	
         - matchCondition:	
             status: 'True'	

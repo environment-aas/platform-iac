@@ -1,9 +1,9 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: xpostgresqlinstances.database.starter.org
+  name: xpostgresqlinstances.redhat-cop.redhat.com
 spec:
-  group: database.starter.org
+  group: redhat-cop.redhat.com
   names:
     kind: XPostgreSQLInstance
     plural: xpostgresqlinstances
