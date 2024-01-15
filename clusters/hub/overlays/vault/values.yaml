@@ -2,7 +2,7 @@ installCRDs: true
 global:
   openshift: true
   tlsDisable: false
-  externalVaultAddr: https://vault.apps.${HUB_BASE_DOMAIN}
+  #externalVaultAddr: https://vault.apps.${HUB_BASE_DOMAIN}
 
 ui:
   enabled: true
