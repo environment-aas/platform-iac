@@ -9,7 +9,7 @@
             role: vault-admin
           path: ${CLUSTER_NAME}
           policies:
-            - crossplane-secrets
+            - crossplane-secrets-${CLUSTER_NAME}
           targetNamespaces:
             targetNamespaceSelector:
               matchLabels:
