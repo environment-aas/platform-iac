@@ -121,7 +121,16 @@ applications:
     destination:
       namespace: crossplane-system
     source:
-      path: clusters/hub/overlays/crossplane-compositions       
+      path: clusters/hub/overlays/crossplane-compositions 
+
+  crossplane-vault:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '6'
+    destination:
+      namespace: crossplane-system
+    source:
+      path: clusters/hub/overlays/crossplane-vault            
 
   group-sync-configuration:
     annotations:

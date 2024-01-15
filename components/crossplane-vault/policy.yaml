@@ -1,0 +1,16 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: Policy
+metadata:
+  name: crossplane-secrets
+spec:
+  # Add fields here
+  authentication: 
+    path: kubernetes
+    role: policy-admin
+  policy: |
+    path "/infra/clusters/${CLUSTER_NAME}/crossplane-secrets/data/*" {
+        capabilities = ["create", "read", "update", "delete"]
+    }
+    path "/infra/clusters/${CLUSTER_NAME}/crossplane-secrets/metadata/*" {
+        capabilities = ["create", "read", "update", "delete"]
+    }
