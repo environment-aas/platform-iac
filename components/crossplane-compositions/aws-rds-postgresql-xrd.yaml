@@ -27,6 +27,11 @@ spec:
               key: password
           writeConnectionSecretToRef:
             namespace: upbound-system
+      readinessChecks:	
+        - matchCondition:	
+            status: 'True'	
+            type: Ready	
+          type: MatchCondition            
       patches:
         - fromFieldPath: "metadata.uid"
           toFieldPath: "spec.writeConnectionSecretToRef.name"
@@ -34,12 +39,16 @@ spec:
             - type: string
               string:
                 fmt: "%s-postgresql"
+                type: Format
+          type: FromCompositeFieldPath      
         - fromFieldPath: "metadata.uid"
           toFieldPath: "spec.forProvider.passwordSecretRef.name"
           transforms:
             - type: string
               string:
                 fmt: "%s-input"
+                type: Format
+          type: FromCompositeFieldPath      
         - fromFieldPath: "spec.parameters.size"
           toFieldPath: "spec.forProvider.instanceClass"
           transforms:
@@ -48,8 +57,10 @@ spec:
               small: db.t2.small
               medium: db.t2.medium
               large: db.t2.large
+          type: FromCompositeFieldPath    
         - fromFieldPath: "spec.parameters.storage"
           toFieldPath: "spec.forProvider.allocatedStorage"
+          type: FromCompositeFieldPath
       connectionDetails:
         - fromFieldPath: "status.atProvider.endpoint"
           name: endpoint
