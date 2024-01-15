@@ -56,16 +56,6 @@ spec:
             patchTemplate: |
               data:
                 config: {{"{{"}} (cat "{ \"bearerToken\": " ((index . 1).data.token | b64dec | quote) " }") | b64enc {{"}}"}}
-            patchType: application/merge-patch+json
-          enforce-correct-project:
-            targetObjectRef:
-              apiVersion: argoproj.io/v1alpha1
-              kind: Application
-              namespace: {{.Name}}
-            sourceObjectRefs: []   
-            patchTemplate: |
-              spec:
-                project: {{.Name}}
             patchType: application/merge-patch+json            
     excludedPaths:	
       - .spec.replicas	
