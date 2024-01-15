@@ -5,8 +5,8 @@ metadata:
 spec:
   # Add fields here
   authentication: 
-    path: kubernetes
-    role: policy-admin
+    path: ${CLUSTER_NAME}
+    role: vault-admin
   policy: |
     path "/infra/clusters/${CLUSTER_NAME}/crossplane-secrets/data/*" {
         capabilities = ["create", "read", "update", "delete"]
