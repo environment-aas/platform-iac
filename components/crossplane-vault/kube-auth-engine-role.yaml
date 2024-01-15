@@ -7,7 +7,7 @@
           authentication: 
             path: ${CLUSTER_NAME}
             role: vault-admin
-          path: kubernetes
+          path: ${CLUSTER_NAME}
           policies:
             - crossplane-secrets
           targetNamespaces:
