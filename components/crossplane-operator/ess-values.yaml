@@ -2,6 +2,6 @@
     vault.hashicorp.com/agent-inject: "true"
     vault.hashicorp.com/agent-inject-token: "true"
     vault.hashicorp.com/role: crossplane
-    vault.hashicorp.com/auth-path: ${CLUSTER_NAME}
+    vault.hashicorp.com/auth-path: auth/${CLUSTER_NAME}
     vault.hashicorp.com/agent-run-as-user: "65532"
     vault.hashicorp.com/tls-skip-verify: "true"
