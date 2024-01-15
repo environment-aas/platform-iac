@@ -76,7 +76,62 @@ applications:
     destination:
       namespace: kube-ops-view
     source:
-      path: components/kube-ops-view                      
+      path: components/kube-ops-view      
+
+
+  crossplane-operator:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '5'
+    destination:
+      namespace: crossplane-system
+    source:
+      path: components/crossplane-operator
+    extraFields: |
+      ignoreDifferences:
+        - group: 'apps'
+          jsonPointers:
+            - /spec/template/spec/containers/0/env/0/valueFrom/resourceFieldRef/divisor
+            - /spec/template/spec/containers/0/env/1/valueFrom/resourceFieldRef/divisor
+            - /spec/template/spec/initContainers/0/env/0/valueFrom/resourceFieldRef/divisor
+            - /spec/template/spec/initContainers/0/env/1/valueFrom/resourceFieldRef/divisor            
+          kind: Deployment            
+
+  crossplane-providers:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '15'
+    destination:
+      namespace: crossplane-system
+    source:
+      path: components/crossplane-providers
+
+  crossplane-provider-config:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '25'
+    destination:
+      namespace: crossplane-system
+    source:
+      path: components/crossplane-provider-config
+
+  crossplane-compositions:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '25'
+    destination:
+      namespace: crossplane-system
+    source:
+      path: components/crossplane-compositions 
+
+  crossplane-vault:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '6'
+    destination:
+      namespace: vault-admin
+    source:
+      path: components/crossplane-vault                      
 
 
      
