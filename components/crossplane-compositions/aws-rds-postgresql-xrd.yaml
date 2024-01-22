@@ -9,12 +9,33 @@ spec:
     apiVersion: redhat-cop.redhat.com/v1alpha1
     kind: XPostgreSQLInstance
   resources:
+    - name: dbsubnetgroup
+      base:
+        apiVersion: rds.aws.upbound.io/v1beta1
+        kind: SubnetGroup
+        metadata:
+          name: subnetgroup
+        spec:
+          forProvider: 
+            tags:
+              Name: rds-instance
+      patches:              
+        - fromFieldPath: "spec.parameters.region"
+          toFieldPath: "spec.forProvider.region"
+          type: FromCompositeFieldPath
+        - fromFieldPath: "spec.parameters.subnet"
+          toFieldPath: "spec.forProvider.subnetIds[0]"
+          type: FromCompositeFieldPath                               
     - name: rdsinstance
       base:
         apiVersion: rds.aws.upbound.io/v1beta1
         kind: Instance
+        metadata:
+          name: instance        
         spec:
           forProvider:
+            dbSubnetGroupNameRef:
+              name: subnetgroup
             instanceClass: db.t2.small
             username: adminuser
             engine: postgres
@@ -64,9 +85,6 @@ spec:
           type: FromCompositeFieldPath
         - fromFieldPath: "spec.parameters.availabilityZone"
           toFieldPath: "spec.forProvider.availabilityZone"
-          type: FromCompositeFieldPath
-        - fromFieldPath: "spec.parameters.subnet"
-          toFieldPath: "spec.forProvider.dbSubnetGroupName"
           type: FromCompositeFieldPath
         - fromFieldPath: "spec.parameters.region"
           toFieldPath: "spec.forProvider.region"
