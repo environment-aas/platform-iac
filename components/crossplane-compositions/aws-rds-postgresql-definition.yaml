@@ -40,6 +40,16 @@ spec:
                     description: |
                       The geographic region in which this PostgreSQLInstance
                       should be deployed.
+                  availabilityZone:
+                    type: string
+                    description: |
+                      The availability zone in which this PostgreSQLInstance
+                      should be deployed.
+                  subnet:
+                    type: string
+                    description: |
+                      The subnet in which this PostgreSQLInstance
+                      should be deployed.                                            
                   size:
                     type: string
                     enum:
@@ -54,6 +64,8 @@ spec:
                       The storage size for this PostgreSQLInstance in GB.
                 required:
                   - region
+                  - availabilityZone
+                  - subnet
                   - size
                   - storage
             required:

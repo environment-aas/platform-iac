@@ -4,6 +4,8 @@ metadata:
   name: my-db
 spec:
   parameters:
-    region: east
+    region: us-east-2
+    availabilityZone: us-east-2a
+    subnet: subnet-0892fbb1518fc3132
     size: small
     storage: 20

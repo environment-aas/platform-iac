@@ -15,7 +15,6 @@ spec:
         kind: Instance
         spec:
           forProvider:
-            region: us-east-1
             instanceClass: db.t2.small
             username: adminuser
             engine: postgres
@@ -63,6 +62,15 @@ spec:
         - fromFieldPath: "spec.parameters.storage"
           toFieldPath: "spec.forProvider.allocatedStorage"
           type: FromCompositeFieldPath
+        - fromFieldPath: "spec.parameters.availabilityZone"
+          toFieldPath: "spec.forProvider.availabilityZone"
+          type: FromCompositeFieldPath
+        - fromFieldPath: "spec.parameters.subnet"
+          toFieldPath: "spec.forProvider.dbSubnetGroupName"
+          type: FromCompositeFieldPath
+        - fromFieldPath: "spec.parameters.region"
+          toFieldPath: "spec.forProvider.region"
+          type: FromCompositeFieldPath                               
       connectionDetails:
         - fromFieldPath: "status.atProvider.endpoint"
           name: endpoint
