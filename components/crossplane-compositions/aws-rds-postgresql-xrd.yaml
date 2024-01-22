@@ -39,8 +39,8 @@ spec:
           name: instance        
         spec:
           forProvider:
-            dbSubnetGroupNameRef:
-              name: subnetgroup
+            dbSubnetGroupNameSelector:
+              matchControllerRef: true
             instanceClass: db.t2.small
             username: adminuser
             engine: postgres
