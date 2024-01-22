@@ -44,11 +44,6 @@ spec:
                     type: string
                     description: |
                       The availability zone in which this PostgreSQLInstance
-                      should be deployed.
-                  subnet:
-                    type: string
-                    description: |
-                      The subnet in which this PostgreSQLInstance
                       should be deployed.                                            
                   size:
                     type: string
@@ -65,7 +60,6 @@ spec:
                 required:
                   - region
                   - availabilityZone
-                  - subnet
                   - size
                   - storage
             required:
