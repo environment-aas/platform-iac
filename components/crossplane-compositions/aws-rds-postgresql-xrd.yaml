@@ -60,21 +60,11 @@ spec:
             type: Ready	
           type: MatchCondition            
       patches:
-        - fromFieldPath: "metadata.uid"
+        - fromFieldPath: "metadata.name"
           toFieldPath: "spec.publishConnectionDetailsTo.name"
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-postgresql"
-                type: Format
           type: FromCompositeFieldPath      
-        - fromFieldPath: "metadata.uid"
+        - fromFieldPath: "metadata.name"
           toFieldPath: "spec.forProvider.passwordSecretRef.name"
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-input"
-                type: Format
           type: FromCompositeFieldPath      
         - fromFieldPath: "spec.parameters.size"
           toFieldPath: "spec.forProvider.instanceClass"
