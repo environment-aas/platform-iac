@@ -104,6 +104,7 @@ spec:
         kind: SecretEngineMount
         metadata:
           name: secretenginemount
+          namespace: vault-admin
         spec:
           name: name
           authentication: 
@@ -135,6 +136,7 @@ spec:
         kind: DatabaseSecretEngineConfig
         metadata:
           name: databasesecretengineconfig
+          namespace: vault-admin
         spec:
           authentication: 
             path: ${CLUSTER_NAME}
@@ -187,6 +189,7 @@ spec:
         kind: DatabaseSecretEngineRole
         metadata:
           name: databasesecretenginerole
+          namespace: vault-admin
         spec:
           authentication: 
             path: ${CLUSTER_NAME}
