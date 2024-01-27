@@ -2,6 +2,8 @@ apiVersion: redhat-cop.redhat.com/v1alpha1
 kind: PostgreSQLInstance
 metadata:
   name: my-db
+  labels:
+    team: team-a
 spec:
   parameters:
     region: us-east-2
