@@ -154,7 +154,7 @@ spec:
             strategy: string
             string:
               fmt: "applications/%s/%s/dynamic-secrets/%s"
-            toFieldPath: spec.path  
+          toFieldPath: spec.path  
         - type: CombineFromComposite
           combine:
             variables:
@@ -162,7 +162,7 @@ spec:
             strategy: string
             string:
               fmt: "postgresql://{{username}}:{{password}}@%s"
-            toFieldPath: spec.path
+          toFieldPath: spec.path
         - type: CombineFromComposite
           combine:
             variables:
@@ -170,7 +170,7 @@ spec:
             strategy: string
             string:
               fmt: "infra/clusters/${CLUSTER_NAME}/crossplane-secrets/%s"
-            toFieldPath: spec.rootCredentials.vaultSecret.path                            
+          toFieldPath: spec.rootCredentials.vaultSecret.path                            
     - name: databasesecretenginerole
       base:                              
         apiVersion: redhatcop.redhat.io/v1alpha1
@@ -198,7 +198,7 @@ spec:
             strategy: string
             string:
               fmt: "applications/%s/%s/dynamic-secrets/%s"
-            toFieldPath: spec.path
+          toFieldPath: spec.path
         - fromFieldPath: "metadata.name"
           toFieldPath: "spec.name"
           type: FromCompositeFieldPath                             
