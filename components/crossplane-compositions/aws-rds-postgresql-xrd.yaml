@@ -83,7 +83,12 @@ spec:
           type: FromCompositeFieldPath
         - fromFieldPath: "spec.parameters.region"
           toFieldPath: "spec.forProvider.region"
-          type: FromCompositeFieldPath                               
+          type: FromCompositeFieldPath
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.atProvider.endpoint
+          toFieldPath: "status.endpoint"
+          policy:
+            fromFieldPath: Optional                                          
       connectionDetails:
         - fromFieldPath: "status.atProvider.endpoint"
           name: endpoint
@@ -93,3 +98,107 @@ spec:
           name: username
         - fromConnectionSecretKey: "attribute.password"
           name: password
+    - name: secretenginemount
+      base:          
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: SecretEngineMount
+        metadata:
+          name: secretenginemount
+        spec:
+          name: name
+          authentication: 
+            path: ${CLUSTER_NAME}
+            role: vault-admin
+          type: database
+          path: applications/team/namespace/dynamic-secrets
+      patches:
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: metadata.label['team']            
+              - fromFieldPath: metadata.namespace
+            strategy: string
+            string:
+              fmt: "applications/%s/%s/dynamic-secrets"
+          toFieldPath: spec.path                    
+        - fromFieldPath: "metadata.name"
+          toFieldPath: "spec.name"
+          type: FromCompositeFieldPath
+    - name: databasesecretengineconfig
+      base:                    
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: DatabaseSecretEngineConfig
+        metadata:
+          name: databasesecretengineconfig
+        spec:
+          authentication: 
+            path: ${CLUSTER_NAME}
+            role: vault-admin
+          pluginName: postgresql-database-plugin
+          allowedRoles:
+            - read-only
+          connectionURL: postgresql://{{username}}:{{password}}@endpoint
+          rootCredentials:
+            vaultSecret:
+              path: infra/clusters/${CLUSTER_NAME}/crossplane-secrets/name
+            passwordKey: postgres-password
+          path: applications/team/namespace/dynamic-secrets/name
+          username: postgres
+      patches:
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: metadata.label[team]            
+              - fromFieldPath: metadata.namespace
+              - fromFieldPath: metadata.name
+            strategy: string
+            string:
+              fmt: "applications/%s/%s/dynamic-secrets/%s"
+            toFieldPath: spec.path  
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: status.endpoint
+            strategy: string
+            string:
+              fmt: "postgresql://{{username}}:{{password}}@%s"
+            toFieldPath: spec.path
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: metadata.name
+            strategy: string
+            string:
+              fmt: "infra/clusters/${CLUSTER_NAME}/crossplane-secrets/%s"
+            toFieldPath: spec.rootCredentials.vaultSecret.path                            
+    - name: databasesecretenginerole
+      base:                              
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: DatabaseSecretEngineRole
+        metadata:
+          name: databasesecretenginerole
+        spec:
+          authentication: 
+            path: ${CLUSTER_NAME}
+            role: vault-admin
+          path: applications/team/namespace/dynamic-secrets/name
+          defaultTTL: 1h
+          maxTTL: 24h
+          dBName: name
+          name: read-only
+          creationStatements:
+            - CREATE ROLE "{{name}}" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}'; GRANT SELECT ON ALL TABLES IN SCHEMA public TO "{{name}}";
+      patches:      
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: metadata.label[team]            
+              - fromFieldPath: metadata.namespace
+              - fromFieldPath: metadata.name
+            strategy: string
+            string:
+              fmt: "applications/%s/%s/dynamic-secrets/%s"
+            toFieldPath: spec.path
+        - fromFieldPath: "metadata.name"
+          toFieldPath: "spec.name"
+          type: FromCompositeFieldPath                             
