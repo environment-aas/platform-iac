@@ -124,6 +124,11 @@ spec:
         - fromFieldPath: "metadata.name"
           toFieldPath: "spec.name"
           type: FromCompositeFieldPath
+      readinessChecks:	
+        - matchCondition:	
+            status: 'True'	
+            type: Ready	
+          type: MatchCondition          
     - name: databasesecretengineconfig
       base:                    
         apiVersion: redhatcop.redhat.io/v1alpha1
@@ -142,7 +147,7 @@ spec:
             vaultSecret:
               path: infra/clusters/${CLUSTER_NAME}/crossplane-secrets/name
             passwordKey: postgres-password
-          path: applications/team/namespace/dynamic-secrets/name
+          path: applications/team/namespace/dynamic-secrets/name          
           username: postgres
       patches:
         - type: CombineFromComposite
@@ -170,7 +175,12 @@ spec:
             strategy: string
             string:
               fmt: "infra/clusters/${CLUSTER_NAME}/crossplane-secrets/%s"
-          toFieldPath: spec.rootCredentials.vaultSecret.path                            
+          toFieldPath: spec.rootCredentials.vaultSecret.path
+      readinessChecks:	
+        - matchCondition:	
+            status: 'True'	
+            type: Ready	
+          type: MatchCondition                                      
     - name: databasesecretenginerole
       base:                              
         apiVersion: redhatcop.redhat.io/v1alpha1
@@ -201,4 +211,9 @@ spec:
           toFieldPath: spec.path
         - fromFieldPath: "metadata.name"
           toFieldPath: "spec.name"
-          type: FromCompositeFieldPath                             
+          type: FromCompositeFieldPath
+      readinessChecks:	
+        - matchCondition:	
+            status: 'True'	
+            type: Ready	
+          type: MatchCondition                                       
