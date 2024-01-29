@@ -99,19 +99,26 @@ spec:
         - fromConnectionSecretKey: "attribute.password"
           name: password
     - name: secretenginemount
-      base:          
-        apiVersion: redhatcop.redhat.io/v1alpha1
-        kind: SecretEngineMount
+      base:       
+        apiVersion: kubernetes.crossplane.io/v1alpha2
+        kind: Object
         metadata:
           name: secretenginemount
-          namespace: vault-admin
         spec:
-          name: name
-          authentication: 
-            path: ${CLUSTER_NAME}
-            role: vault-admin
-          type: database
-          path: applications/team/namespace/dynamic-secrets
+          forProvider:
+            manifest:   
+              apiVersion: redhatcop.redhat.io/v1alpha1
+              kind: SecretEngineMount
+              metadata:
+                name: secretenginemount
+                namespace: vault-admin
+              spec:
+                name: name
+                authentication: 
+                  path: ${CLUSTER_NAME}
+                  role: vault-admin
+                type: database
+                path: applications/team/namespace/dynamic-secrets
       patches:
         - type: CombineFromComposite
           combine:
@@ -121,9 +128,9 @@ spec:
             strategy: string
             string:
               fmt: "applications/%s/%s/dynamic-secrets"
-          toFieldPath: spec.path                    
+          toFieldPath: spec.forProvider.manifest.spec.path                    
         - fromFieldPath: "metadata.name"
-          toFieldPath: "spec.name"
+          toFieldPath: "spec.forProvider.manifest.spec.name"
           type: FromCompositeFieldPath
       readinessChecks:	
         - matchCondition:	
@@ -131,26 +138,33 @@ spec:
             type: Ready	
           type: MatchCondition          
     - name: databasesecretengineconfig
-      base:                    
-        apiVersion: redhatcop.redhat.io/v1alpha1
-        kind: DatabaseSecretEngineConfig
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha2
+        kind: Object
         metadata:
           name: databasesecretengineconfig
-          namespace: vault-admin
         spec:
-          authentication: 
-            path: ${CLUSTER_NAME}
-            role: vault-admin
-          pluginName: postgresql-database-plugin
-          allowedRoles:
-            - read-only
-          connectionURL: postgresql://{{username}}:{{password}}@endpoint
-          rootCredentials:
-            vaultSecret:
-              path: infra/clusters/${CLUSTER_NAME}/crossplane-secrets/name
-            passwordKey: postgres-password
-          path: applications/team/namespace/dynamic-secrets/name          
-          username: postgres
+          forProvider:
+            manifest:                          
+              apiVersion: redhatcop.redhat.io/v1alpha1
+              kind: DatabaseSecretEngineConfig
+              metadata:
+                name: databasesecretengineconfig
+                namespace: vault-admin
+              spec:
+                authentication: 
+                  path: ${CLUSTER_NAME}
+                  role: vault-admin
+                pluginName: postgresql-database-plugin
+                allowedRoles:
+                  - read-only
+                connectionURL: postgresql://{{username}}:{{password}}@endpoint
+                rootCredentials:
+                  vaultSecret:
+                    path: infra/clusters/${CLUSTER_NAME}/crossplane-secrets/name
+                  passwordKey: postgres-password
+                path: applications/team/namespace/dynamic-secrets/name          
+                username: postgres
       patches:
         - type: CombineFromComposite
           combine:
@@ -161,7 +175,7 @@ spec:
             strategy: string
             string:
               fmt: "applications/%s/%s/dynamic-secrets/%s"
-          toFieldPath: spec.path  
+          toFieldPath: spec.forProvider.manifest.spec.path  
         - type: CombineFromComposite
           combine:
             variables:
@@ -169,7 +183,7 @@ spec:
             strategy: string
             string:
               fmt: "postgresql://{{username}}:{{password}}@%s"
-          toFieldPath: spec.path
+          toFieldPath: spec.forProvider.manifest.spec.path
         - type: CombineFromComposite
           combine:
             variables:
@@ -177,30 +191,40 @@ spec:
             strategy: string
             string:
               fmt: "infra/clusters/${CLUSTER_NAME}/crossplane-secrets/%s"
-          toFieldPath: spec.rootCredentials.vaultSecret.path
+          toFieldPath: spec.forProvider.manifest.spec.rootCredentials.vaultSecret.path
+        - fromFieldPath: "metadata.name"
+          toFieldPath: "spec.forProvider.manifest.spec.name"
+          type: FromCompositeFieldPath          
       readinessChecks:	
         - matchCondition:	
             status: 'True'	
             type: Ready	
           type: MatchCondition                                      
     - name: databasesecretenginerole
-      base:                              
-        apiVersion: redhatcop.redhat.io/v1alpha1
-        kind: DatabaseSecretEngineRole
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha2
+        kind: Object
         metadata:
           name: databasesecretenginerole
-          namespace: vault-admin
         spec:
-          authentication: 
-            path: ${CLUSTER_NAME}
-            role: vault-admin
-          path: applications/team/namespace/dynamic-secrets/name
-          defaultTTL: 1h
-          maxTTL: 24h
-          dBName: name
-          name: read-only
-          creationStatements:
-            - CREATE ROLE "{{name}}" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}'; GRANT SELECT ON ALL TABLES IN SCHEMA public TO "{{name}}";
+          forProvider:
+            manifest:                                    
+              apiVersion: redhatcop.redhat.io/v1alpha1
+              kind: DatabaseSecretEngineRole
+              metadata:
+                name: databasesecretenginerole
+                namespace: vault-admin
+              spec:
+                authentication: 
+                  path: ${CLUSTER_NAME}
+                  role: vault-admin
+                path: applications/team/namespace/dynamic-secrets/name
+                defaultTTL: 1h
+                maxTTL: 24h
+                dBName: name
+                name: read-only
+                creationStatements:
+                  - CREATE ROLE "{{name}}" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}'; GRANT SELECT ON ALL TABLES IN SCHEMA public TO "{{name}}";
       patches:      
         - type: CombineFromComposite
           combine:
@@ -211,9 +235,9 @@ spec:
             strategy: string
             string:
               fmt: "applications/%s/%s/dynamic-secrets/%s"
-          toFieldPath: spec.path
+          toFieldPath: spec.forProvider.manifest.spec.path
         - fromFieldPath: "metadata.name"
-          toFieldPath: "spec.name"
+          toFieldPath: "spec.forProvider.manifest.spec.name"
           type: FromCompositeFieldPath
       readinessChecks:	
         - matchCondition:	

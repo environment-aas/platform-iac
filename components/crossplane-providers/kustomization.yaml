@@ -8,4 +8,5 @@ resources:
 - ./store-config.yaml
 - ./vault-config.yaml
 - ./aws-rds-provider.yaml
+- ./kubernetes-provider.yaml
    
