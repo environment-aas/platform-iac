@@ -4,4 +4,4 @@ kind: Kustomization
 namespace: rds-example
 resources: 
 - ./namespace.yaml
-- ./rds-example.yaml  
+#- ./rds-example.yaml  
