@@ -162,7 +162,7 @@ spec:
                 rootCredentials:
                   vaultSecret:
                     path: infra/clusters/${CLUSTER_NAME}/crossplane-secrets/name
-                  passwordKey: postgres-password
+                  passwordKey: password
                 path: applications/team/namespace/dynamic-secrets/name          
                 username: postgres
       patches:
