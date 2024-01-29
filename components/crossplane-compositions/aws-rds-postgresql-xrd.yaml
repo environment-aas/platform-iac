@@ -97,46 +97,7 @@ spec:
         - fromFieldPath: "spec.forProvider.username"
           name: username
         - fromConnectionSecretKey: "attribute.password"
-          name: password
-    - name: secretenginemount
-      base:       
-        apiVersion: kubernetes.crossplane.io/v1alpha2
-        kind: Object
-        metadata:
-          name: secretenginemount
-        spec:
-          forProvider:
-            manifest:   
-              apiVersion: redhatcop.redhat.io/v1alpha1
-              kind: SecretEngineMount
-              metadata:
-                name: secretenginemount
-                namespace: vault-admin
-              spec:
-                name: name
-                authentication: 
-                  path: ${CLUSTER_NAME}
-                  role: vault-admin
-                type: database
-                path: applications/team/namespace/dynamic-secrets
-      patches:
-        - type: CombineFromComposite
-          combine:
-            variables:
-              - fromFieldPath: metadata.label['team']            
-              - fromFieldPath: metadata.namespace
-            strategy: string
-            string:
-              fmt: "applications/%s/%s/dynamic-secrets"
-          toFieldPath: spec.forProvider.manifest.spec.path                    
-        - fromFieldPath: "metadata.name"
-          toFieldPath: "spec.forProvider.manifest.spec.name"
-          type: FromCompositeFieldPath
-      readinessChecks:	
-        - matchCondition:	
-            status: 'True'	
-            type: Ready	
-          type: MatchCondition          
+          name: password         
     - name: databasesecretengineconfig
       base:
         apiVersion: kubernetes.crossplane.io/v1alpha2
@@ -163,18 +124,18 @@ spec:
                   vaultSecret:
                     path: infra/clusters/${CLUSTER_NAME}/crossplane-secrets/name
                   passwordKey: password
-                path: applications/team/namespace/dynamic-secrets/name          
+                path: applications/team/namespace/databases/name          
                 username: postgres
       patches:
         - type: CombineFromComposite
           combine:
             variables:
               - fromFieldPath: metadata.label[team]            
-              - fromFieldPath: metadata.namespace
+              - fromFieldPath: metadata.labels["crossplane.io/claim-namespace"]
               - fromFieldPath: metadata.name
             strategy: string
             string:
-              fmt: "applications/%s/%s/dynamic-secrets/%s"
+              fmt: "applications/%s/%s/databases/%s"
           toFieldPath: spec.forProvider.manifest.spec.path  
         - type: CombineFromComposite
           combine:
@@ -218,7 +179,7 @@ spec:
                 authentication: 
                   path: ${CLUSTER_NAME}
                   role: vault-admin
-                path: applications/team/namespace/dynamic-secrets/name
+                path: applications/team/namespace/databases/name
                 defaultTTL: 1h
                 maxTTL: 24h
                 dBName: name
@@ -230,11 +191,11 @@ spec:
           combine:
             variables:
               - fromFieldPath: metadata.label[team]            
-              - fromFieldPath: metadata.namespace
+              - fromFieldPath: metadata.labels["crossplane.io/claim-namespace"]
               - fromFieldPath: metadata.name
             strategy: string
             string:
-              fmt: "applications/%s/%s/dynamic-secrets/%s"
+              fmt: "applications/%s/%s/databases/%s"
           toFieldPath: spec.forProvider.manifest.spec.path
         - fromFieldPath: "metadata.name"
           toFieldPath: "spec.forProvider.manifest.spec.name"
