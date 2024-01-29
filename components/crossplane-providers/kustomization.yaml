@@ -9,4 +9,5 @@ resources:
 - ./vault-config.yaml
 - ./aws-rds-provider.yaml
 - ./kubernetes-provider.yaml
+- ./tenant-rbac.yaml
    
