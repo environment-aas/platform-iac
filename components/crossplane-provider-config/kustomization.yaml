@@ -9,3 +9,5 @@ resources:
   - ./patches.yaml
   - ./aws-provider-config.yaml
   - ./aws-provider-store-config.yaml
+  - ./kubernetes-provider-config.yaml
+  - ./kubernetes-provider-config-rbac.yaml
