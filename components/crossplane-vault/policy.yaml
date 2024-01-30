@@ -14,3 +14,6 @@ spec:
     path "/infra/clusters/${CLUSTER_NAME}/crossplane-secrets/metadata/*" {
         capabilities = ["create", "read", "update", "delete"]
     }
+    path "/infra/clusters/${CLUSTER_NAME}/crossplane-secrets/*" {
+        capabilities = ["create", "read", "update", "delete"]
+    }    
