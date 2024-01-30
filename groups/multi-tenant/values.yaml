@@ -85,7 +85,7 @@ applications:
     destination:
       namespace: vault
     source:
-      path: components/vault-sidecar-injection
+      path: groups/multi-tenant/overlays/vault-sidecar-injection
 
   crossplane-operator:
     annotations:
