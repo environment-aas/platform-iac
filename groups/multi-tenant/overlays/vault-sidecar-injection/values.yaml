@@ -1,0 +1,16 @@
+installCRDs: true
+global:
+  enabled: false
+  openshift: true
+  tlsDisable: false
+  externalVaultAddr: https://vault.apps.${HUB_BASE_DOMAIN}
+
+injector:
+  enabled: true
+  image:
+    repository: "registry.connect.redhat.com/hashicorp/vault-k8s"
+    tag: "1.2.0-ubi"
+
+  agentImage:
+    repository: "registry.connect.redhat.com/hashicorp/vault"
+    tag: "1.12.3-ubi"

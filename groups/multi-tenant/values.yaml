@@ -78,6 +78,14 @@ applications:
     source:
       path: components/kube-ops-view      
 
+  vault-sidecar-injection:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '5'
+    destination:
+      namespace: vault
+    source:
+      path: components/vault-sidecar-injection
 
   crossplane-operator:
     annotations:
