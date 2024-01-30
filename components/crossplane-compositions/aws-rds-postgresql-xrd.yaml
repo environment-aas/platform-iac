@@ -125,7 +125,7 @@ spec:
                     path: infra/clusters/${CLUSTER_NAME}/crossplane-secrets/name
                   passwordKey: password
                 path: applications/team/namespace/databases/name          
-                username: postgres
+                username: adminuser
       patches:
         - type: CombineFromComposite
           combine:
