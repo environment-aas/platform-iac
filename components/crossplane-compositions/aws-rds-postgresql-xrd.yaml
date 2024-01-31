@@ -62,6 +62,8 @@ spec:
       patches:
         - fromFieldPath: "metadata.name"
           toFieldPath: "spec.publishConnectionDetailsTo.name"
+        - fromFieldPath: "metadata.name"
+          toFieldPath: "spec.dbName"          
           type: FromCompositeFieldPath      
         - fromFieldPath: "metadata.name"
           toFieldPath: "spec.forProvider.passwordSecretRef.name"
@@ -201,6 +203,9 @@ spec:
         - fromFieldPath: "metadata.name"
           toFieldPath: "spec.forProvider.manifest.spec.name"
           type: FromCompositeFieldPath
+        - fromFieldPath: "metadata.name"
+          toFieldPath: "spec.forProvider.manifest.spec.dBName"
+          type: FromCompositeFieldPath          
         - fromFieldPath: "metadata.name"
           toFieldPath: "spec.forProvider.manifest.metadata.name"
           type: FromCompositeFieldPath          
