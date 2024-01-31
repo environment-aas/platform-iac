@@ -130,7 +130,7 @@ spec:
         - type: CombineFromComposite
           combine:
             variables:
-              - fromFieldPath: metadata.label[team]            
+              - fromFieldPath: metadata.labels[team]            
               - fromFieldPath: metadata.labels["crossplane.io/claim-namespace"]
               - fromFieldPath: metadata.name
             strategy: string
@@ -193,7 +193,7 @@ spec:
         - type: CombineFromComposite
           combine:
             variables:
-              - fromFieldPath: metadata.label[team]            
+              - fromFieldPath: metadata.labels[team]            
               - fromFieldPath: metadata.labels["crossplane.io/claim-namespace"]
               - fromFieldPath: metadata.name
             strategy: string
