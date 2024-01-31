@@ -132,10 +132,9 @@ spec:
             variables:
               - fromFieldPath: metadata.labels[team]            
               - fromFieldPath: metadata.labels["crossplane.io/claim-namespace"]
-              - fromFieldPath: metadata.name
             strategy: string
             string:
-              fmt: "applications/%s/%s/databases/%s"
+              fmt: "applications/%s/%s/databases"
           toFieldPath: spec.forProvider.manifest.spec.path  
         - type: CombineFromComposite
           combine:
@@ -195,10 +194,9 @@ spec:
             variables:
               - fromFieldPath: metadata.labels[team]            
               - fromFieldPath: metadata.labels["crossplane.io/claim-namespace"]
-              - fromFieldPath: metadata.name
             strategy: string
             string:
-              fmt: "applications/%s/%s/databases/%s"
+              fmt: "applications/%s/%s/databases"
           toFieldPath: spec.forProvider.manifest.spec.path
         - fromFieldPath: "metadata.name"
           toFieldPath: "spec.forProvider.manifest.spec.name"
