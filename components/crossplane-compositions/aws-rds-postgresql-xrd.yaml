@@ -62,6 +62,7 @@ spec:
       patches:
         - fromFieldPath: "metadata.name"
           toFieldPath: "spec.publishConnectionDetailsTo.name"
+          type: FromCompositeFieldPath
         - fromFieldPath: "metadata.name"
           toFieldPath: "spec.dbName"          
           type: FromCompositeFieldPath      
