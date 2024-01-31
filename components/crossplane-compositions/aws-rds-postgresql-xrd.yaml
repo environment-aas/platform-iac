@@ -144,7 +144,7 @@ spec:
             strategy: string
             string:
               fmt: "postgresql://{{username}}:{{password}}@%s"
-          toFieldPath: spec.forProvider.manifest.spec.path
+          toFieldPath: spec.forProvider.manifest.spec.connectionURL
         - type: CombineFromComposite
           combine:
             variables:
