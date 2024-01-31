@@ -155,7 +155,10 @@ spec:
           toFieldPath: spec.forProvider.manifest.spec.rootCredentials.vaultSecret.path
         - fromFieldPath: "metadata.name"
           toFieldPath: "spec.forProvider.manifest.spec.name"
-          type: FromCompositeFieldPath          
+          type: FromCompositeFieldPath
+        - fromFieldPath: "metadata.name"
+          toFieldPath: "spec.forProvider.manifest.metadata.name"
+          type: FromCompositeFieldPath                    
       readinessChecks:	
         - matchCondition:	
             status: 'True'	
@@ -200,6 +203,9 @@ spec:
         - fromFieldPath: "metadata.name"
           toFieldPath: "spec.forProvider.manifest.spec.name"
           type: FromCompositeFieldPath
+        - fromFieldPath: "metadata.name"
+          toFieldPath: "spec.forProvider.manifest.metadata.name"
+          type: FromCompositeFieldPath          
       readinessChecks:	
         - matchCondition:	
             status: 'True'	
