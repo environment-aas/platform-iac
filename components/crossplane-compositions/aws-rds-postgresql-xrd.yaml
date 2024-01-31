@@ -124,7 +124,7 @@ spec:
                   vaultSecret:
                     path: infra/clusters/${CLUSTER_NAME}/crossplane-secrets/name
                   passwordKey: password
-                path: applications/team/namespace/databases/name          
+                #path: applications/team/namespace/databases/name          
                 username: adminuser
       patches:
         - type: CombineFromComposite
@@ -182,7 +182,7 @@ spec:
                 authentication: 
                   path: ${CLUSTER_NAME}
                   role: vault-admin
-                path: applications/team/namespace/databases/name
+                #path: applications/team/namespace/databases/name
                 defaultTTL: 1h
                 maxTTL: 24h
                 dBName: name
