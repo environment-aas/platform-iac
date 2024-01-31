@@ -120,8 +120,7 @@ spec:
                   path: ${CLUSTER_NAME}
                   role: vault-admin
                 pluginName: postgresql-database-plugin
-                allowedRoles:
-                  - read-only
+                allowedRoles: []
                 connectionURL: postgresql://{{username}}:{{password}}@endpoint
                 rootCredentials:
                   vaultSecret:
@@ -155,6 +154,14 @@ spec:
             string:
               fmt: "infra/clusters/${CLUSTER_NAME}/crossplane-secrets/%s"
           toFieldPath: spec.forProvider.manifest.spec.rootCredentials.vaultSecret.path
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: metadata.name
+            strategy: string
+            string:
+              fmt: "%s-read-only"
+          toFieldPath: spec.forProvider.manifest.spec.spec.allowedRoles/0          
         - fromFieldPath: "metadata.name"
           toFieldPath: "spec.forProvider.manifest.spec.name"
           type: FromCompositeFieldPath
@@ -202,14 +209,24 @@ spec:
               fmt: "applications/%s/%s/databases"
           toFieldPath: spec.forProvider.manifest.spec.path
         - fromFieldPath: "metadata.name"
-          toFieldPath: "spec.forProvider.manifest.spec.name"
-          type: FromCompositeFieldPath
-        - fromFieldPath: "metadata.name"
           toFieldPath: "spec.forProvider.manifest.spec.dBName"
           type: FromCompositeFieldPath          
-        - fromFieldPath: "metadata.name"
-          toFieldPath: "spec.forProvider.manifest.metadata.name"
-          type: FromCompositeFieldPath          
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: metadata.name
+            strategy: string
+            string:
+              fmt: "%s-read-only"
+          toFieldPath: spec.forProvider.manifest.spec.name
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: metadata.name
+            strategy: string
+            string:
+              fmt: "%s-read-only"
+          toFieldPath: spec.forProvider.manifest.metadata.name                                
       readinessChecks:	
         - matchCondition:	
             status: 'True'	
