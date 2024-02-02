@@ -24,7 +24,7 @@ spec:
             # Read permission on the secrets
             path "/applications/{{ .Name }}/{{ "{{" }} identity.entity.aliases.${auth/${CLUSTER_NAME}/@accessor}.metadata.service_account_namespace {{ "}}" }}/*" {
                 capabilities = ["read", "list"]
-            }
+            }            
       excludedPaths:
         - .metadata
         - .status
