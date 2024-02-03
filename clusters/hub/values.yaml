@@ -81,7 +81,7 @@ applications:
   crossplane-operator:
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '5'
+      argocd.argoproj.io/sync-wave: '7'
     destination:
       namespace: crossplane-system
     source:
