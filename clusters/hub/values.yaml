@@ -54,7 +54,7 @@ applications:
   vault-config:
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '15'
+      argocd.argoproj.io/sync-wave: '6'
     destination:
       namespace: vault-admin
     source:
