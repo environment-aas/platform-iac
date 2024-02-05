@@ -20,8 +20,8 @@ spec:
             tags:
               Name: rds-instance
             subnetIds:
-            - subnet-0479ac87580fea15e
-            - subnet-048911c51131f033c  
+            - subnet-077d96d1df68ce81b
+            - subnet-0480ec1eec95cf9c2
       readinessChecks:	
         - matchCondition:	
             status: 'True'	
