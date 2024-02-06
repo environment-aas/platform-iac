@@ -42,7 +42,7 @@ spec:
             dbSubnetGroupNameSelector:
               matchControllerRef: true
             instanceClass: db.t2.small
-            username: adminuser
+            #username: adminuser
             engine: postgres
             engineVersion: "12"
             skipFinalSnapshot: true
