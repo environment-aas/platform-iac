@@ -42,7 +42,7 @@ spec:
             dbSubnetGroupNameSelector:
               matchControllerRef: true
             instanceClass: db.t2.small
-            #username: adminuser
+            username: postgres
             engine: postgres
             engineVersion: "12"
             skipFinalSnapshot: true
@@ -120,14 +120,13 @@ spec:
                   path: ${CLUSTER_NAME}
                   role: vault-admin
                 pluginName: postgresql-database-plugin
-                allowedRoles: []
+                allowedRoles: 
+                - '*'
                 connectionURL: postgresql://{{username}}:{{password}}@endpoint
                 rootCredentials:
                   vaultSecret:
                     path: infra/clusters/${CLUSTER_NAME}/crossplane-secrets/name
                   passwordKey: password
-                #path: applications/team/namespace/databases/name          
-                #username: adminuser
       patches:
         - type: CombineFromComposite
           combine:
@@ -154,14 +153,6 @@ spec:
             string:
               fmt: "infra/clusters/${CLUSTER_NAME}/crossplane-secrets/%s"
           toFieldPath: spec.forProvider.manifest.spec.rootCredentials.vaultSecret.path
-        - type: CombineFromComposite
-          combine:
-            variables:
-              - fromFieldPath: metadata.name
-            strategy: string
-            string:
-              fmt: "%s-read-only"
-          toFieldPath: spec.forProvider.manifest.spec.allowedRole[0]
         - fromFieldPath: "metadata.name"
           toFieldPath: "spec.forProvider.manifest.spec.name"
           type: FromCompositeFieldPath
