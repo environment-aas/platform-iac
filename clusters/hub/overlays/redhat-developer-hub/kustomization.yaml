@@ -7,19 +7,20 @@ resources:
 - ./keycloak-client-secret-backstage.yaml
 - ./patches-rbac.yaml
 - ./patches.yaml
-- ./postgresql-creds-secret.yaml
+# - ./postgresql-creds-secret.yaml
 - ./link.yaml
 
-helmGlobals:
-  chartHome: ../../../../.helm/charts
+# helmGlobals:
+#   chartHome: ../../../../.helm/charts
 
 helmCharts:
-  # - name: backstage
-  #   repo: https://janus-idp.github.io/helm-backstage
+  - name: redhat-developer-hub
+    repo: https://charts.openshift.io
+    releaseName: redhat-developer-hub
+    version: 1.1.2
+    namespace: redhat-developer-hub
+    valuesFile: values.yaml
+  # - name: developer-hub
   #   releaseName: redhat-developer-hub
   #   namespace: redhat-developer-hub
-  #   valuesFile: values.yaml
-  - name: developer-hub
-    releaseName: redhat-developer-hub
-    namespace: redhat-developer-hub
-    valuesFile: values.yaml  
+  #   valuesFile: values.yaml  

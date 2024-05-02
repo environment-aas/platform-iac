@@ -96,7 +96,8 @@ spec:
     secret: ocp-secret
     rootUrl: https://redhat-developer-hub-redhat-developer-hub.apps.${CLUSTER_BASE_DOMAIN}
     redirectUris:
-      - /oauth2/callback
+      - /oauth2/callback #for oauth2Proxy
+      - /api/auth/oidc/handler/frame #for oidc
     clientAuthenticatorType: client-secret
     standardFlowEnabled: true
     directAccessGrantsEnabled: true
@@ -104,8 +105,54 @@ spec:
     defaultClientScopes:
       - profile
       - email
+      - offilne_access
+      - roles
+      - web-origins
     consentRequired: false
     serviceAccountsEnabled: true
+    protocolMappers:
+      - name: backstage-username
+        protocol: openid-connect
+        protocolMapper: oidc-usermodel-property-mapper
+        consentRequired: false
+        config:
+          userinfo.token.claim: "true"
+          user.attribute: "username"
+          id.token.claim: "true"
+          access.token.claim: "true"
+          claim.name: "sub"
+          jsonType.label: "String"
+      - name: Client Host
+        protocol: openid-connect
+        protocolMapper: oidc-usersessionmodel-note-mapper
+        consentRequired: false
+        config:
+          user.session.note: clientHost
+          id.token.claim: 'true'
+          access.token.claim: 'true'
+          claim.name: clientHost
+          jsonType.label: String
+      - name: Client ID
+        protocol: openid-connect
+        protocolMapper: oidc-usersessionmodel-note-mapper
+        consentRequired: false
+        config:
+          user.session.note: clientId
+          id.token.claim: 'true'
+          access.token.claim: 'true'
+          claim.name: clientId
+          jsonType.label: String
+      - name: Client IP Address
+        protocol: openid-connect
+        protocolMapper: oidc-usersessionmodel-note-mapper
+        consentRequired: false
+        config:
+          user.session.note: clientAddress
+          id.token.claim: 'true'
+          access.token.claim: 'true'
+          claim.name: clientAddress
+          jsonType.label: String
+
   serviceAccountClientRoles:
     realm-management:
       - query-groups
