@@ -22,7 +22,7 @@ spec:
 
         # Allow manifests to deploy from any Git repos
         sourceRepos:
-        - https://github.com/environment-aas/{{.Name}}-gitops.git
+        - https://${TENANT_GITOPS_ORG_URL}/{{.Name}}-gitops.git
         - https://charts.securecodebox.io/
 
         # Only permit applications to deploy to the guestbook namespace in the same cluster

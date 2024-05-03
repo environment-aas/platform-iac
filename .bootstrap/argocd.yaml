@@ -246,9 +246,11 @@ spec:
           - name: HUB_BASE_DOMAIN
             value: '${cluster_base_domain}'
           - name: INFRA_GITOPS_REPO
-            value: '${gitops_repo}'                                    
+            value: '${gitops_repo}'
           - name: INFRA_GITOPS_NAMESPACES_REPO
-            value: '${gitops_namespaces_repo}'                                    
+            value: '${gitops_namespaces_repo}'
+          - name: TENANT_GITOPS_ORG_URL
+            value: '${tenant_gitops_org_url}'
         # image: quay.io/gnunn/tools:latest
         image: quay.io/raffaelespazzoli/raffa-envsub:latest
         imagePullPolicy: Always

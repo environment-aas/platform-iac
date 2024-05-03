@@ -17,9 +17,14 @@ This example was built starting from the [AWS ROSA Open Environment](https://dem
 To get started run the following:
 
 ```sh
-export gitops_repo=https://github.com/environment-aas/platform-iac #<your newly created repo>
-export gitops_namespaces_repo=https://github.com/environment-aas/namespaces #<your newly created repo for namespaces>
-export cluster_name=hub #<your hub cluster name, typically "hub">
+#<the Git repo URL hosting the infrastructure manifests>
+export gitops_repo=https://github.com/environment-aas/platform-iac
+#<the Git repo URL hosting team's namespaces (where PRs requesting new namespces should be issued to)>
+export gitops_namespaces_repo=https://github.com/environment-aas/namespaces
+#<the Git organization URL hosting Tenant's apps manifests>
+export tenant_gitops_org_url=https://github.com/environment-aas
+#<your hub cluster name, typically "hub">
+export cluster_name=hub
 export cluster_base_domain=$(oc get ingress.config.openshift.io cluster --template={{.spec.domain}} | sed -e "s/^apps.//")
 export platform_base_domain=${cluster_base_domain#*.}
 oc apply -f .bootstrap/subscription.yaml
@@ -29,6 +34,8 @@ envsubst < .bootstrap/root-application.yaml | oc apply -f -
 ```
 
 To get the prod and non-prod cluster created you'll have to prepare a secret in the way ACM expects it. Here is an example of this secret required by ACM.
+
+Create this file `./.rosa/aws-secret.yaml`, then copy&paste the secret yaml content inside it.
 
 ```yaml
 apiVersion: v1
@@ -53,8 +60,6 @@ metadata:
 type: Opaque
 ```
 
-copy&paste inside `./.rosa/aws-secret.yaml`
-
 then run:
 
 ```sh
@@ -69,7 +74,7 @@ oc apply -f ./.rosa/aws-secret.yaml
 
 To deploy RHDH your need a secret with a GitHub PAT so the Software Template we are using is able to create a PR for the requested Namespace. Go to your GitHub account Settings and issue a new Personal Access Token. Then create a secret definition like follows.
 
- * `./.ignored/github-pat-secret.yml`
+Create this file `./.rosa/github-pat-secret.yml`, then copy&paste the secret yaml content inside it.
 
 ```yaml
 apiVersion: v1
@@ -85,3 +90,16 @@ type: Opaque
 oc create -f ./.ignored/github-pat-secret.yml -n redhat-developer-hub
 ```
 
+## Accessing Vault UI.
+
+Vault UI (as well other componets in this Lab) can be opened using the custom link available in the Openshift console menu.
+
+![](.docs/media/vault-ui-link.png)
+
+To access Vault UI as privileged user you need to grab the root token from the kube-secret (`vault-init`) hosted inside the `vault` namespace in the **hub** cluster. Then, from the UI choose `token` as *Auth Method*.
+
+![](.docs/media/vault-ui-token.png)
+
+To access Vault UI as a regular user (developer) choose the `OIDC` and enter `developer` as **Role** and `keycloak` as **Path** (under `More Options`). After clicking on `Sign in with OIDC Provider` expect a keycloak pop-up window asking for your credentials.
+
+![](.docs/media/vault-ui-oidc.png)
