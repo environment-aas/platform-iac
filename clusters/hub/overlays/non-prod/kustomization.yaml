@@ -24,7 +24,8 @@ helmCharts:
       platformDomain: ${PLATFORM_BASE_DOMAIN}
       hubDomain: ${CLUSTER_BASE_DOMAIN}     
       clusterSet: default
-      repoURL: https://github.com/environment-aas/platform-iac.git
+      repoURL: ${INFRA_GITOPS_REPO}
+      namespacesGitOpsRepoURL: ${INFRA_GITOPS_NAMESPACES_REPO}
       labels:
         cloud: AWS
         vendor: OpenShift

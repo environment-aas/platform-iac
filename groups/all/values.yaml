@@ -8,7 +8,7 @@ projects:
     namespace: openshift-gitops
     sourceRepos:
     - ${INFRA_GITOPS_REPO}
-    - https://github.com/environment-aas/namespaces
+    - ${INFRA_GITOPS_NAMESPACES_REPO}
     destinations: |
       - namespace: '*'
         server: https://kubernetes.default.svc

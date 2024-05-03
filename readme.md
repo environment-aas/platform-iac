@@ -17,7 +17,8 @@ This example was built starting from the [AWS ROSA Open Environment](https://dem
 To get started run the following:
 
 ```sh
-export gitops_repo=https://github.com/environment-aas/platform-iac.git #<your newly created repo>
+export gitops_repo=https://github.com/environment-aas/platform-iac #<your newly created repo>
+export gitops_namespaces_repo=https://github.com/environment-aas/namespaces #<your newly created repo for namespaces>
 export cluster_name=hub #<your hub cluster name, typically "hub">
 export cluster_base_domain=$(oc get ingress.config.openshift.io cluster --template={{.spec.domain}} | sed -e "s/^apps.//")
 export platform_base_domain=${cluster_base_domain#*.}
@@ -66,10 +67,21 @@ oc apply -f ./.rosa/aws-secret.yaml
 > NOTE: after creating this `aws-secret` you may also "force" Argo to reconsile the `ClusterDeployment` resource for bothe `prod` and `non-prod`. To do that go to ArgoCD Console open the `non-prod` Application and manually delete the `clusterdepoyment` resource. This will force Argo reconsile it and start the cluster provisioning job.
 > 
 
-To deploy RHDH run the following (you need to have prepared the secret)
+To deploy RHDH your need a secret with a GitHub PAT so the Software Template we are using is able to create a PR for the requested Namespace. Go to your GitHub account Settings and issue a new Personal Access Token. Then create a secret definition like follows.
+
+ * `./.ignored/github-pat-secret.yml`
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-pat
+stringData:
+  github-pat: 'ghp_**********'
+type: Opaque
+```
+
 ```sh
-oc delete secret rhdh-pull-secret -n redhat-developer-hub
-oc delete secret github-pat -n redhat-developer-hub
-oc create -f ./clusters/hub/overlays/redhat-developer-hub/rhdh-pull-secret.yml -n redhat-developer-hub
+oc create -f ./.ignored/github-pat-secret.yml -n redhat-developer-hub
 ```
 

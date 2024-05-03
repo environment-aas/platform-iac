@@ -109,9 +109,6 @@ backstage:
     # <br /> E.g: `pullSecrets: [myRegistryKeySecretName]`
     pullSecrets: []
 
-    # -- Set to true if you would like to see extra information on logs
-    debug: false
-
   # -- Container ports on the Deployment
   containerPorts:
     backend: 7007
@@ -131,7 +128,10 @@ backstage:
   # -- Backstage container environment variables
   extraEnvVars: []
 
-  # -- Backstage container environment variables from Secrets
+  # -- Backstage container environment variables from existing ConfigMaps
+  extraEnvVarsCM: []
+
+  # -- Backstage container environment variables from existing Secrets
   extraEnvVarsSecrets: []
 
   # -- Backstage container additional volume mounts
@@ -190,6 +190,22 @@ backstage:
   #   timeoutSeconds: 2
   livenessProbe: {}
 
+    # -- Startup Probe
+  # Backstage doesn't provide any health endpoints by default. A simple one can be added like this: https://backstage.io/docs/plugins/observability/#health-checks
+  # <br /> Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes
+  # <!-- E.g.
+  # startupProbe:
+  #   failureThreshold: 3
+  #   httpGet:
+  #     path: /healthcheck
+  #     port: 7007
+  #     scheme: HTTP
+  #   initialDelaySeconds: 60
+  #   periodSeconds: 10
+  #   successThreshold: 1
+  #   timeoutSeconds: 2
+  startupProbe: {}
+
   # -- Security settings for a Pod.
   #  The security settings that you specify for a Pod apply to all Containers in the Pod.
   # <br /> Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
@@ -208,6 +224,10 @@ backstage:
   #     baseUrl: https://somedomain.tld
   # -- Generates ConfigMap and configures it in the Backstage pods
   appConfig: {}
+
+  # -- Affinity for pod assignment
+  # <br /> Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+  affinity: {}
 
   # -- Node labels for pod assignment
   # <br /> Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
@@ -288,27 +308,42 @@ service:
   # -- Extra ports to expose in the Backstage service (normally used with the `sidecar` value)
   extraPorts: []
 
-# -- Network policies
-# <br /> Ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/
+## @section NetworkPolicy parameters
+##
 networkPolicy:
-
-  # -- networkPolicy.enabled Specifies whether a NetworkPolicy should be created
+  # -- Specifies whether a NetworkPolicy should be created
   enabled: false
 
-  externalAccess:
-    from: []
+  ## Ingress Rules
+  ##
+  ingressRules:
 
-  # -- Custom network policy rule
-  egressRules:
+    # -- Namespace selector label allowed to access the Backstage instance
+    namespaceSelector: {}
 
-    # -- Additional custom egress rules
-    # e.g:
-    # customRules:
+    # -- Pod selector label allowed to access the Backstage instance
+    podSelector: {}
+
+    # -- Additional custom ingress rules
+    customRules: []
     #   - to:
     #       - namespaceSelector:
     #           matchLabels:
     #             label: example
+
+  ## Egress Rules
+  ##
+  egressRules:
+
+    # -- Deny external connections. Should not be enabled when working with an external database.
+    denyConnectionsToExternal: false
+
+    # -- Additional custom egress rules
     customRules: []
+    #   - to:
+    #       - namespaceSelector:
+    #           matchLabels:
+    #             label: example
 
 
 # -- PostgreSQL [chart configuration](https://github.com/bitnami/charts/blob/master/bitnami/postgresql/values.yaml)

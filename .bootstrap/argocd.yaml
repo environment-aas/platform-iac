@@ -247,6 +247,8 @@ spec:
             value: '${cluster_base_domain}'
           - name: INFRA_GITOPS_REPO
             value: '${gitops_repo}'                                    
+          - name: INFRA_GITOPS_NAMESPACES_REPO
+            value: '${gitops_namespaces_repo}'                                    
         # image: quay.io/gnunn/tools:latest
         image: quay.io/raffaelespazzoli/raffa-envsub:latest
         imagePullPolicy: Always

@@ -275,7 +275,9 @@ spec:
                 - name: HUB_BASE_DOMAIN
                   value: '{{ .Values.hubDomain }}'
                 - name: INFRA_GITOPS_REPO
-                  value: '{{.Values.repoURL}}'                                                       
+                  value: '{{.Values.repoURL}}'
+                - name: INFRA_GITOPS_NAMESPACES_REPO
+                  value: '{{.Values.namespacesGitOpsRepoURL}}'
               image: quay.io/raffaelespazzoli/raffa-envsub:latest
               imagePullPolicy: Always
               securityContext:

@@ -163,7 +163,7 @@ upstream:
             token: ${GITHUB_TOKEN}
       catalog:
         locations:
-        - target: https://github.com/environment-aas/platform-iac/tree/main/.backstage-templates/namespace/template.yaml
+        - target: ${INFRA_GITOPS_REPO}/tree/main/.backstage-templates/namespace/template.yaml
           type: url      
         providers:
           keycloakOrg:
