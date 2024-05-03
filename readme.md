@@ -35,7 +35,7 @@ envsubst < .bootstrap/root-application.yaml | oc apply -f -
 
 To get the prod and non-prod cluster created you'll have to prepare a secret in the way ACM expects it. Here is an example of this secret required by ACM.
 
-Create this file `./.rosa/aws-secret.yaml`, then copy&paste the secret yaml content inside it.
+Create this file `./.rosa/aws-secret.yaml`, then copy&paste the following secret yaml content inside it. Then replace each property value accordingly to your environment's secret keys/credentials.
 
 ```yaml
 apiVersion: v1
@@ -87,7 +87,7 @@ type: Opaque
 ```
 
 ```sh
-oc create -f ./.ignored/github-pat-secret.yml -n redhat-developer-hub
+oc create -f ./.rosa/github-pat-secret.yml -n redhat-developer-hub
 ```
 
 ## Accessing Vault UI.
