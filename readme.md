@@ -1,7 +1,7 @@
 # Environment as a Service
 
-[!IMPORTANT]
-If you came to this article from the Environment as a service articles (one of the first 4) and are lookingfor the setup described i those article please swicth to the `eaas-articles` tag.
+> [!IMPORTANT]
+> If you came to this article from the Environment as a service articles (one of the first 4) and are lookingfor the setup described i those article please swicth to the `eaas-articles` tag.
 
 This repo contains a set of gitops configuration to setup a developer platform based on OpenShift.
 
