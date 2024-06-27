@@ -17,6 +17,8 @@ spec:
       required:
         - application
         - owner
+        - namespacesGitOpsRepoName
+        - namespacesGitOpsRepoOwner
         - environment
         - cluster
         - size
@@ -44,7 +46,17 @@ spec:
           title: Size
           type: string
           description: Size of the namespace in terms of resources available
-          enum: ["small", "medium", "large"]                     
+          enum: ["small", "medium", "large"]               
+        namespacesGitOpsRepoName:
+          title: Namespaces GitOps Repo
+          type: string
+          description: GitOps namespaces repo name
+          default: namespaces                     
+        namespacesGitOpsRepoOwner:
+          title: Namespaces GitOps Repo Owner
+          type: string
+          description: The organization, user or project owner of the GitOps namespaces repo
+          default: environment-aas                     
         owner:
           title: Owner
           type: string
@@ -67,14 +79,18 @@ spec:
           environment: ${{ parameters.environment }}
           owner: ${{ parameters.owner.split("/")[1] }}
           application: ${{ parameters.application }}
-          size: ${{parameters.size}}  
+          size: ${{parameters.size}}
 
     - id: pull-request
       name: make a pr with the new namespace
       action: publish:github:pull-request
       input:
-        repoUrl: github.com?repo=namespaces&owner=environment-aas
+        repoUrl: github.com?repo=${{ parameters.namespacesGitOpsRepoName }}&owner=${{ parameters.namespacesGitOpsRepoOwner }}
         branchName: ${{ parameters.application }}-${{ parameters.environment }}
         title: ${{ parameters.cluster }}/${{ parameters.application }}-${{ parameters.environment }} namespace
         description: This is a request for the creation of the ${{ parameters.application }}-${{ parameters.environment }} namespace in the ${{ parameters.cluster }} from the ${{ parameters.owner }} team
                                
+  output:
+    links:
+      - title: Follow your request PR
+        url: ${{ steps["pull-request"].output.remoteUrl }}

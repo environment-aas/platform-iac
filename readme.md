@@ -20,8 +20,14 @@ This example was built starting from the [AWS ROSA Open Environment](https://dem
 To get started run the following:
 
 ```sh
-export gitops_repo=https://github.com/environment-aas/platform-iac.git #<your newly created repo>
-export cluster_name=hub #<your hub cluster name, typically "hub">
+#<the Git repo URL hosting the infrastructure manifests>
+export gitops_repo=https://github.com/environment-aas/platform-iac
+#<the Git repo URL hosting team's namespaces (where PRs requesting new namespces should be issued to)>
+export gitops_namespaces_repo=https://github.com/environment-aas/namespaces
+#<the Git organization URL hosting Tenant's apps manifests>
+export tenant_gitops_org_url=https://github.com/environment-aas
+#<your hub cluster name, typically "hub">
+export cluster_name=hub
 export cluster_base_domain=$(oc get ingress.config.openshift.io cluster --template={{.spec.domain}} | sed -e "s/^apps.//")
 export platform_base_domain=${cluster_base_domain#*.}
 oc apply -f .bootstrap/subscription.yaml
@@ -30,19 +36,73 @@ envsubst < .bootstrap/argocd.yaml | oc apply -f -
 envsubst < .bootstrap/root-application.yaml | oc apply -f -
 ```
 
-To get the prod and non-prod cluster created you'll have to prepare a secret in the way ACM expects it, then run:
+To get the prod and non-prod cluster created you'll have to prepare a secret in the way ACM expects it. Here is an example of this secret required by ACM.
+
+Create this file `./.rosa/aws-secret.yaml`, then copy&paste the following secret yaml content inside it. Then replace each property value accordingly to your environment's secret keys/credentials.
+
+```yaml
+apiVersion: v1
+stringData:
+  additionalTrustBundle: ""
+  aws_access_key_id: "-----"
+  aws_secret_access_key: "-----"
+  baseDomain: "the root domain of the SOA Record in your DNS"
+  httpProxy: ""
+  httpsProxy: ""
+  noProxy: ""
+  pullSecret: "copy yours from https://console.redhat.com/openshift/downloads#tool-pull-secret"
+  ssh-privatekey: "-----"
+  ssh-publickey: "-----"
+kind: Secret
+metadata:
+  labels:
+    cluster.open-cluster-management.io/credentials: ""
+    cluster.open-cluster-management.io/type: aws
+  name: aws-credentials
+  namespace: open-cluster-management
+type: Opaque
+```
+
+then run:
 
 ```sh
-oc new-project open-cluster-management
 oc delete secret aws-credentials -n open-cluster-management
 oc apply -f ./.rosa/aws-secret.yaml
 ```
 
-To deploy RHDH run the following (you need to have prepared the secret)
-```sh
-oc new-project redhat-developer-hub
-oc delete secret rhdh-pull-secret -n redhat-developer-hub
-oc delete secret github-pat -n redhat-developer-hub
-oc create -f ./clusters/hub/overlays/redhat-developer-hub/rhdh-pull-secret.yaml -n redhat-developer-hub
+> NOTE: you can also use the ACM Console to create it following the UI guided form. Go to https://your-console-url/multicloud/credentials, and select your cloud provider (AWS in our case).
+
+> NOTE: after creating this `aws-secret` you may also "force" Argo to reconsile the `ClusterDeployment` resource for bothe `prod` and `non-prod`. To do that go to ArgoCD Console open the `non-prod` Application and manually delete the `clusterdepoyment` resource. This will force Argo reconsile it and start the cluster provisioning job.
+> 
+
+To deploy RHDH your need a secret with a GitHub PAT so the Software Template we are using is able to create a PR for the requested Namespace. Go to your GitHub account Settings and issue a new Personal Access Token. Then create a secret definition like follows.
+
+Create this file `./.rosa/github-pat-secret.yml`, then copy&paste the secret yaml content inside it.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-pat
+stringData:
+  github-pat: 'ghp_**********'
+type: Opaque
 ```
 
+```sh
+oc create -f ./.rosa/github-pat-secret.yml -n redhat-developer-hub
+```
+
+## Accessing Vault UI.
+
+Vault UI (as well other componets in this Lab) can be opened using the custom link available in the Openshift console menu.
+
+![](.docs/media/vault-ui-link.png)
+
+To access Vault UI as privileged user you need to grab the root token from the kube-secret (`vault-init`) hosted inside the `vault` namespace in the **hub** cluster. Then, from the UI choose `token` as *Auth Method*.
+
+![](.docs/media/vault-ui-token.png)
+
+To access Vault UI as a regular user (developer) choose the `OIDC` and enter `developer` as **Role** and `keycloak` as **Path** (under `More Options`). After clicking on `Sign in with OIDC Provider` expect a keycloak pop-up window asking for your credentials.
+
+![](.docs/media/vault-ui-oidc.png)

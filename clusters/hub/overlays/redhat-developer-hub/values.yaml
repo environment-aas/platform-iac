@@ -1,24 +1,73 @@
 global:
   clusterRouterBase: apps.${CLUSTER_BASE_DOMAIN}
+  auth:
+    # -- Backend service to service authentication
+    # Ref: https://backstage.io/docs/auth/service-to-service-auth/
+    backend:
+      # -- Enable backend service to service authentication, unless configured otherwise it generates a secret value
+      enabled: true
+      # -- Instead of generating a secret value, refer to existing secret
+      #existingSecret: ""
+      # -- Instead of generating a secret value, use fo;lowing value
+      #value: ""
+  dynamic:
+    includes:
+      - dynamic-plugins.default.yaml
+    plugins:
+      # Group: Keycloak
+      - package: ./dynamic-plugins/dist/janus-idp-backstage-plugin-keycloak-backend-dynamic
+        disabled: false
+      # Group: Github
+      - package: ./dynamic-plugins/dist/backstage-plugin-catalog-backend-module-github-dynamic
+        disabled: true
+      - package: ./dynamic-plugins/dist/backstage-plugin-catalog-backend-module-github-org-dynamic
+        disabled: true
+      - package: ./dynamic-plugins/dist/backstage-plugin-github-actions
+        disabled: true
+      - package:  ./dynamic-plugins/dist/backstage-plugin-github-issues
+        disabled: true
+      - package: ./dynamic-plugins/dist/roadiehq-backstage-plugin-github-insights
+        disabled: true
+      - package: ./dynamic-plugins/dist/roadiehq-backstage-plugin-github-pull-requests
+        disabled: false
+      - package: ./dynamic-plugins/dist/roadiehq-backstage-plugin-security-insights
+        disabled: true
+      # Group: Kubernetes
+      - package: ./dynamic-plugins/dist/backstage-plugin-kubernetes-backend-dynamic
+        disabled: true
+      - package: ./dynamic-plugins/dist/backstage-plugin-kubernetes
+        disabled: true
+      - package: ./dynamic-plugins/dist/janus-idp-backstage-plugin-topology
+        disabled: true
+      - package: ./dynamic-plugins/dist/backstage-plugin-techdocs-backend-dynamic
+        disabled: true
+
+route:
+  enabled: true
+  host: '{{ .Values.global.host }}'
+  path: /
+  tls:
+    enabled: true
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  wildcardPolicy: None
 
 upstream:
 
-  service:
-    ports:
-      backend: 4180
-      targetPort: oauth-proxy
-
-  postgresql:
-    auth:
-      existingSecret: redhat-developer-hub-postgresql     
-
   backstage:
-    # image:
-    #   tag: "1.0"
+    image:
+      registry: registry.redhat.io #doesn't pull secret from an openshift cluster 
+      repository: rhdh/rhdh-hub-rhel9
+      tag: '1.1-97' #'1.1-107'
 
     extraEnvVars:
     - name: LOG_LEVEL
-      value: debug 
+      value: debug
+    - name: BACKEND_SECRET
+      valueFrom:
+        secretKeyRef:
+          key: backend-secret
+          name: '{{ include "janus-idp.backend-secret-name" $ }}'
     - name: KEYCLOAK_CLIENT_SECRET
       valueFrom:
         secretKeyRef:
@@ -28,66 +77,211 @@ upstream:
       valueFrom:
         secretKeyRef:
           key: postgres-password
-          name: redhat-developer-hub-postgresql
+          name: '{{- include "janus-idp.postgresql.secretName" . }}'
     - name: GITHUB_TOKEN
       valueFrom:
         secretKeyRef:
           name: github-pat
           key: github-pat                                
 
-    extraContainers:
-      - name: oauth2-proxy
-        env:
-          - name: OAUTH2_PROXY_CLIENT_ID
-            value: 'backstage'
-          - name: OAUTH2_PROXY_CLIENT_SECRET
-            valueFrom:
-              secretKeyRef:
-                name: keycloak-client-secret-backstage
-                key: CLIENT_SECRET 
-          - name: OAUTH2_PROXY_COOKIE_SECRET
-            value: 'ciaociaociaociao'
-          - name: OAUTH2_PROXY_OIDC_ISSUER_URL
-            value: 'https://keycloak-sso.apps.${CLUSTER_BASE_DOMAIN}/auth/realms/myorg'
-          - name: OAUTH2_PROXY_SSL_INSECURE_SKIP_VERIFY
-            value: 'true'
-        ports:
-          - name: oauth-proxy
-            containerPort: 4180
-            protocol: TCP
-        imagePullPolicy: IfNotPresent
-        image: 'quay.io/oauth2-proxy/oauth2-proxy:latest'
-        args:
-          - '--provider=oidc'
-          - '--email-domain=*'
-          - '--upstream=http://localhost:7007'
-          - '--http-address=0.0.0.0:4180'
-          - '--skip-provider-button'  
+    # extraEnvVarsSecrets:
+    #   - rhdh-secrets
+    extraVolumeMounts:
+      - mountPath: /opt/app-root/src/dynamic-plugins-root
+        name: dynamic-plugins-root
+
+    extraVolumes:
+      - ephemeral:
+          volumeClaimTemplate:
+            spec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 2Gi
+        name: dynamic-plugins-root
+      - configMap:
+          defaultMode: 420
+          name: dynamic-plugins
+          optional: true
+        name: dynamic-plugins
+      - name: dynamic-plugins-npmrc
+        secret:
+          defaultMode: 420
+          optional: true
+          secretName: dynamic-plugins-npmrc
+
+    # extraContainers:
+    #   - name: oauth2-proxy
+    #     env:
+    #       - name: OAUTH2_PROXY_CLIENT_ID
+    #         value: 'backstage'
+    #       - name: OAUTH2_PROXY_CLIENT_SECRET
+    #         valueFrom:
+    #           secretKeyRef:
+    #             name: keycloak-client-secret-backstage
+    #             key: CLIENT_SECRET 
+    #       - name: OAUTH2_PROXY_COOKIE_SECRET
+    #         value: 'ciaociaociaociao'
+    #       - name: OAUTH2_PROXY_OIDC_ISSUER_URL
+    #         value: 'https://keycloak-sso.apps.${CLUSTER_BASE_DOMAIN}/auth/realms/myorg'
+    #       - name: OAUTH2_PROXY_SSL_INSECURE_SKIP_VERIFY
+    #         value: 'true'
+    #     ports:
+    #       - name: oauth-proxy
+    #         containerPort: 4180
+    #         protocol: TCP
+    #     imagePullPolicy: IfNotPresent
+    #     image: 'quay.io/oauth2-proxy/oauth2-proxy:latest'
+    #     args:
+    #       - '--provider=oidc'
+    #       - '--email-domain=*'
+    #       - '--upstream=http://localhost:7007'
+    #       - '--http-address=0.0.0.0:4180'
+    #       - '--skip-provider-button'  
 
     appConfig:
+      app:
+        baseUrl: 'https://{{- include "janus-idp.hostname" . }}'
       auth:
         environment: production
         providers:
-          oauth2Proxy: {}
-      enabled:
-        keycloak: true
+          # oauth2Proxy: {}
+          oidc:
+            production:
+              clientId: backstage
+              clientSecret: '${KEYCLOAK_CLIENT_SECRET}'
+              metadataUrl: >-
+                https://keycloak-sso.apps.${CLUSTER_BASE_DOMAIN}/auth/realms/myorg/.well-known/openid-configuration
+              prompt: auto
+        session:
+          secret: 's3cr3t!'
+      signInPage: oidc #oauth2Proxy
       integrations:
         github:
           - host: github.com
-            token: ${GITHUB_TOKEN}        
+            token: ${GITHUB_TOKEN}
       catalog:
         locations:
-        - target: https://github.com/environment-aas/platform-iac/tree/main/.backstage-templates/namespace/template.yaml
+        - target: ${INFRA_GITOPS_REPO}/tree/main/.backstage-templates/namespace/template.yaml
           type: url      
         providers:
           keycloakOrg:
             default:
               baseUrl: https://keycloak-sso.apps.${CLUSTER_BASE_DOMAIN}/auth
-              loginRealm: master
-              realm: myorg
               clientId: 'backstage'
               clientSecret: '${KEYCLOAK_CLIENT_SECRET}'
+              loginRealm: myorg
+              realm: myorg
               schedule:
                 frequency: { minutes: 1 }
                 timeout: { minutes: 1 }
-                initialDelay: { seconds: 15 }                                
+                initialDelay: { seconds: 15 }
+
+    initContainers:
+      - command:
+          - ./install-dynamic-plugins.sh
+          - /dynamic-plugins-root
+        env:
+          - name: NPM_CONFIG_USERCONFIG
+            value: /opt/app-root/src/.npmrc.dynamic-plugins
+        image: '{{ include "backstage.image" . }}'
+        imagePullPolicy: Always
+        name: install-dynamic-plugins
+        volumeMounts:
+          - mountPath: /dynamic-plugins-root
+            name: dynamic-plugins-root
+          - mountPath: /opt/app-root/src/dynamic-plugins.yaml
+            name: dynamic-plugins
+            readOnly: true
+            subPath: dynamic-plugins.yaml
+          - mountPath: /opt/app-root/src/.npmrc.dynamic-plugins
+            name: dynamic-plugins-npmrc
+            readOnly: true
+            subPath: .npmrc
+        workingDir: /opt/app-root/src
+    installDir: /opt/app-root/src
+    livenessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /healthcheck
+        port: 7007
+        scheme: HTTP
+      initialDelaySeconds: 60
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 2
+    podAnnotations:
+      checksum/dynamic-plugins: >-
+        {{- include "common.tplvalues.render" ( dict "value"
+        .Values.global.dynamic "context" $) | sha256sum }}
+    readinessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /healthcheck
+        port: 7007
+        scheme: HTTP
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      successThreshold: 2
+      timeoutSeconds: 2
+    replicas: 1
+    revisionHistoryLimit: 10
+  clusterDomain: cluster.local
+  diagnosticMode:
+    args:
+      - infinity
+    command:
+      - sleep
+    enabled: false
+  ingress:
+    enabled: false
+    host: '{{ .Values.global.host }}'
+    tls:
+      enabled: false
+  metrics:
+    serviceMonitor:
+      enabled: false
+      path: /metrics
+  nameOverride: developer-hub
+  networkPolicy:
+    egressRules:
+      denyConnectionsToExternal: false
+    enabled: false
+  postgresql:
+    auth:
+      secretKeys:
+        adminPasswordKey: postgres-password
+        userPasswordKey: password
+    enabled: true
+    image:
+      registry: registry.redhat.io
+      repository: rhel9/postgresql-15
+      tag: latest
+    postgresqlDataDir: /var/lib/pgsql/data/userdata
+    primary:
+      containerSecurityContext:
+        enabled: false
+      extraEnvVars:
+        - name: POSTGRESQL_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: postgres-password
+              name: '{{- include "postgresql.v1.secretName" . }}'
+      persistence:
+        enabled: true
+        mountPath: /var/lib/pgsql/data
+        size: 1Gi
+      podSecurityContext:
+        enabled: false
+  service:
+    externalTrafficPolicy: Cluster
+    ports:
+      backend: 7007
+      name: http-backend
+      targetPort: backend
+    sessionAffinity: None
+    type: ClusterIP
+  serviceAccount:
+    automountServiceAccountToken: true
+    create: false

@@ -13,7 +13,7 @@ metadata:
 spec:
   project: cluster-config
   source:
-    repoURL: https://github.com/environment-aas/namespaces.git
+    repoURL: ${INFRA_GITOPS_NAMESPACES_REPO}
     targetRevision: HEAD
     path: "${CLUSTER_NAME}"
     directory:
