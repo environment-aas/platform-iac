@@ -11,7 +11,7 @@ spec:
         install: false
       global:
         hosts:
-          domain: ${CLUSTER_BASE_DOMAIN}
+          domain: apps.${CLUSTER_BASE_DOMAIN}
         ingress:
           annotations:
             route.openshift.io/termination: edge

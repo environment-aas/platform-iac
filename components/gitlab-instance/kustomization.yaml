@@ -4,3 +4,4 @@ namespace: gitlab-system
 resources: 
 - ./gitlab-root-secret.yaml
 - ./gitlab.yaml
+- ./link.yaml

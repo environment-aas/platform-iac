@@ -8,3 +8,4 @@ resources:
   - ./rhdh-app-configmap.yaml
   - ./rhdh-secrets.yaml
   - ./rhdh.yaml
+  - ./link.yaml
