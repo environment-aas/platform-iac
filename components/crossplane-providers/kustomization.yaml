@@ -10,5 +10,7 @@ resources:
 - ./aws-rds-provider.yaml
 - ./kubernetes-provider.yaml
 - ./tenant-rbac.yaml
+- ./terraform-provider-config.yaml
+- ./terraform-provider.yaml
 
    
