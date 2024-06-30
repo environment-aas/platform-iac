@@ -5,6 +5,6 @@ namespace: rhdh
 resources:
   - ./namespace.yaml
   - ./dynamic-plugins.yaml
-  - ./rhdh-app-comfigmap.yaml
+  - ./rhdh-app-configmap.yaml
   - ./rhdh-secrets.yaml
   - ./rhdh.yaml
