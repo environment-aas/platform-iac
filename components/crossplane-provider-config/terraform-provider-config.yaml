@@ -1,0 +1,38 @@
+apiVersion: tf.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+spec:
+  # Note that unlike most provider configs this one supports an array of
+  # credentials. This is because each Terraform workspace uses a single
+  # Crossplane provider config, but could use multiple Terraform providers each
+  # with their own credentials.
+  credentials:
+    - filename: gitlab-token
+      source: Secret
+      secretRef:
+        namespace: gitlab-system
+        name:  gitlab-gitlab-initial-root-password
+        key: password        
+  configuration: |
+    terraform {
+      backend "kubernetes" {
+        secret_suffix    = "state"
+        in_cluster_config = true
+        namespace = "crossplane-system"
+      } 
+      required_version = ">= 1.0"
+      required_providers {
+        gitlab = {
+          source = "gitlabhq/gitlab"
+          version = "17.1.0"
+        }        
+      }       
+    }
+
+    provider "gitlab" {
+      base_url = https://gitlab.apps.${CLUSTER_BASE_DOMAIN}/api/v4/
+      token = file("ocm-token")
+    }           
+
+        

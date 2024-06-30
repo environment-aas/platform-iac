@@ -1,0 +1,17 @@
+apiVersion: tf.upbound.io/v1beta1
+kind: Workspace
+metadata:
+  name: gitlab-configuration
+spec:
+  forProvider:
+    module: |
+      resource "gitlab_personal_access_token" "backstage" {
+        scopes       = ["api","read_repository]
+        name         = "backstage"
+        user_id      = 1
+      }
+    source: Inline
+  publishConnectionDetailsTo:
+    name: backstage-gitlab
+    configRef:
+      name: vault    

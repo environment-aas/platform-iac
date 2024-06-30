@@ -11,3 +11,5 @@ resources:
   - ./aws-provider-store-config.yaml
   - ./kubernetes-provider-config.yaml
   - ./kubernetes-provider-config-rbac.yaml
+  - ./terraform-provider-config.yaml
+  - ./terraform-provider-store-config.yaml  

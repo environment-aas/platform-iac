@@ -5,3 +5,4 @@ resources:
 - ./gitlab-root-secret.yaml
 - ./gitlab.yaml
 - ./link.yaml
+- ./gitlab-configuration-workspace.yaml

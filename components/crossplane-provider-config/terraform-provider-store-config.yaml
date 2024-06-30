@@ -1,0 +1,21 @@
+apiVersion: tf.upbound.io/v1beta1
+kind: StoreConfig
+metadata:
+  name: vault
+spec:
+  type: Vault
+  vault:
+    auth:
+      method: Token
+      token:
+        source: Filesystem
+        fs:
+          path: /vault/secrets/token
+    server: https://vault.vault.svc:8200
+    mountPath: crossplane-secrets/
+    version: v2
+    caBundle:
+      fs:
+        path: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+      source: Filesystem       
+  defaultScope: ""

@@ -1,0 +1,18 @@
+apiVersion: pkg.crossplane.io/v1alpha1
+kind: ControllerConfig
+metadata:
+  name: terraform-config
+  labels:
+    app: crossplane-provider-terraform
+spec:
+  args:
+    - -d
+    - --enable-external-secret-stores
+    - --timeout=90m
+  metadata:
+    annotations:
+      vault.hashicorp.com/agent-inject: "true"
+      vault.hashicorp.com/agent-inject-token: "true"
+      vault.hashicorp.com/role: crossplane
+      vault.hashicorp.com/agent-run-as-user: "2000"
+      vault.hashicorp.com/tls-skip-verify: "true"  
