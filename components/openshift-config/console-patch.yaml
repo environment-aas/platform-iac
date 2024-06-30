@@ -1,0 +1,12 @@
+apiVersion: operator.openshift.io/v1
+kind: Console
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-options: Delete=false,ServerSideApply=true
+  name: cluster
+spec:
+  plugins:
+  - odf-console
+  - gitops-plugin
+  - monitoring-plugin
+  - kubevirt-plugin

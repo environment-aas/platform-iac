@@ -1,0 +1,47 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: Patch
+metadata:
+  name: cert-manager-patches
+  namespace: cert-manager
+spec:
+  serviceAccountRef:
+    name: default
+  patches:
+    cluster-ingress-certs:
+      targetObjectRef:
+        apiVersion: v1
+        kind: Secret
+        name: cluster-ingress-certs-tls
+        namespace: openshift-ingress
+      patchTemplate: |
+        data:
+          cert: {{ (index (index . 0).data "tls.crt") }}
+          key: {{ (index (index . 0).data "tls.key") }}
+      patchType: application/merge-patch+json          
+    letsencrypt-issuer:
+      targetObjectRef:
+        apiVersion: cert-manager.io/v1
+        kind: ClusterIssuer
+        name: letsencrypt-issuer
+      sourceObjectRefs:
+      - apiVersion: config.openshift.io/v1
+        kind: DNS
+        name: cluster
+      - apiVersion: config.openshift.io/v1
+        kind: Infrastructure
+        name: cluster                        
+      patchTemplate: | 
+        spec:
+          acme:
+            solvers:
+            - dns01:
+                route53:
+                  accessKeyIDSecretRef:
+                    name: cert-manager-dns-credentials
+                    key: aws_access_key_id
+                  secretAccessKeySecretRef:
+                    name: cert-manager-dns-credentials
+                    key: aws_secret_access_key
+                  region: {{ (index . 2).status.platformStatus.aws.region }}
+                  hostedZoneID: {{ (index . 1).spec.publicZone.id }}
+      patchType: application/merge-patch+json          

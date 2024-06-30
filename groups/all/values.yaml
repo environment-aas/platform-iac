@@ -53,4 +53,37 @@ applications:
     destination:
       namespace: group-sync-operator
     source:
-      path: components/group-sync-operator                     
+      path: components/group-sync-operator
+
+  kube-ops-view:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '15'
+    destination:
+      namespace: kube-ops-view
+    source:
+      path: components/kube-ops-view
+
+  cert-manager-operator:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '5'
+    destination:
+      namespace: cert-manager
+    source:
+      path: components/cert-manager-operator    
+
+  cert-manager-configuration:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '15'
+    destination:
+      namespace: cert-manager
+    source:
+      path: components/cert-manager-configuration
+    extraFields: |
+      ignoreDifferences:
+        - group: 'cert-manager.io'
+          jsonPointers:
+            - /spec/acme/solvers
+          kind: ClusterIssuer                           
