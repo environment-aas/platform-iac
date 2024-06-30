@@ -6,7 +6,7 @@ metadata:
   name: cluster
 spec:
   plugins:
-  - odf-console
+  - acm
   - gitops-plugin
+  - mce
   - monitoring-plugin
-  - kubevirt-plugin
