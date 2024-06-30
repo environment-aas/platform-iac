@@ -16,6 +16,18 @@ helmGlobals:
   chartHome: ../../../../.helm/charts
 
 helmCharts:
+
+  - name: aws-cluster
+    releaseName: non-prod
+    namespace: non-prod
+    valuesInline:
+      region: us-west-2
+      machineNetworkCIDR: 10.2.0.0/16
+      clusterNetworkCIDR: 10.128.0.0/14
+      serviceNetworkCIDR: 172.30.0.0/16
+      storageNodes:
+        replicas: 0 
+
   - name: cluster-registration
     releaseName: non-prod
     namespace: non-prod

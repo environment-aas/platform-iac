@@ -1,0 +1,53 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: app-config-rhdh
+data:
+  app-config-rhdh.yaml: |
+    signInPage: gitlab 
+    app:
+      title: Red Hat Developer Hub
+      baseUrl: https://backstage-developer-hub-rhdh-gitlab.${CLUSTER_BASE_DOMAIN}
+    backend:
+      auth:
+        keys:
+          - secret: ${BACKEND_SECRET}
+      baseUrl: https://backstage-developer-hub-rhdh-gitlab.${CLUSTER_BASE_DOMAIN}
+      cors:
+        origin: https://backstage-developer-hub-rhdh-gitlab.${CLUSTER_BASE_DOMAIN} 
+    auth:
+      environment: development
+      providers:
+        gitlab:
+          development:
+            clientId: ${AUTH_GITLAB_CLIENT_ID}
+            clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
+            audience: https://gitlab.${CLUSTER_BASE_DOMAIN}
+    integrations:
+      gitlab:
+        - host: gitlab.${basedomain}
+          token: ${GITLAB_TOKEN}
+          apiBaseUrl: https://gitlab.${CLUSTER_BASE_DOMAIN}/api/v4
+          baseUrl: https://gitlab.${CLUSTER_BASE_DOMAIN}     
+    catalog:
+      rules:
+        - allow: [Component, System, Group, Resource, Location, Template, API, User, Domain, Type]    
+      providers:
+        gitlab:
+          yourProviderId:
+            host: gitlab.${CLUSTER_BASE_DOMAIN} # Identifies one of the hosts set up in the integrations
+            apiBaseUrl: https://gitlab.${CLUSTER_BASE_DOMAIN}/api/v4
+            branch: main # Optional. Used to discover on a specific branch
+            fallbackBranch: main # Optional. Fallback to be used if there is no default branch configured at the Gitlab repository. It is only used, if `branch` is undefined. Uses `master` as default
+            skipForkedRepos: false # Optional. If the project is a fork, skip repository
+            entityFilename: catalog-info.yaml # Optional. Defaults to `catalog-info.yaml`
+            projectPattern: '[\s\S]*' # Optional. Filters found projects based on provided patter. Defaults to `[\s\S]*`, which means to not filter anything
+            schedule: # optional; same options as in TaskScheduleDefinition
+              # supports cron, ISO duration, "human duration" as used in code
+              frequency: { minutes: 1 }
+              # supports ISO duration, "human duration" as used in code
+              timeout: { minutes: 3 }
+            orgEnabled: false
+            #group: org/teams # Required for gitlab.com when `orgEnabled: true`. Optional for self managed. Must not end with slash. Accepts only groups under the provided path (which will be stripped)
+            groupPattern: '[\s\S]*'                                                
+      

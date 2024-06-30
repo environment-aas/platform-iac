@@ -1,0 +1,25 @@
+apiVersion: apps.gitlab.com/v1beta1
+kind: GitLab
+metadata:
+  name: gitlab
+  namespace: gitlab-system
+spec:
+  chart:
+    values:
+      certmanager:
+        install: false
+      prometheus:
+        install: false
+      global:
+        hosts:
+          domain: ${CLUSTER_BASE_DOMAIN}
+        ingress:
+          annotations:
+            route.openshift.io/termination: edge
+          class: none
+          configureCertmanager: false
+          tls:
+            enabled: false
+      nginx-ingress:
+        enabled: false
+    version: 7.9.3

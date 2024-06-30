@@ -1,0 +1,32 @@
+apiVersion: hive.openshift.io/v1
+kind: ClusterDeployment
+metadata:
+  name: '{{ .Release.Name }}'
+  labels:
+    cloud: 'AWS'
+    region: '{{ .Values.region }}'
+    vendor: OpenShift
+    cluster.open-cluster-management.io/clusterset: 'production'
+    {{- include "aws-cluster.labels" . | nindent 4 }}    
+spec:
+  baseDomain: ${PLATFORM_BASE_DOMAIN}
+  clusterName: '{{ .Release.Name }}'
+  controlPlaneConfig:
+    servingCertificates: {}
+  installAttemptsLimit: 1
+  installed: false
+  platform:
+    aws:
+      credentialsSecretRef:
+        name: {{ .Release.Name }}-aws-creds
+      region: {{ .Values.region }}
+  provisioning:
+    installConfigSecretRef:
+      name: {{ .Release.Name }}-install-config
+    sshPrivateKeySecretRef:
+      name: {{ .Release.Name }}-ssh-private-key
+    imageSetRef:
+       #quay.io/openshift-release-dev/ocp-release:4.13.17-multi
+      name: img4.15.12-multi-appsub
+  pullSecretRef:
+    name: {{ .Release.Name }}-pull-secret

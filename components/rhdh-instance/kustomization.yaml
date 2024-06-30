@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: rhdh
+
+resources:
+  - ./namespace.yaml
+  - ./dynamic-plugins.yaml
+  - ./rhdh-app-comfigmap.yaml
+  - ./rhdh-secrets.yaml
+  - ./rhdh.yaml

@@ -1,11 +1,12 @@
 apiVersion: hive.openshift.io/v1
 kind: MachinePool
 metadata:
-  name: prod-worker
-  namespace: 'prod'
+  name: {{ .Release.Name }}-worker
+  labels:
+    {{- include "aws-cluster.labels" . | nindent 4 }}
 spec:
   clusterDeploymentRef:
-    name: 'prod'
+    name: '{{ .Release.Name }}'
   name: worker
   platform:
     aws:
@@ -14,4 +15,5 @@ spec:
         size: 100
         type: io1
       type: m5.xlarge
-  replicas: 3
+  replicas: {{ .Values.storageNodes.replicas }}
+   
