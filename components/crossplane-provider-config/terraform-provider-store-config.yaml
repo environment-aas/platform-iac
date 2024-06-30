@@ -3,19 +3,11 @@ kind: StoreConfig
 metadata:
   name: vault
 spec:
-  type: Vault
-  vault:
-    auth:
-      method: Token
-      token:
-        source: Filesystem
-        fs:
-          path: /vault/secrets/token
-    server: https://vault.vault.svc:8200
-    mountPath: crossplane-secrets/
-    version: v2
-    caBundle:
-      fs:
-        path: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
-      source: Filesystem       
+  type: Plugin
   defaultScope: ""
+  plugin:
+    endpoint: ess-plugin-vault.crossplane-system:4040
+    configRef:
+      apiVersion: secrets.crossplane.io/v1alpha1
+      kind: VaultConfig
+      name: vault
