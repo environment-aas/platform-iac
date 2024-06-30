@@ -32,7 +32,7 @@ spec:
 
     provider "gitlab" {
       base_url = "https://gitlab.apps.${CLUSTER_BASE_DOMAIN}/api/v4/"
-      token = file("password")
+      token = file("gitlab-token")
     }           
 
         
