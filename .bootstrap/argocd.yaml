@@ -51,10 +51,44 @@ spec:
         end
       end
       return hs
-  - group: certmanager.k8s.io
+  - group: cert-manager.io
     kind: Certificate
     check: |
-      hs = {}
+      local hs = {}
+      if obj.status ~= nil then
+        if obj.status.conditions ~= nil then
+
+          -- Always Handle Issuing First to ensure consistent behaviour
+          for i, condition in ipairs(obj.status.conditions) do
+            if condition.type == "Issuing" and condition.status == "True" then
+              hs.status = "Progressing"
+              hs.message = condition.message
+              return hs
+            end
+          end
+
+          for i, condition in ipairs(obj.status.conditions) do
+            if condition.type == "Ready" and condition.status == "False" then
+              hs.status = "Degraded"
+              hs.message = condition.message
+              return hs
+            end
+            if condition.type == "Ready" and condition.status == "True" then
+              hs.status = "Healthy"
+              hs.message = condition.message
+              return hs
+            end
+          end
+        end
+      end
+
+      hs.status = "Progressing"
+      hs.message = "Waiting for certificate"
+      return hs
+  - group: cert-manager.io
+    kind: ClusterIssuer
+    check: |     
+      local hs = {}
       if obj.status ~= nil then
         if obj.status.conditions ~= nil then
           for i, condition in ipairs(obj.status.conditions) do
@@ -71,13 +105,14 @@ spec:
           end
         end
       end
+
       hs.status = "Progressing"
-      hs.message = "Waiting for certificate"
-      return hs
-  - group: certmanager.k8s.io
-    kind: ClusterIssuer
+      hs.message = "Initializing ClusterIssuer"
+      return h
+  - group: cert-manager.io
+    kind: Issuer
     check: |     
-      hs = {}
+      local hs = {}
       if obj.status ~= nil then
         if obj.status.conditions ~= nil then
           for i, condition in ipairs(obj.status.conditions) do
@@ -138,6 +173,36 @@ spec:
       health_status.status = "Progressing"
       health_status.message = "Route is still getting admitted"
       return health_status
+  - group: pkg.crossplane.io
+    kind: Provider
+    check: |      
+      local hs = {}
+      if obj.status ~= nil then
+        if obj.status.conditions ~= nil then
+          local installed = false
+          local healthy = false
+          for i, condition in ipairs(obj.status.conditions) do
+            if condition.type == "Installed" then
+              installed = condition.status == "True"
+              installed_message = condition.reason
+            elseif condition.type == "Healthy" then
+              healthy = condition.status == "True"
+              healthy_message = condition.reason
+            end
+          end
+          if installed and healthy then
+            hs.status = "Healthy"
+          else
+            hs.status = "Degraded"
+          end
+          hs.message = installed_message .. " " .. healthy_message
+          return hs
+        end
+      end
+
+      hs.status = "Progressing"
+      hs.message = "Waiting for provider to be installed"
+      return hs    
   - group: operators.coreos.com
     kind: Subscription
     check: |

@@ -6,9 +6,9 @@ spec:
   forProvider:
     module: |
       resource "gitlab_personal_access_token" "backstage" {
-        scopes       = ["api","read_repository]
+        scopes       = ["api","read_repository"]
         name         = "backstage"
-        user_id      = 1
+        user_id      = "1"
       }
     source: Inline
   publishConnectionDetailsTo:
