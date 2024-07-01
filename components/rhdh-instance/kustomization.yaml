@@ -10,6 +10,6 @@ resources:
   - ./rhdh.yaml
   - ./link.yaml
   - ./gitlab-secrets.yaml
-  - ./kecloak-secrets.yaml
+  - ./keycloak-secrets.yaml
   - ./patches-rbac.yaml
   - ./patches.yaml
