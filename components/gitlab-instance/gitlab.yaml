@@ -19,20 +19,20 @@ spec:
           configureCertmanager: false
           tls:
             enabled: false
-          omniauth:
-            enabled: true
-            autoSignInWithProvider: oidc-keycloak
-            syncProfileFromProvider: ["oidc-keycloak"]
-            syncProfileAttributes: ['email']
-            allowSingleSignOn: ["oidc-keycloak"]
-            blockAutoCreatedUsers: false
-            autoLinkLdapUser: false
-            autoLinkSamlUser: false
-            autoLinkUser: ["oidc-keycloak"]
-            externalProviders: []
-            allowBypassTwoFactor: ["oidc-keycloak"]
-            providers: 
-            - secret: "oidc-keycloak"            
+        omniauth:
+          enabled: true
+          autoSignInWithProvider: oidc-keycloak
+          syncProfileFromProvider: ["oidc-keycloak"]
+          syncProfileAttributes: ['email']
+          allowSingleSignOn: ["oidc-keycloak"]
+          blockAutoCreatedUsers: false
+          autoLinkLdapUser: false
+          autoLinkSamlUser: false
+          autoLinkUser: ["oidc-keycloak"]
+          externalProviders: []
+          allowBypassTwoFactor: ["oidc-keycloak"]
+          providers: 
+          - secret: "oidc-keycloak"            
       nginx-ingress:
         enabled: false
     version: 7.9.3
