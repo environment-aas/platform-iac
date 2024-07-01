@@ -36,4 +36,3 @@ spec:
           - secret: "oidc-keycloak"            
       nginx-ingress:
         enabled: false
-    version: 7.9.3
