@@ -229,7 +229,12 @@ spec:
         "claim.name": "groups"
         "full.path": "false"
         "id.token.claim": "true"
-        "userinfo.token.claim": "true"                  
+        "userinfo.token.claim": "true"
+  serviceAccountClientRoles:
+    realm-management:
+      - query-groups
+      - query-users
+      - view-users                          
       
 
               
