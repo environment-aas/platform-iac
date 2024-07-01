@@ -193,7 +193,43 @@ spec:
         "claim.name": "groups"
         "full.path": "false"
         "id.token.claim": "true"
-        "userinfo.token.claim": "true"            
+        "userinfo.token.claim": "true"  
+---
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakClient
+metadata:
+  name: gitlab
+  namespace: sso
+  labels:
+    app: sso
+spec:
+  realmSelector:
+    matchLabels:
+      app: sso
+  client:
+    id: gitlab-client
+    clientId: gitlab-client
+    secret: ocp-secret
+    redirectUris:
+      - https://gitlab.apps.${CLUSTER_BASE_DOMAIN}/users/auth/openid_connect/callback
+    clientAuthenticatorType: client-secret
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: true
+    implicitFlowEnabled: false
+    defaultClientScopes:
+      - profile
+      - email
+    consentRequired: false
+    protocolMappers:
+    - name: groups
+      protocol: openid-connect
+      protocolMapper: "oidc-group-membership-mapper"
+      config:
+        "access.token.claim": "true"
+        "claim.name": "groups"
+        "full.path": "false"
+        "id.token.claim": "true"
+        "userinfo.token.claim": "true"                  
       
 
               

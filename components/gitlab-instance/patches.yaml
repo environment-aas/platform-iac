@@ -1,0 +1,24 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: Patch
+metadata:
+  name: gitlab-config
+spec:
+  serviceAccountRef:
+    name: default
+  patches:
+    keycloak-secret:
+      targetObjectRef:
+        apiVersion: v1
+        kind: Secret
+        namespace: gitlab-system
+        name: oidc-keycloak
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Secret
+        namespace: sso
+        name: keycloak-client-secret-gitlab        
+      patchTemplate: |
+        {{ $provider:="{name: \"openid_connect\", label: \"Keycloak\", args: { name: \"oidc-keycloak\", scope: [\"openid\", \"profile\", \"email\"], response_type: \"code\", issuer:  \"https://keycloak.example.com/realms/myrealm\", client_auth_method: \"query\", discovery: true, uid_field: \"preferred_username\", pkce: true, client_options: { identifier: \""(index (index . 1).data "CLIENT_ID")|b64dec"\", secret: \""(index (index . 1).data "CLIENT_SECRET")|b64dec"\", redirect_uri: \"https://gitlab.apps.${CLUSTER_BASE_DOMAIN}/users/auth/openid_connect/callback\" }}}" }}
+        data:
+          provider: {{ $provider|fromJson|toPrettyJson|b64enc }}
+      patchType: application/merge-patch+json
