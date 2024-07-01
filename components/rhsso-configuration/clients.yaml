@@ -104,17 +104,17 @@ spec:
     defaultClientScopes:
       - profile
       - email
+      - roles
     consentRequired: false
     serviceAccountsEnabled: true
+    publicClient: false
   serviceAccountClientRoles:
     realm-management:
       - query-groups
       - query-users
       - view-users
   serviceAccountRealmRoles:
-    - query-groups
-    - query-users
-    - view-users    
+    - default-roles-myorg         
 ---
 apiVersion: keycloak.org/v1alpha1
 kind: KeycloakClient
