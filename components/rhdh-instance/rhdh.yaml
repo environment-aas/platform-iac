@@ -14,7 +14,8 @@ spec:
     extraEnvs:
       secrets:
         - name: gitlab-secrets
-        - name: rhdh-secrets               
+        - name: rhdh-secrets
+        - name: keycloack-secrets               
     replicas: 1
     route:
       enabled: true

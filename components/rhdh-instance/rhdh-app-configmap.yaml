@@ -16,13 +16,17 @@ data:
       cors:
         origin: https://backstage-developer-hub-rhdh-gitlab.apps.${CLUSTER_BASE_DOMAIN} 
     auth:
+      session:
+        secret: ${SESSION_SECRET}
       environment: development
       providers:
-        gitlab:
+        oidc:
           development:
-            clientId: ${AUTH_GITLAB_CLIENT_ID}
-            clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
-            audience: https://gitlab.${CLUSTER_BASE_DOMAIN}
+            metadataUrl: ${OIDC_METADATA_URL}
+            clientId: ${OIDC_CLIENT_ID}
+            clientSecret: ${OIDC_CLIENT_SECRET}
+            prompt: auto
+            scope: 'openid profile email'
     integrations:
       gitlab:
         - host: gitlab.apps.${CLUSTER_BASE_DOMAIN}

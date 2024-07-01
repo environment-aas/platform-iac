@@ -9,3 +9,7 @@ resources:
   - ./rhdh-secrets.yaml
   - ./rhdh.yaml
   - ./link.yaml
+  - ./gitlab-secrets.yaml
+  - ./kecloak-secrets.yaml
+  - ./patches-rbac.yaml
+  - ./patches.yaml
