@@ -4,6 +4,7 @@ metadata:
   name: gitlab
 spec:
   chart:
+    version: "8.1.1"
     values:
       certmanager:
         install: false
