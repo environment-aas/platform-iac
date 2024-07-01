@@ -4,7 +4,7 @@ metadata:
   name: app-config-rhdh
 data:
   app-config-rhdh.yaml: |
-    signInPage: gitlab 
+    signInPage: oidc 
     app:
       title: Red Hat Developer Hub
       baseUrl: https://backstage-developer-hub-rhdh-gitlab.apps.${CLUSTER_BASE_DOMAIN}
