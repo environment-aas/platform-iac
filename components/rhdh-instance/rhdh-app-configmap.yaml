@@ -31,7 +31,7 @@ data:
     integrations:
       gitlab:
         - host: gitlab.apps.${CLUSTER_BASE_DOMAIN}
-          token: ${GITLAB_TOKEN}
+          token: ${token}
           apiBaseUrl: https://gitlab.apps.${CLUSTER_BASE_DOMAIN}/api/v4
           baseUrl: https://gitlab.apps.${CLUSTER_BASE_DOMAIN}     
     catalog:

@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  name: create-root-pat
+spec:
+  template:
+    spec:
+      containers:
+        - image: image-registry.openshift-image-registry.svc:5000/openshift/cli:latest
+          env:
+            - name: GITLAB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: root-pat
+                  key: token        
+          command:
+            - /bin/bash
+            - -c
+            - |
+              #!/bin/bash
+
+              # Check required CLI's
+              command -v oc >/dev/null 2>&1 || { echo >&2 "OpenShift CLI is required but not installed.  Aborting."; exit 1; }
+
+              #GitLab token must be 20 characters
+              DEFAULT_GITLAB_TOKEN="KbfdXFhoX407c0v5ZP2Y"
+
+              GITLAB_TOKEN=${GITLAB_TOKEN:=$DEFAULT_GITLAB_TOKEN}
+              GITLAB_NAMESPACE=${GITLAB_NAMESPACE:=gitlab-system}
+
+              GITLAB_URL=https://$(oc get ingress -n $GITLAB_NAMESPACE -l app=webservice -o jsonpath='{ .items[*].spec.rules[*].host }')
+
+              # Check if Token has been registered
+              if [ "401" == $(curl --header "PRIVATE-TOKEN: $GITLAB_TOKEN" -s -I "${GITLAB_URL}/api/v4/user" -w "%{http_code}" -o /dev/null) ]; then
+                  echo "Registering Token"
+                  # Create root token
+                  oc exec -it -n $GITLAB_NAMESPACE -c toolbox $(oc get pods -n $GITLAB_NAMESPACE -l=app=toolbox -o jsonpath='{ .items[0].metadata.name }') -- sh -c "$(cat << EOF
+                  gitlab-rails runner "User.find_by_username('root').personal_access_tokens.create(scopes: [:api], name: 'Automation token', expires_at: 365.days.from_now, token_digest: Gitlab::CryptoHelper.sha256('${GITLAB_TOKEN}'))"
+              EOF
+                  )"
+              fi
+          imagePullPolicy: Always
+          name: create-root-pat
+      dnsPolicy: ClusterFirst
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 30

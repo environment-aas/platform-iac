@@ -9,3 +9,5 @@ resources:
 - ./oidc-keycloak-secret.yaml
 - ./patches-rbac.yaml
 - ./patches.yaml
+- ./root-pat-secret.yaml
+- ./set-root-pat-job.yaml
