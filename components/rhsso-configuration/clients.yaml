@@ -96,7 +96,7 @@ spec:
     secret: ocp-secret
     rootUrl: https://backstage-developer-hub-rhdh.apps.${CLUSTER_BASE_DOMAIN}
     redirectUris:
-      - /oauth2/callback
+      - /api/auth/oidc/handler/frame
     clientAuthenticatorType: client-secret
     standardFlowEnabled: true
     directAccessGrantsEnabled: true

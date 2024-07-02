@@ -18,10 +18,11 @@ data:
     auth:
       session:
         secret: ${SESSION_SECRET}
-      environment: development
+      environment: production
       providers:
+        guest: null
         oidc:
-          development:
+          production:
             metadataUrl: ${OIDC_METADATA_URL}
             clientId: ${OIDC_CLIENT_ID}
             clientSecret: ${OIDC_CLIENT_SECRET}
