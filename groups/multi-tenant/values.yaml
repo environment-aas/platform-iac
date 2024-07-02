@@ -1,5 +1,14 @@
 applications:
 
+  crossplane-providers:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '15'
+    destination:
+      namespace: crossplane-system
+    source:
+      path: components/crossplane-providers
+
   namespace-configurations:
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
@@ -7,49 +16,16 @@ applications:
     destination:
       namespace: namespace-configuration-operator
     source:
-      path: groups/multi-tenant/overlays/namespace-configurations   
+      path: groups/multi-tenant/overlays/namespace-configurations
 
-  cert-manager-operator:
-    annotations:
-      argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '5'
-    destination:
-      namespace: cert-manager-operator
-    source:
-      path: components/cert-manager-operator 
-
-  cert-manager-configuration:
-    annotations:
-      argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '6'
-    destination:
-      namespace: cert-manager
-    source:
-      path: groups/multi-tenant/overlays/cert-manager-configuration
-    extraFields: |
-      ignoreDifferences:
-        - group: 'cert-manager.io'
-          jsonPointers:
-            - /spec/acme/solvers
-          kind: ClusterIssuer        
-
-  group-sync-configuration:
-    annotations:
-      argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '15'
-    destination:
-      namespace: group-sync-configuration
-    source:
-      path: groups/multi-tenant/overlays/group-sync-configuration
-
-  oauth-config:
+  openshift-config:
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
       argocd.argoproj.io/sync-wave: '5'
     destination:
       namespace: openshift-config  
     source:
-      path: components/oauth-config
+      path: components/openshift-config
 
   vault-admin:
     annotations:
@@ -67,16 +43,7 @@ applications:
     destination:
       namespace: default
     source:
-      path: components/approved-namespaces-app
-
-  kube-ops-view:
-    annotations:
-      argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '15'
-    destination:
-      namespace: kube-ops-view
-    source:
-      path: components/kube-ops-view      
+      path: components/approved-namespaces-app      
 
   vault-sidecar-injection:
     annotations:
@@ -85,61 +52,7 @@ applications:
     destination:
       namespace: vault
     source:
-      path: groups/multi-tenant/overlays/vault-sidecar-injection
-
-  crossplane-operator:
-    annotations:
-      argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '8'
-    destination:
-      namespace: crossplane-system
-    source:
-      path: components/crossplane-operator
-    extraFields: |
-      ignoreDifferences:
-        - group: 'apps'
-          jsonPointers:
-            - /spec/template/spec/containers/0/env/0/valueFrom/resourceFieldRef/divisor
-            - /spec/template/spec/containers/0/env/1/valueFrom/resourceFieldRef/divisor
-            - /spec/template/spec/initContainers/0/env/0/valueFrom/resourceFieldRef/divisor
-            - /spec/template/spec/initContainers/0/env/1/valueFrom/resourceFieldRef/divisor            
-          kind: Deployment            
-
-  crossplane-providers:
-    annotations:
-      argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '15'
-    destination:
-      namespace: crossplane-system
-    source:
-      path: components/crossplane-providers
-
-  crossplane-provider-config:
-    annotations:
-      argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '25'
-    destination:
-      namespace: crossplane-system
-    source:
-      path: components/crossplane-provider-config
-
-  crossplane-compositions:
-    annotations:
-      argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '25'
-    destination:
-      namespace: crossplane-system
-    source:
-      path: components/crossplane-compositions 
-
-  crossplane-vault:
-    annotations:
-      argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '7'
-    destination:
-      namespace: vault-admin
-    source:
-      path: components/crossplane-vault                      
+      path: groups/multi-tenant/overlays/vault-sidecar-injection                     
 
 
      
