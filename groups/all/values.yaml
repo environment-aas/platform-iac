@@ -64,6 +64,15 @@ applications:
     source:
       path: components/group-sync-operator
 
+  group-sync-configuration:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '15'
+    destination:
+      namespace: group-sync-operator
+    source:
+      path: components/group-sync-configuration      
+
   kube-ops-view:
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
