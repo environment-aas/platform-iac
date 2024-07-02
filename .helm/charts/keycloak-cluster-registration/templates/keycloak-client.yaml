@@ -1,0 +1,26 @@
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakClient
+metadata:
+  name: ocp-{{.Release.Name}}
+  namespace: sso
+  labels:
+    app: sso
+spec:
+  realmSelector:
+    matchLabels:
+      app: sso
+  client:
+    id: ocp-{{.Release.Name}}-client
+    clientId: ocp-{{.Release.Name}}-client
+    secret: ocp-secret
+    rootUrl: https://oauth-openshift.apps.{{.Release.Name}}.${PLATFORM_BASE_DOMAIN}/oauth2callback
+    redirectUris:
+      - /oidckeycloak
+    clientAuthenticatorType: client-secret
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: true
+    implicitFlowEnabled: false
+    defaultClientScopes:
+      - profile
+      - email
+    consentRequired: false

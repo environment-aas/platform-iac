@@ -28,60 +28,6 @@ spec:
 apiVersion: keycloak.org/v1alpha1
 kind: KeycloakClient
 metadata:
-  name: ocp-prod
-  namespace: sso
-  labels:
-    app: sso
-spec:
-  realmSelector:
-    matchLabels:
-      app: sso
-  client:
-    id: ocp-prod-client
-    clientId: ocp-prod-client
-    secret: ocp-secret
-    rootUrl: https://oauth-openshift.apps.prod.${PLATFORM_BASE_DOMAIN}/oauth2callback
-    redirectUris:
-      - /oidckeycloak
-    clientAuthenticatorType: client-secret
-    standardFlowEnabled: true
-    directAccessGrantsEnabled: true
-    implicitFlowEnabled: false
-    defaultClientScopes:
-      - profile
-      - email
-    consentRequired: false      
----
-apiVersion: keycloak.org/v1alpha1
-kind: KeycloakClient
-metadata:
-  name: ocp-non-prod
-  namespace: sso
-  labels:
-    app: sso
-spec:
-  realmSelector:
-    matchLabels:
-      app: sso
-  client:
-    id: ocp-non-prod-client
-    clientId: ocp-non-prod-client
-    secret: ocp-secret
-    rootUrl: https://oauth-openshift.apps.non-prod.${PLATFORM_BASE_DOMAIN}/oauth2callback
-    redirectUris:
-      - /oidckeycloak
-    clientAuthenticatorType: client-secret
-    standardFlowEnabled: true
-    directAccessGrantsEnabled: true
-    implicitFlowEnabled: false
-    defaultClientScopes:
-      - profile
-      - email
-    consentRequired: false
----
-apiVersion: keycloak.org/v1alpha1
-kind: KeycloakClient
-metadata:
   name: backstage
   namespace: sso
   labels:
