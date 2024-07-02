@@ -23,16 +23,16 @@ spec:
         appConfig:    
           omniauth:
             enabled: true
-            autoSignInWithProvider: oidc-connect
-            syncProfileFromProvider: ["oidc-connect"]
+            autoSignInWithProvider: openid_connect
+            syncProfileFromProvider: ["openid_connect"]
             syncProfileAttributes: ['email']
-            allowSingleSignOn: ["oidc-connect"]
+            allowSingleSignOn: ["openid_connect"]
             blockAutoCreatedUsers: false
             autoLinkLdapUser: false
             autoLinkSamlUser: false
-            autoLinkUser: ["oidc-connect"]
+            autoLinkUser: ["openid_connect"]
             externalProviders: []
-            allowBypassTwoFactor: ["oidc-connect"]
+            allowBypassTwoFactor: ["openid_connect"]
             providers: 
             - secret: "oidc-keycloak"            
       nginx-ingress:
