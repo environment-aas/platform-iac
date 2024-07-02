@@ -22,16 +22,16 @@ spec:
             enabled: false
         omniauth:
           enabled: true
-          autoSignInWithProvider: oidc-keycloak
-          syncProfileFromProvider: ["oidc-keycloak"]
+          autoSignInWithProvider: oidc-connect
+          syncProfileFromProvider: ["oidc-connect"]
           syncProfileAttributes: ['email']
-          allowSingleSignOn: ["oidc-keycloak"]
+          allowSingleSignOn: ["oidc-connect"]
           blockAutoCreatedUsers: false
           autoLinkLdapUser: false
           autoLinkSamlUser: false
-          autoLinkUser: ["oidc-keycloak"]
+          autoLinkUser: ["oidc-connect"]
           externalProviders: []
-          allowBypassTwoFactor: ["oidc-keycloak"]
+          allowBypassTwoFactor: ["oidc-connect"]
           providers: 
           - secret: "oidc-keycloak"            
       nginx-ingress:
