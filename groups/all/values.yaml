@@ -149,4 +149,4 @@ applications:
     destination:
       namespace: vault-admin
     source:
-      path: clusters/hub/overlays/crossplane-vault                                           
+      path: components/crossplane-vault                                           

@@ -7,7 +7,7 @@ applications:
     destination:
       namespace: open-cluster-management
     source:
-      path: compoents/acm-operator
+      path: components/acm-operator
 
   acm-configuration:
     annotations:
