@@ -12,3 +12,21 @@ spec:
     htpasswd:
       fileData:
         name: htpass-secret
+  - name: oidckeycloak
+    mappingMethod: claim
+    type: OpenID
+    openID:
+      clientID: ocp-${CLUSTER_NAME}-client
+      clientSecret: 
+        name: oidc-secret
+      extraScopes: []
+      issuer: https://keycloak-sso.apps.${HUB_BASE_DOMAIN}/auth/realms/myorg
+      claims:
+        preferredUsername:
+        - preferred_username
+        name:
+        - name
+        email:
+        - email
+        groups:
+        - groups        
