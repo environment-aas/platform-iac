@@ -51,8 +51,8 @@ data:
               initialDelay: { seconds: 30 }
         gitlab:
           yourProviderId:
-            host: gitlab.${basedomain} # Identifies one of the hosts set up in the integrations
-            apiBaseUrl: https://gitlab.${basedomain}/api/v4
+            host: gitlab.${CLUSTER_BASE_DOMAIN} # Identifies one of the hosts set up in the integrations
+            apiBaseUrl: https://gitlab.${CLUSTER_BASE_DOMAIN}/api/v4
             branch: main # Optional. Used to discover on a specific branch
             fallbackBranch: main # Optional. Fallback to be used if there is no default branch configured at the Gitlab repository. It is only used, if `branch` is undefined. Uses `master` as default
             skipForkedRepos: false # Optional. If the project is a fork, skip repository
