@@ -23,7 +23,7 @@ spec:
         appConfig:    
           omniauth:
             enabled: true
-            autoSignInWithProvider: openid_connect
+            #autoSignInWithProvider: openid_connect
             syncProfileFromProvider: ["openid_connect"]
             syncProfileAttributes: ['email']
             allowSingleSignOn: ["openid_connect"]
