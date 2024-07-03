@@ -11,6 +11,12 @@ spec:
         name         = "devspaces-oidc"
         redirect_url = "https://devspaces.apps.${CLUSTER_BASE_DOMAIN}/api/oauth/callback"
       }
+      output "application_id" {
+        value       = gitlab_application.oidc.application_id
+      }
+      output "secret" {
+        value       = gitlab_application.oidc.secret
+      }      
     source: Inline
   publishConnectionDetailsTo:
     name: devspaces-gitlab-oidc
