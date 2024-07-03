@@ -12,7 +12,7 @@ spec:
       source: Secret
       secretRef:
         namespace: gitlab-system
-        name:  gitlab-gitlab-initial-root-password
+        name:  root-pat
         key: password        
   configuration: |
     terraform {

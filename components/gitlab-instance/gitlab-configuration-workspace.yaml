@@ -5,10 +5,11 @@ metadata:
 spec:
   forProvider:
     module: |
-      resource "gitlab_personal_access_token" "backstage" {
-        scopes       = ["api","read_repository"]
-        name         = "backstage"
-        user_id      = "1"
+      resource "gitlab_application" "devspaces-oidc" {
+        confidential = true
+        scopes       = ["api","write_repository","openid"]
+        name         = "devspaces"
+        redirect_url = "https://devspaces.apps.${CLUSTER_BASE_DOMAIN}/api/oauth/callback"
       }
     source: Inline
   publishConnectionDetailsTo:

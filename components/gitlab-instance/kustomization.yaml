@@ -5,7 +5,7 @@ resources:
 - ./gitlab-root-secret.yaml
 - ./gitlab.yaml
 - ./link.yaml
-#- ./gitlab-configuration-workspace.yaml
+- ./gitlab-configuration-workspace.yaml
 - ./oidc-keycloak-secret.yaml
 - ./patches-rbac.yaml
 - ./patches.yaml

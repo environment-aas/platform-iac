@@ -112,7 +112,16 @@ applications:
     destination:
       namespace: openshift-operators
     source:
-      path: components/devspaces-operator  
+      path: components/devspaces-operator
+
+  devspaces-instance:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '25'
+    destination:
+      namespace: openshift-operators
+    source:
+      path: components/devspaces-instance        
 
   openshift-config:
     annotations:
