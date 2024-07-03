@@ -4,3 +4,4 @@ namespace: devspaces
 resources:
   - ./namespace.yaml
   - ./che-cluster.yaml
+  - ./gitlab-secret.yaml
