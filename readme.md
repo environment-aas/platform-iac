@@ -40,3 +40,11 @@ oc delete secret aws-credentials -n open-cluster-management
 oc apply -f ./.rosa/aws-secret.yaml
 ```
 
+If you are using RHDP, after a restart run this to deal with the annoying race condition affecting ArgoCD
+
+```sh
+oc rollout restart deployment/openshift-gitops-operator-controller-manager -n openshift-operators
+oc delete pods --all -n openshift-gitops
+```
+
+

@@ -13,7 +13,7 @@ spec:
       secretRef:
         namespace: gitlab-system
         name:  root-pat
-        key: password        
+        key: token        
   configuration: |
     terraform {
       backend "kubernetes" {
