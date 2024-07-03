@@ -6,7 +6,7 @@ metadata:
     cloud: 'AWS'
     region: '{{ .Values.region }}'
     vendor: OpenShift
-    cluster.open-cluster-management.io/clusterset: 'production'
+    cluster.open-cluster-management.io/clusterset: {{ .Values.clusterset }}
     {{- include "aws-cluster.labels" . | nindent 4 }}    
 spec:
   baseDomain: ${PLATFORM_BASE_DOMAIN}

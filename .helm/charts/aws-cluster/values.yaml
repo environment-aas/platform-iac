@@ -4,3 +4,4 @@ clusterNetworkCIDR: 10.128.0.0/14
 serviceNetworkCIDR: 172.30.0.0/16
 storageNodes:
   replicas: 3
+clusterset: default  
