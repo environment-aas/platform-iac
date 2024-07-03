@@ -1,19 +1,20 @@
 apiVersion: keycloak.org/v1alpha1
 kind: KeycloakClient
 metadata:
-  name: ocp-{{.Release.Name}}
+  name: ocp-{{ .Release.Name }}
   namespace: sso
   labels:
     app: sso
+    {{- include "keycloak-cluster-registration.labels" . | nindent 4 }}    
 spec:
   realmSelector:
     matchLabels:
       app: sso
   client:
-    id: ocp-{{.Release.Name}}-client
-    clientId: ocp-{{.Release.Name}}-client
+    id: ocp-{{ .Release.Name }}-client
+    clientId: ocp-{{ .Release.Name }}-client
     secret: ocp-secret
-    rootUrl: https://oauth-openshift.apps.{{.Release.Name}}.${PLATFORM_BASE_DOMAIN}/oauth2callback
+    rootUrl: https://oauth-openshift.apps.{{ .Release.Name }}.${PLATFORM_BASE_DOMAIN}/oauth2callback
     redirectUris:
       - /oidckeycloak
     clientAuthenticatorType: client-secret
