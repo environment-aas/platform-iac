@@ -4,3 +4,4 @@ metadata:
   name: devspaces
   labels:
     openshift.io/cluster-monitoring: "true"
+    infra-secrets: "true"
