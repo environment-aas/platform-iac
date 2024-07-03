@@ -5,14 +5,14 @@ metadata:
 spec:
   forProvider:
     module: |
-      resource "gitlab_application" "devspaces-oidc" {
+      resource "gitlab_application" "oidc" {
         confidential = true
         scopes       = ["api","write_repository","openid"]
-        name         = "devspaces"
+        name         = "devspaces-oidc"
         redirect_url = "https://devspaces.apps.${CLUSTER_BASE_DOMAIN}/api/oauth/callback"
       }
     source: Inline
   publishConnectionDetailsTo:
-    name: backstage-gitlab
+    name: devspaces-gitlab-oidc
     configRef:
       name: vault    
