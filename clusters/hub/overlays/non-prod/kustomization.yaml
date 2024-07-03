@@ -3,14 +3,6 @@ kind: Kustomization
 
 resources:
   - ./namespace.yaml
-  - ./cluster-deployment.yaml
-  - ./install-config-secret.yaml
-  - ./machine-pool.yaml
-  - ./patches-rbac.yaml
-  - ./aws-creds-secret.yaml
-  - ./pull-secret.yaml
-  - ./patches.yaml
-  - ./private-key-secret.yaml
 
 helmGlobals:
   chartHome: ../../../../.helm/charts
