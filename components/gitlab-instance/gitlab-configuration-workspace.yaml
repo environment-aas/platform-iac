@@ -16,6 +16,7 @@ spec:
       }
       output "secret" {
         value       = gitlab_application.oidc.secret
+        sensitive   = true
       }      
     source: Inline
   publishConnectionDetailsTo:
