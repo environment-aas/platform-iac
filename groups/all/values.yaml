@@ -94,7 +94,7 @@ applications:
   cert-manager-configuration:
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '15'
+      argocd.argoproj.io/sync-wave: '7'
     destination:
       namespace: cert-manager
     source:
