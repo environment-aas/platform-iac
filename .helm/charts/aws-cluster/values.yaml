@@ -2,6 +2,4 @@ region: us-east-2
 machineNetworkCIDR: 10.2.0.0/16
 clusterNetworkCIDR: 10.128.0.0/14
 serviceNetworkCIDR: 172.30.0.0/16
-storageNodes:
-  replicas: 3
 clusterset: default  
