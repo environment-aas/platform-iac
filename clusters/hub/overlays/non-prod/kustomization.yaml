@@ -40,5 +40,5 @@ helmCharts:
         apiUrl: https://api.non-prod.${PLATFORM_BASE_DOMAIN}:6443
 
   - name: keycloak-cluster-registration
-    releaseName: prod
+    releaseName: non-prod
     namespace: sso        
