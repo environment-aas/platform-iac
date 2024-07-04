@@ -13,7 +13,7 @@ helmCharts:
     releaseName: prod
     namespace: prod
     valuesInline:
-      region: us-east-2
+      region: ca-central-1
       machineNetworkCIDR: 10.3.0.0/16
       clusterNetworkCIDR: 10.132.0.0/14
       serviceNetworkCIDR: 172.31.0.0/16
@@ -30,7 +30,7 @@ helmCharts:
       labels:
         cloud: AWS
         vendor: OpenShift
-        region: us-east-2
+        region: ca-central-1
 
   - name: vault-cluster-registration
     releaseName: prod
