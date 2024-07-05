@@ -13,7 +13,8 @@ spec:
     servingCertificates: 
       default: api
   certificateBundles:
-  - certficateSecretRef: {{ .Release.Name }}-cluster-api-certs-tls
+  - certificateSecretRef: 
+      name: {{ .Release.Name }}-cluster-api-certs-tls
     name: api  
   baseDomain: ${PLATFORM_BASE_DOMAIN}
   clusterName: '{{ .Release.Name }}'
