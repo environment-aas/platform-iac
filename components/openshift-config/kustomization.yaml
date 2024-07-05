@@ -20,6 +20,8 @@ resources:
   - ./ingress-controller-patch.yaml
   - ./ingress-rbac.yaml
   - ./console-patch.yaml
+  - ./api-cert-patch.yaml
+  - ./cluster-api-certificate.yaml
 
 generatorOptions:
  disableNameSuffixHash: true  

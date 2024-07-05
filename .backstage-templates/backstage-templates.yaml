@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: software-templates
+  description: A collection of Backstage templates for Janus-IDP Backstage
+spec:
+  type: url
+  targets:
+     - https://github.com/environment-aas/platform-iac/blob/main/.backstage-templates/quarkus-web-template/template.yaml
+     - https://github.com/environment-aas/platform-iac/blob/main/.backstage-templates/namespace/template.yaml
