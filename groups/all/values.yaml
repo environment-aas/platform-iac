@@ -94,7 +94,7 @@ applications:
   cert-manager-configuration:
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '7'
+      argocd.argoproj.io/sync-wave: '6'
     destination:
       namespace: cert-manager
     source:
@@ -145,7 +145,7 @@ applications:
   crossplane-vault:
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '6'
+      argocd.argoproj.io/sync-wave: '7'
     destination:
       namespace: vault-admin
     source:
