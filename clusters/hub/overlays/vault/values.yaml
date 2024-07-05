@@ -101,7 +101,7 @@ server:
   extraContainers:
     # you should not do this in production
     - name: auto-initializer
-      image: registry.connect.redhat.com/hashicorp/vault:1.12.3-ubi
+      image: registry.connect.redhat.com/hashicorp/vault:1.17.1-ubi
       env: 
       - name: NAMESPACE
         valueFrom:
@@ -138,7 +138,7 @@ server:
           mountPath: /usr/local/libexec/vault          
     # you should not do this in production      
     - name: auto-unsealer
-      image: registry.connect.redhat.com/hashicorp/vault:1.12.3-ubi
+      image: registry.connect.redhat.com/hashicorp/vault:1.17.1-ubi
       env: 
       - name: VAULT_SKIP_VERIFY
         value: "true"        
@@ -172,7 +172,7 @@ server:
           mountPath: /vault-root-token  
 
     - name: vault-admin-initializer
-      image: registry.connect.redhat.com/hashicorp/vault:1.12.3-ubi
+      image: registry.connect.redhat.com/hashicorp/vault:1.17.1-ubi
       env: 
       - name: VAULT_ADDR
         value: https://vault.vault.svc:8200
