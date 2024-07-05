@@ -109,7 +109,7 @@ applications:
   crossplane-operator:
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '8'
+      argocd.argoproj.io/sync-wave: '9'
     destination:
       namespace: crossplane-system
     source:
@@ -145,7 +145,7 @@ applications:
   crossplane-vault:
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
-      argocd.argoproj.io/sync-wave: '7'
+      argocd.argoproj.io/sync-wave: '8'
     destination:
       namespace: vault-admin
     source:
