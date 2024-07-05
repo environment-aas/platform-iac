@@ -17,8 +17,6 @@ spec:
     name: api  
   baseDomain: ${PLATFORM_BASE_DOMAIN}
   clusterName: '{{ .Release.Name }}'
-  controlPlaneConfig:
-    servingCertificates: {}
   installAttemptsLimit: 1
   installed: false
   platform:
