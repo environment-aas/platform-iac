@@ -11,21 +11,21 @@ injector:
   enabled: true
   image:
     repository: "registry.connect.redhat.com/hashicorp/vault-k8s"
-    tag: "1.2.0-ubi"
+    tag: "1.4.2-ubi"
 
   agentImage:
     repository: "registry.connect.redhat.com/hashicorp/vault"
-    tag: "1.12.3-ubi"    
+    tag: "1.17.1-ubi"    
 
 csi:
   image:
     repository: "docker.io/hashicorp/vault-csi-provider"
-    tag: "1.2.1"
+    tag: "1.4.2"
     pullPolicy: IfNotPresent     
 
 server:
   image:
-    tag: "1.12.3-ubi"
+    tag: "1.17.1-ubi"
     repository: registry.connect.redhat.com/hashicorp/vault
 
   extraEnvironmentVars:
