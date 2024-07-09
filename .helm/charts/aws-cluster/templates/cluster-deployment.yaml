@@ -15,7 +15,7 @@ spec:
   # certificateBundles:
   # - certificateSecretRef: 
   #     name: {{ .Release.Name }}-cluster-api-certs-tls
-    name: api  
+    # name: api  
   baseDomain: ${PLATFORM_BASE_DOMAIN}
   clusterName: '{{ .Release.Name }}'
   installAttemptsLimit: 1
