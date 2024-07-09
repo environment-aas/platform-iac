@@ -54,6 +54,35 @@ spec:
         data:
           .dockerconfigjson: {{ "{{" }} (index (index . 1).data ".dockerconfigjson") {{ "}}" }}
       patchType: application/merge-patch+json
+    kubeconfig-patch-patch:
+      targetObjectRef:
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: Patch
+        namespace: {{ .Release.Name }}
+        name: {{ .Release.Name }}-patches-2
+      sourceObjectRefs:
+      - apiVersion: hive.openshift.io/v1
+        kind: ClusterDeployment
+        namespace: {{ .Release.Name }}
+        name: {{ .Release.Name }}
+      patchTemplate: |
+        spec:
+          patches:
+            kubeconfig-patch:
+              targetObjectRef:
+                name: {{ "{{" }} (index . 1).spec.clusterMetadata.adminKubeconfigSecretRef.name {{ "}}" }}
+      patchType: application/merge-patch+json
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: Patch
+metadata:
+  name: {{ .Release.Name }}-patches-2
+  labels:
+    {{- include "aws-cluster.labels" . | nindent 4 }}
+spec:
+  serviceAccountRef:
+    name: default
+  patches:
     kubeconfig-patch:
       targetObjectRef:
         apiVersion: v1
@@ -75,23 +104,6 @@ spec:
         {{ "{{" }} end  {{ "-}}" }}
         data:
           kubeconfig: {{ "{{" }} $kubeconfig | toYaml | b64enc {{ "}}" }}
-      patchType: application/merge-patch+json
-    kubeconfig-patch-patch:
-      targetObjectRef:
-        apiVersion: redhatcop.redhat.io/v1alpha1
-        kind: Patch
-        namespace: {{ .Release.Name }}
-        name: {{ .Release.Name }}-patches
-      sourceObjectRefs:
-      - apiVersion: hive.openshift.io/v1
-        kind: ClusterDeployment
-        namespace: {{ .Release.Name }}
-        name: {{ .Release.Name }}
-      patchTemplate: |
-        spec:
-          patches:
-            kubeconfig-patch:
-              targetObjectRef:
-                name: {{ "{{" }} (index . 1).spec.clusterMetadata.adminKubeconfigSecretRef.name {{ "}}" }}
-      patchType: application/merge-patch+json                         
+      patchType: application/merge-patch+json            
+
 
