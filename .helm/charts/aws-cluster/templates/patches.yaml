@@ -59,7 +59,7 @@ spec:
         apiVersion: v1
         kind: Secret
         namespace: {{ .Release.Name }}
-        name: {{ .Release.Name }}-admin-kubeconfig
+        name: {{ .Release.Name }}-0-988w2-admin-kubeconfig
       sourceObjectRefs:
       - apiVersion: v1
         kind: ConfigMap
