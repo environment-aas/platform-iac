@@ -69,7 +69,7 @@ spec:
         {{ "{{" }} $kubeconfig := ((index . 0).data.kubeconfig)| b64dec |fromYaml {{ "}}" }}
         {{ "{{" }} $ca := (index (index $kubeconfig.clusters 0).cluster "certificate-authority-data") | b64dec {{ "}}" }}
         {{ "{{" }} $additional_ca := index (index . 1).data "ca.crt" {{ "}}" }}
-        {{ "{{" }} $newca:= join $ca $additional_ca "\n" {{ "}}" }}
+        {{ "{{" }} $newca:= (list $ca $additional_ca) | join  "\n" {{ "}}" }}
         {{ "{{" }} $_ := set (index $kubeconfig.clusters 0).cluster "certificate-authority-data" ($newca | b64enc) {{ "}}" }}
         kubeconfig: {{ "{{" }} $kubeconfig | toYaml {{ "}}" }}
       patchType: application/merge-patch+json                   
