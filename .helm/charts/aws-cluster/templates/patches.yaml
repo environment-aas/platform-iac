@@ -59,7 +59,7 @@ spec:
         apiVersion: v1
         kind: Secret
         namespace: {{ .Release.Name }}
-        name: {{ .Release.Name }}-0-988w2-admin-kubeconfig
+        name: to-be-patched
       sourceObjectRefs:
       - apiVersion: v1
         kind: ConfigMap
@@ -75,5 +75,23 @@ spec:
         {{ "{{" }} end  {{ "-}}" }}
         data:
           kubeconfig: {{ "{{" }} $kubeconfig | toYaml | b64enc {{ "}}" }}
-      patchType: application/merge-patch+json                   
+      patchType: application/merge-patch+json
+    kubeconfig-patch-patch:
+      targetObjectRef:
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: Patch
+        namespace: {{ .Release.Name }}
+        name: {{ .Release.Name }}-patches
+      sourceObjectRefs:
+      - apiVersion: hive.openshift.io/v1
+        kind: ClusterDeployment
+        namespace: {{ .Release.Name }}
+        name: {{ .Release.Name }}
+      patchTemplate: |
+        spec:
+          patches:
+            kubeconfig-patch:
+              targetObjectRef:
+                name: {{ "{{" }} (index . 1).spec.clusterMetadata.adminKubeconfigSecretRef.name {{ "}}" }}
+      patchType: application/merge-patch+json                         
 
