@@ -62,7 +62,7 @@ spec:
         name: {{ .Release.Name }}-admin-kubeconfig
       sourceObjectRefs:
       - apiVersion: v1
-        kind: Configmap
+        kind: ConfigMap
         namespace: {{ .Release.Name }}
         name: additional-trusted-ca-{{ .Release.Name }}
       patchTemplate: |
