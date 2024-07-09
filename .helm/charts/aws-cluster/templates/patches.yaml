@@ -54,11 +54,23 @@ spec:
         data:
           .dockerconfigjson: {{ "{{" }} (index (index . 1).data ".dockerconfigjson") {{ "}}" }}
       patchType: application/merge-patch+json
-    # kubeconfig-patch:
-    #   targetObjectRef:
-    #     apiVersion: v1
-    #     kind: Secret
-    #     namespace: {{ .Release.Name }}
-    #     name: {{ .Release.Name }}-pull-secret
-    #   sourceObjectRefs: []             
+    kubeconfig-patch:
+      targetObjectRef:
+        apiVersion: v1
+        kind: Secret
+        namespace: {{ .Release.Name }}
+        name: {{ .Release.Name }}-admin-kubeconfig
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Configmap
+        namespace: {{ .Release.Name }}
+        name: additional-trusted-ca-{{ .Release.Name }}
+      patchTemplate: |
+        {{ "{{" }} $kubeconfig := ((index . 0).kubeconfig)|fromYaml {{ "}}" }}
+        {{ "{{" }} $ca := (index (index $kubeconfig.clusters 0).cluster "certificate-authority-data") | b64dec {{ "}}" }}
+        {{ "{{" }} $additional_ca := (index (index . 1).data "ca.crt" {{ "}}" }}
+        {{ "{{" }} $newca:= join $ca $additional_ca "\n" {{ "}}" }}
+        {{ "{{" }} $_ := set (index $kubeconfig.clusters 0).cluster "certificate-authority-data" ($newca | b64enc) {{ "}}" }}
+        kubeconfig: {{ "{{" }} $kubeconfig | toYaml {{ "}}" }}
+      patchType: application/merge-patch+json                   
 
