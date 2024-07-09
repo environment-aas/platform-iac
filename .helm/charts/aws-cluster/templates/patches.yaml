@@ -53,5 +53,12 @@ spec:
       patchTemplate: |
         data:
           .dockerconfigjson: {{ "{{" }} (index (index . 1).data ".dockerconfigjson") {{ "}}" }}
-      patchType: application/merge-patch+json         
+      patchType: application/merge-patch+json
+    # kubeconfig-patch:
+    #   targetObjectRef:
+    #     apiVersion: v1
+    #     kind: Secret
+    #     namespace: {{ .Release.Name }}
+    #     name: {{ .Release.Name }}-pull-secret
+    #   sourceObjectRefs: []             
 

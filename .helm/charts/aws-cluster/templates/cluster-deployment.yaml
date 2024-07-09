@@ -9,12 +9,12 @@ metadata:
     cluster.open-cluster-management.io/clusterset: {{ .Values.clusterset }}
     {{- include "aws-cluster.labels" . | nindent 4 }}    
 spec:
-  controlPlaneConfig:
-    servingCertificates: 
-      default: api
-  certificateBundles:
-  - certificateSecretRef: 
-      name: {{ .Release.Name }}-cluster-api-certs-tls
+  # controlPlaneConfig:
+  #   servingCertificates: 
+  #     default: api
+  # certificateBundles:
+  # - certificateSecretRef: 
+  #     name: {{ .Release.Name }}-cluster-api-certs-tls
     name: api  
   baseDomain: ${PLATFORM_BASE_DOMAIN}
   clusterName: '{{ .Release.Name }}'
