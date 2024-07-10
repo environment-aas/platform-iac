@@ -9,3 +9,4 @@ resources:
   - kube-vault-config.yaml
   - tenant-gitops-secret-engine-role.yaml
   - tenant-gitops-service-account.yaml
+  - infra-secret-config.yaml
