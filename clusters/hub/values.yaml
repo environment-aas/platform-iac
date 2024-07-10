@@ -144,11 +144,7 @@ applications:
         - group: 'redhatcop.redhat.io'
           jsonPointers:
             - /spec/kubernetesHost
-          kind: KubernetesAuthEngineConfig
-        - group: 'redhatcop.redhat.io'
-          jsonPointers:
-            - /spec/patches/kubeconfig-patch/targetObjectRef/name
-          kind: Patch                               
+          kind: KubernetesAuthEngineConfig                               
 
   non-prod:
     annotations:
@@ -171,9 +167,5 @@ applications:
         - group: 'redhatcop.redhat.io'
           jsonPointers:
             - /spec/kubernetesHost
-          kind: KubernetesAuthEngineConfig
-        - group: 'redhatcop.redhat.io'
-          jsonPointers:
-            - /spec/patches/kubeconfig-patch/targetObjectRef/name
-          kind: Patch           
+          kind: KubernetesAuthEngineConfig           
                           
