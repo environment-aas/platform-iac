@@ -5,4 +5,5 @@
   paths = [
     # Ignore all example certs
     'components/oauth-config/htpasswd',
+    'components/openshift-config/htpasswd',
   ]

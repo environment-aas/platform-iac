@@ -1,1 +1,29 @@
-applications: {}          
+applications: 
+
+  devspaces-operator:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '5'
+    destination:
+      namespace: openshift-operators
+    source:
+      path: components/devspaces-operator
+
+  openshift-pipelines-operator:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '5'
+    destination:
+      namespace: openshift-operators
+    source:
+      path: components/openshift-pipelines-operator      
+
+  devspaces-instance:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+      argocd.argoproj.io/sync-wave: '25'
+    destination:
+      namespace: openshift-operators
+    source:
+      path: components/devspaces-instance
+

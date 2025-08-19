@@ -3,19 +3,21 @@ kind: Kustomization
 
 resources:
   - ./namespace.yaml
-  - ./cluster-deployment.yaml
-  - ./install-config-secret.yaml
-  - ./machine-pool.yaml
-  - ./patches-rbac.yaml
-  - ./aws-creds-secret.yaml
-  - ./pull-secret.yaml
-  - ./patches.yaml
-  - ./private-key-secret.yaml
 
 helmGlobals:
   chartHome: ../../../../.helm/charts
 
 helmCharts:
+
+  - name: aws-cluster
+    releaseName: non-prod
+    namespace: non-prod
+    valuesInline:
+      region: us-west-2
+      machineNetworkCIDR: 10.2.0.0/16
+      clusterNetworkCIDR: 10.128.0.0/14
+      serviceNetworkCIDR: 172.30.0.0/16
+
   - name: cluster-registration
     releaseName: non-prod
     namespace: non-prod
@@ -36,3 +38,7 @@ helmCharts:
     valuesInline:
       cluster:
         apiUrl: https://api.non-prod.${PLATFORM_BASE_DOMAIN}:6443
+
+  - name: keycloak-cluster-registration
+    releaseName: non-prod
+    namespace: sso        

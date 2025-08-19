@@ -1,0 +1,24 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: Trigger
+metadata:
+  name: {{ include "quarkus-build.fullname" . }}
+  labels:
+    {{- include "quarkus-build.labels" . | nindent 4 }}  
+spec:
+  serviceAccountName: pipeline
+  bindings:
+    - ref: {{ include "quarkus-build.fullname" . }}
+  template:
+    ref: {{ include "quarkus-build.fullname" . }}
+  interceptors:
+  - ref:
+      name: "gitlab"
+      kind: ClusterInterceptor
+      apiVersion: triggers.tekton.dev
+    params:
+    - name: "secretRef"
+      value:
+        secretName: {{ include "quarkus-build.fullname" . }}-webhook
+        secretKey: secret
+    - name: "eventTypes"
+      value: ["Push Hook"]   

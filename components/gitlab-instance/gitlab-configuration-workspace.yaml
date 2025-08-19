@@ -1,0 +1,25 @@
+apiVersion: tf.upbound.io/v1beta1
+kind: Workspace
+metadata:
+  name: gitlab-configuration
+spec:
+  forProvider:
+    module: |
+      resource "gitlab_application" "oidc" {
+        confidential = true
+        scopes       = ["api","write_repository","openid"]
+        name         = "devspaces-oidc"
+        redirect_url = "https://devspaces.apps.${CLUSTER_BASE_DOMAIN}/api/oauth/callback"
+      }
+      output "application_id" {
+        value       = gitlab_application.oidc.application_id
+      }
+      output "secret" {
+        value       = gitlab_application.oidc.secret
+        sensitive   = true
+      }      
+    source: Inline
+  publishConnectionDetailsTo:
+    name: devspaces-gitlab-oidc
+    configRef:
+      name: vault    

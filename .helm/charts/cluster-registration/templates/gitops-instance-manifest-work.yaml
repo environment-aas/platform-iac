@@ -256,7 +256,8 @@ spec:
           policy: |
             p, role:none, *, *, */*, deny
             g, system:cluster-admins, role:admin
-            g, openshift-admins, role:admin
+            g, cluster-admins, role:admin
+            g, cluster-admin, role:admin
             g, admin, role:admin
           scopes: "[groups]"
         repo:

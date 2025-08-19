@@ -1,0 +1,21 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: GitWebhook
+metadata:
+  name: {{ include "quarkus-build.fullname" . }}
+  labels:
+    {{- include "quarkus-build.labels" . | nindent 4 }}  
+spec:
+  gitHub:
+    gitServerCredentials:
+      name: github-credentials
+  repositoryOwner: {{ .Values.repositoryOwner }}
+  ownerType:  {{ .Values.ownerType }}
+  repositoryName: {{ .Values.repositoryName }}
+  webhookURL: https://{{ include "quarkus-build.fullname" . }}-{{ .Release.Namespace}}.apps.{{ .Values.el.baseURL }}
+  insecureSSL: true
+  webhookSecret:
+    name: {{ include "quarkus-build.fullname" . }}-webhook
+  events:
+    - push  
+  content: json
+  active: true  

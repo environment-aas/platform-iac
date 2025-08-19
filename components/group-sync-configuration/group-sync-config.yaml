@@ -8,7 +8,7 @@ spec:
       keycloak:
         insecure: true
         realm: myorg
-        url: <replace>
+        url: https://keycloak-sso.apps.${HUB_BASE_DOMAIN}/auth
         loginRealm: master	
         prune: false
         scope: sub        

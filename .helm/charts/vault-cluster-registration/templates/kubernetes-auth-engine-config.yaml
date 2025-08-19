@@ -17,3 +17,4 @@ spec:
   kubernetesHost: {{ .Values.cluster.apiUrl }}
   disableISSValidation: true
   disableLocalCAJWT: true
+  useOperatorPodCA: false

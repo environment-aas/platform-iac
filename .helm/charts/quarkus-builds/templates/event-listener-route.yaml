@@ -1,0 +1,19 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    eventlistener: {{ include "quarkus-build.fullname" . }}
+    {{- include "quarkus-build.labels" . | nindent 4 }}    
+  name: {{ include "quarkus-build.fullname" . }}
+spec:
+  host: {{ include "quarkus-build.fullname" . }}-{{ .Release.Namespace}}.apps.{{ .Values.el.baseURL }}
+  port:
+    targetPort: http-listener
+  to:
+    kind: Service
+    name: el-{{ include "quarkus-build.fullname" . }}
+    weight: 100
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
