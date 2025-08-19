@@ -17,7 +17,7 @@ This example was built starting from the [AWS ROSA Open Environment](https://dem
 To get started run the following:
 
 ```sh
-export gitops_repo=https://github.com/environment-aas/platform-iac.git #<your newly created repo>
+export gitops_repo=https://github.com/josephassiga/platform-iac.git #<your newly created repo>
 export cluster_name=hub #<your hub cluster name, typically "hub">
 export cluster_base_domain=$(oc get ingress.config.openshift.io cluster --template={{.spec.domain}} | sed -e "s/^apps.//")
 export platform_base_domain=${cluster_base_domain#*.}
